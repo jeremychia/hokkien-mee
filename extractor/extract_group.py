@@ -215,61 +215,194 @@ def click_see_more(page):
         return 0
 
 
-def click_view_more_comments(page, max_clicks=20):
-    """Click 'View more comments', 'View all N comments', etc. to expand comment sections."""
-    if not _is_on_feed(page):
-        return 0
-    total_clicked = 0
-    # Repeat because expanding comments can reveal further "View more" links
-    for _round in range(3):
-        clicked_this_round = 0
-        patterns = [
-            'div[role="button"]:has-text("View more comments")',
-            'div[role="button"]:has-text("View 1 reply")',
-            'div[role="button"]:has-text("View 1 more reply")',
-            'div[role="button"]:has-text("replies")',
-            'span[role="button"]:has-text("View more comments")',
-            'span[role="button"]:has-text("replies")',
-        ]
-        should_stop = False
-        for pattern in patterns:
-            if should_stop:
+def extract_comments_for_post(context, post, debug=False):
+    """Open a post's individual page in a new tab to extract all comments.
+
+    Facebook only shows 1-2 comments inline on the feed. To get all comments,
+    we navigate to the individual post page where all comments are accessible.
+    Uses a separate tab so the main feed page keeps its scroll position.
+    """
+    post_link = post.get('post_link', '')
+    if not post_link:
+        return
+
+    tab = context.new_page()
+    try:
+        tab.goto(post_link, wait_until="domcontentloaded", timeout=30000)
+        time.sleep(3)
+
+        # Expand all comment sections (View more comments, replies, etc.)
+        total_expanded = 0
+        for _round in range(15):
+            clicked_this_round = 0
+            patterns = [
+                'div[role="button"]:has-text("View more comments")',
+                'div[role="button"]:has-text("View previous comments")',
+                'div[role="button"]:has-text("View all")',
+                'div[role="button"]:has-text("View 1 reply")',
+                'div[role="button"]:has-text("View 1 more reply")',
+                'div[role="button"]:has-text("replies")',
+                'span[role="button"]:has-text("View more comments")',
+                'span[role="button"]:has-text("View previous comments")',
+                'span[role="button"]:has-text("replies")',
+            ]
+            for pattern in patterns:
+                try:
+                    links = tab.locator(pattern)
+                    count = links.count()
+                    for i in range(count):
+                        if total_expanded >= 100:
+                            break
+                        try:
+                            link = links.nth(i)
+                            text = link.inner_text(timeout=1000).strip().lower()
+                            if any(kw in text for kw in [
+                                'view more comment', 'view previous',
+                                'view all', 'view 1 reply', 'view 1 more',
+                                'more replies', 'replies',
+                            ]):
+                                link.scroll_into_view_if_needed(timeout=2000)
+                                link.click(timeout=2000)
+                                clicked_this_round += 1
+                                total_expanded += 1
+                                time.sleep(1)
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+            if clicked_this_round == 0:
                 break
-            try:
-                links = page.locator(pattern)
-                count = links.count()
-                for i in range(count):
-                    if total_clicked >= max_clicks:
-                        return total_clicked
-                    try:
-                        link = links.nth(i)
-                        text = link.inner_text(timeout=1000).strip().lower()
-                        if any(kw in text for kw in [
-                            'view more comment', 'view 1 reply',
-                            'view 1 more', 'more replies', 'replies',
-                        ]):
-                            link.scroll_into_view_if_needed(timeout=2000)
-                            link.click(timeout=2000)
-                            clicked_this_round += 1
-                            total_clicked += 1
-                            time.sleep(1)
-                            # Always check for and dismiss any dialog that opened
-                            if _dismiss_dialog(page):
-                                print("  Dismissed dialog after comment click")
-                            # Also check if URL navigated away
-                            if not _is_on_feed(page):
-                                print("  Warning: comment click navigated away, returning to feed...")
-                                _return_to_feed(page)
-                                should_stop = True
-                                break
-                    except Exception:
-                        pass
-            except Exception:
-                pass
-        if clicked_this_round == 0 or should_stop:
-            break
-        time.sleep(1)
-    return total_clicked
+            time.sleep(1)
+
+        # Expand "See more" links inside comments
+        try:
+            see_more = tab.locator('div[role="button"]')
+            count = see_more.count()
+            for i in range(count):
+                try:
+                    link = see_more.nth(i)
+                    t = link.inner_text(timeout=500).strip()
+                    if t.lower() == 'see more':
+                        link.scroll_into_view_if_needed(timeout=2000)
+                        link.click(timeout=2000)
+                        time.sleep(0.5)
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+        # Extract all comments from the post page
+        comments = tab.evaluate("""
+        () => {
+            const comments = [];
+            const commentArticles = document.querySelectorAll('[role="article"]');
+
+            for (const ca of commentArticles) {
+                const cLabel = ca.getAttribute('aria-label') || '';
+                if (!cLabel.startsWith('Comment by ')) continue;
+
+                let cAuthor = '';
+                let cTimestamp = '';
+                let cAuthorLink = '';
+
+                const rest = cLabel.substring('Comment by '.length);
+                const tsPatterns = [
+                    /(.*?)\\s+(about\\s+(?:an?|\\d+)\\s+\\w+\\s+ago)$/i,
+                    /(.*?)\\s+((?:a|an|\\d+)\\s+\\w+\\s+ago)$/i,
+                    /(.*?)\\s+(just now)$/i,
+                    /(.*?)\\s+(yesterday)$/i,
+                    /(.*?)\\s+(\\d+[hdwmy])$/i,
+                ];
+                for (const pat of tsPatterns) {
+                    const m = rest.match(pat);
+                    if (m) {
+                        cAuthor = m[1].trim();
+                        cTimestamp = m[2].trim();
+                        break;
+                    }
+                }
+                if (!cAuthor && rest) {
+                    cAuthor = rest.trim();
+                }
+
+                const cUserLink = ca.querySelector('a[href*="/user/"], a[href*="/profile.php"]');
+                if (cUserLink) {
+                    cAuthorLink = cUserLink.href.split('?')[0];
+                    if (!cAuthor) {
+                        let linkText = cUserLink.innerText.trim();
+                        if (!linkText || linkText === 'Facebook') {
+                            const nameSpan = cUserLink.querySelector('span');
+                            if (nameSpan) linkText = nameSpan.innerText.trim();
+                        }
+                        if (linkText && linkText !== 'Facebook') cAuthor = linkText;
+                    }
+                }
+
+                if (!cAuthor && cAuthorLink) {
+                    const allAnchors = ca.querySelectorAll('a');
+                    for (const a of allAnchors) {
+                        if (a.href && a.href.split('?')[0] === cAuthorLink) {
+                            const t = a.innerText.trim();
+                            if (t && t.length > 1 && t !== 'Facebook') {
+                                cAuthor = t;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                const cTextEls = ca.querySelectorAll('[dir="auto"]');
+                const cSeen = new Set();
+                const cParts = [];
+                const cSkipLower = new Set([
+                    cAuthor.toLowerCase(), 'like', 'reply', 'share',
+                    'top contributor', 'follow', 'following',
+                    'all-star contributor', 'new member',
+                    'rising star', 'group expert', 'moderator', 'admin',
+                ]);
+
+                for (const el of cTextEls) {
+                    const t = el.innerText.trim();
+                    if (!t || t.length <= 1) continue;
+                    if (cSkipLower.has(t.toLowerCase())) continue;
+                    if (cSeen.has(t)) continue;
+                    cSeen.add(t);
+                    cParts.push(t);
+                }
+                const cText = cParts.join(' ');
+
+                const cImages = [];
+                const cImgs = ca.querySelectorAll('img');
+                for (const img of cImgs) {
+                    const src = img.src || '';
+                    if (src.includes('scontent') && !src.includes('rsrc.php')) {
+                        cImages.push(src);
+                    }
+                }
+
+                if (cAuthor || cText) {
+                    comments.push({
+                        author: cAuthor,
+                        author_link: cAuthorLink,
+                        text: cText,
+                        images: cImages,
+                        timestamp: cTimestamp,
+                    });
+                }
+            }
+            return comments;
+        }
+        """)
+
+        if comments:
+            post['comments'] = comments
+        if debug:
+            print(f"    Post {post.get('post_id', '?')}: {len(comments)} comments")
+    except Exception as e:
+        if debug:
+            print(f"    Error extracting comments for {post.get('post_id', '?')}: {e}")
+    finally:
+        tab.close()
 
 
 def extract_posts_from_page(page, debug=False):
@@ -714,9 +847,9 @@ def main():
         print("Page loaded. Starting extraction...\n")
         print("Sort order: chronological (via URL parameter)")
 
-        # Load existing posts if output file exists (append mode)
+        # Load existing posts if output file exists (append/update mode)
         all_posts = []
-        existing_ids = set()
+        posts_by_id = {}  # key -> index in all_posts for in-place updates
         if os.path.exists(OUTPUT_FILE):
             try:
                 with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
@@ -726,11 +859,11 @@ def main():
                     all_posts = data["posts"]
                 elif isinstance(data, list):
                     all_posts = data
-                existing_ids = {
-                    p.get("post_id") or p.get("text", "")[:100]
-                    for p in all_posts
-                }
-                print(f"Loaded {len(all_posts)} existing posts from {OUTPUT_FILE} (append mode)\n")
+                for idx, p in enumerate(all_posts):
+                    key = p.get("post_id") or p.get("text", "")[:100]
+                    if key:
+                        posts_by_id[key] = idx
+                print(f"Loaded {len(all_posts)} existing posts from {OUTPUT_FILE} (append/update mode)\n")
             except (json.JSONDecodeError, IOError):
                 print(f"Warning: Could not read {OUTPUT_FILE}, starting fresh.\n")
 
@@ -749,13 +882,7 @@ def main():
             if expanded:
                 print(f"  Expanded {expanded} 'See more' links")
 
-            # Expand comment sections
-            comments_expanded = click_view_more_comments(page)
-            if comments_expanded:
-                print(f"  Expanded {comments_expanded} comment sections")
-
             # Make sure we're still on the feed before extracting
-            # Dismiss any lingering dialogs first
             _dismiss_dialog(page)
             if not _is_on_feed(page):
                 print("  Not on feed page, returning to feed...")
@@ -764,18 +891,55 @@ def main():
 
             posts = extract_posts_from_page(page, debug=args.debug)
 
-            # Merge with existing, deduplicating
+            # Merge with existing: add new posts, update existing ones if they changed
             new_count = 0
+            updated_count = 0
+            posts_needing_comments = []
             for post in posts:
                 key = post.get("post_id") or post.get("text", "")[:100]
-                if key and key not in existing_ids:
-                    existing_ids.add(key)
+                if not key:
+                    continue
+                if key in posts_by_id:
+                    # Compare with existing version and update if improved
+                    idx = posts_by_id[key]
+                    existing = all_posts[idx]
+                    old_comments = len(existing.get("comments", []))
+                    new_comments = len(post.get("comments", []))
+                    old_text = existing.get("text", "")
+                    new_text = post.get("text", "")
+                    # Update if: more inline comments, longer text (was truncated),
+                    # or text changed meaningfully
+                    if (new_comments > old_comments
+                            or len(new_text) > len(old_text)
+                            or (new_text and new_text != old_text
+                                and not old_text.startswith(new_text))):
+                        # Preserve the richer comment list until we re-extract
+                        if old_comments > new_comments:
+                            post["comments"] = existing["comments"]
+                        post["extracted_at"] = datetime.now(timezone.utc).isoformat()
+                        all_posts[idx] = post
+                        posts_needing_comments.append(post)
+                        updated_count += 1
+                else:
+                    # Brand new post
+                    posts_by_id[key] = len(all_posts)
                     all_posts.append(post)
+                    posts_needing_comments.append(post)
                     new_count += 1
 
-            print(f"  Found {len(posts)} posts on page, {new_count} new, {len(all_posts)} total")
+            print(f"  Found {len(posts)} posts on page, {new_count} new, {updated_count} updated, {len(all_posts)} total")
 
-            if new_count == 0:
+            # Extract full comments for new and updated posts
+            if posts_needing_comments:
+                n = len(posts_needing_comments)
+                print(f"  Extracting comments for {n} posts...")
+                for i, post in enumerate(posts_needing_comments):
+                    extract_comments_for_post(context, post, debug=args.debug)
+                    nc = len(post.get('comments', []))
+                    if nc > 0:
+                        print(f"    [{i+1}/{n}] {post.get('post_id', '?')}: {nc} comments")
+
+            if new_count == 0 and updated_count == 0:
                 consecutive_empty += 1
                 if not args.backfill and consecutive_empty >= 3:
                     print("  No new posts for 3 consecutive batches — stopping.")

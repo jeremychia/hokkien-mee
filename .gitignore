@@ -1,4 +1,5 @@
-output/
+output/images/
 facebook_cookies.txt
 .venv/
 __pycache__/
+*.pyc
