@@ -1,0 +1,4 @@
+output/
+facebook_cookies.txt
+.venv/
+__pycache__/

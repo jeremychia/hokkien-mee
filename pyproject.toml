@@ -1,0 +1,9 @@
+[project]
+name = "hokkien-mee"
+version = "0.1.0"
+description = "Visualising Hokkien Mee in Singapore"
+requires-python = ">=3.9"
+dependencies = [
+    "playwright",
+    "requests",
+]
