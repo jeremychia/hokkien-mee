@@ -2,13 +2,14 @@
 Geocode extracted posts and plot them on an interactive map.
 
 Extracts location information from post text and the `location` field,
-geocodes via OneMap API, and renders an HTML map with Folium (Leaflet).
+geocodes via OneMap API (with Nominatim/OpenStreetMap fallback),
+and renders an HTML map with Folium (Leaflet).
 
 Usage:
     python extractor/map_posts.py
 
 Requires:
-    - OneMap API credentials in .env file (ONEMAP_EMAIL, ONEMAP_PASSWORD)
+    - OneMap API credentials in secrets/secrets.py
     - Register free at https://www.onemap.gov.sg/apidocs/register
 
 Output:
@@ -34,6 +35,7 @@ GEOCODE_CACHE = "output/geocode_cache.json"
 
 ONEMAP_AUTH_URL = "https://www.onemap.gov.sg/api/auth/post/getToken"
 ONEMAP_SEARCH_URL = "https://www.onemap.gov.sg/api/common/elastic/search"
+NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search"
 
 # Singapore bounding box — reject results outside this
 SG_LAT_MIN, SG_LAT_MAX = 1.15, 1.47
@@ -41,6 +43,28 @@ SG_LNG_MIN, SG_LNG_MAX = 103.60, 104.05
 
 # Centre of Singapore for default map view
 SG_CENTRE = [1.3521, 103.8198]
+
+# Known location aliases — map colloquial/variant names to canonical geocodable names
+LOCATION_ALIASES = {
+    "tiong bahru food market": "Tiong Bahru Market",
+    "old airport market": "Old Airport Road Food Centre",
+    "old airport road market": "Old Airport Road Food Centre",
+    "berseh hawker centre": "Berseh Food Centre",
+    "berseh hawker center": "Berseh Food Centre",
+    "smith street market & hawker center": "Chinatown Complex",
+    "smith street market and hawker center": "Chinatown Complex",
+    "smith street market": "Chinatown Complex",
+}
+
+# Common Singapore abbreviations used in posts
+SG_ABBREVIATIONS = {
+    "amk": "Ang Mo Kio",
+    "tpy": "Toa Payoh",
+    "cck": "Choa Chu Kang",
+    "jw": "Jurong West",
+    "je": "Jurong East",
+    "bb": "Bukit Batok",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -128,6 +152,186 @@ def onemap_search(query, token):
         return None
 
 
+def nominatim_search(query):
+    """Search Nominatim (OpenStreetMap) for a location. Returns (lat, lng, address) or None.
+
+    Nominatim knows POIs, restaurants, hawker centres etc. that OneMap may not.
+    Free with 1 request/second rate limit.
+    """
+    try:
+        resp = requests.get(
+            NOMINATIM_SEARCH_URL,
+            params={
+                "q": query,
+                "format": "json",
+                "countrycodes": "sg",
+                "limit": 1,
+                "addressdetails": 1,
+            },
+            headers={"User-Agent": "hokkien-mee-mapper/1.0"},
+            timeout=10,
+        )
+        if resp.status_code != 200:
+            return None
+
+        results = resp.json()
+        if not results:
+            return None
+
+        top = results[0]
+        lat = float(top.get("lat", 0))
+        lng = float(top.get("lon", 0))
+        address = top.get("display_name", "")
+
+        # Reject results outside Singapore
+        if not (SG_LAT_MIN <= lat <= SG_LAT_MAX and SG_LNG_MIN <= lng <= SG_LNG_MAX):
+            return None
+
+        # Shorten display_name: take first 2-3 parts before "Singapore"
+        parts = [p.strip() for p in address.split(",")]
+        short_parts = []
+        for p in parts:
+            if p.lower().startswith("singapore"):
+                break
+            short_parts.append(p)
+        address = ", ".join(short_parts[:3]) if short_parts else address
+
+        return (lat, lng, address)
+
+    except Exception as e:
+        print(f"    Nominatim error for '{query}': {e}")
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Query cleaning
+# ---------------------------------------------------------------------------
+def clean_query(query):
+    """Generate cleaned variations of a query for better geocoding."""
+    variations = []
+    q = query.strip()
+
+    # Check alias first (exact match on raw input)
+    alias = LOCATION_ALIASES.get(q.lower())
+    if alias:
+        variations.append(alias)
+
+    # Iteratively strip leading junk words (handles chained artifacts like
+    # "ny times I reached Old Airport market" → "Old Airport market")
+    _JUNK = (
+        r'the|a|an|my|this|that|one|of|ny|at|in|I|to|very|towards|'
+        r'no one|only|just|every|many|some|few|have|had|has|went|'
+        r'go|going|was|been|am|is|are|tried|known|times|reached|'
+        r'like|love|stall|place|spot'
+    )
+    prev = None
+    while prev != q:
+        prev = q
+        q = re.sub(rf'^(?:{_JUNK})\s+', '', q, flags=re.I).strip()
+
+    # Filter false positives — generic phrases that aren't locations
+    if not q or len(q) < 4:
+        return variations
+    if re.search(r'\b(?:goal|say in|stay in|known place|have a say)\b', q, re.I):
+        return variations
+    # Reject standalone generic terms
+    if q.lower() in {
+        'coffeeshop', 'coffee shop', 'market', 'food court',
+        'food centre', 'food center', 'hawker', 'stall',
+    }:
+        return variations
+
+    variations.append(q)
+
+    # Check alias after cleaning too
+    alias2 = LOCATION_ALIASES.get(q.lower())
+    if alias2 and alias2 not in variations:
+        variations.append(alias2)
+
+    # Strip Chinese characters
+    ascii_only = re.sub(r'[^\x00-\x7F]+', ' ', q).strip()
+    ascii_only = re.sub(r'\s+', ' ', ascii_only).strip().rstrip('.')
+    if ascii_only and ascii_only != q and len(ascii_only) > 3:
+        variations.append(ascii_only)
+
+    # Strip trailing " - Official" or similar
+    no_suffix = re.sub(r'\s*[-–]\s*Official\s*$', '', q, flags=re.I).strip()
+    if no_suffix != q and no_suffix:
+        variations.append(no_suffix)
+
+    # S-11 prefix removal
+    s11_match = re.match(r'S-?11\s+(.+)', q, re.I)
+    if s11_match:
+        variations.append(s11_match.group(1))
+
+    # Split on " at " — try the location part after the preposition
+    if ' at ' in q.lower():
+        idx = q.lower().index(' at ')
+        after = q[idx + 4:].strip()
+        if after and len(after) > 5:
+            variations.append(after)
+            a_alias = LOCATION_ALIASES.get(after.lower())
+            if a_alias:
+                variations.append(a_alias)
+            # Expand abbreviations in the 'after' part too
+            after_words = after.split()
+            exp_after = []
+            changed_a = False
+            for w in after_words:
+                exp = SG_ABBREVIATIONS.get(w.lower())
+                if exp:
+                    exp_after.append(exp)
+                    changed_a = True
+                else:
+                    exp_after.append(w)
+            if changed_a:
+                variations.append(' '.join(exp_after))
+
+    # Strip "Coffee Shop"/"Coffeeshop" suffix (confuses address geocoding)
+    no_cs = re.sub(r'\s*(?:coffee\s*shop|coffeeshop)\s*$', '', q, flags=re.I).strip()
+    if no_cs != q and no_cs and len(no_cs) > 5:
+        variations.append(no_cs)
+
+    # Strip trailing stall numbers ("80 Circuit Road 27" → "80 Circuit Road")
+    no_stall = re.sub(r'\s+#?\d{1,2}\s*$', '', q).strip()
+    if no_stall != q and no_stall and len(no_stall) > 5:
+        variations.append(no_stall)
+
+    # Try without "Blk"/"Block" prefix
+    no_blk = re.sub(r'^(?:Blk|Block)\s+', '', q, flags=re.I).strip()
+    if no_blk != q and no_blk:
+        variations.append(no_blk)
+
+    # Expand common Singapore abbreviations (AMK → Ang Mo Kio, etc.)
+    words = q.split()
+    expanded_words = []
+    changed = False
+    for w in words:
+        exp = SG_ABBREVIATIONS.get(w.lower())
+        if exp:
+            expanded_words.append(exp)
+            changed = True
+        else:
+            expanded_words.append(w)
+    if changed:
+        variations.append(' '.join(expanded_words))
+
+    # Add "Singapore" suffix if not present
+    if 'singapore' not in q.lower():
+        variations.append(q + ' Singapore')
+
+    # Deduplicate while preserving order
+    seen = set()
+    unique = []
+    for v in variations:
+        key = v.lower()
+        if key not in seen:
+            seen.add(key)
+            unique.append(v)
+
+    return unique
+
+
 # ---------------------------------------------------------------------------
 # Location extraction from post text
 # ---------------------------------------------------------------------------
@@ -159,25 +363,29 @@ def extract_location_candidates(post):
 
     # 2. Block + street address
     #    "Blk 308C Punggol Walk" or "Block 304, Woodlands Street 31"
-    block_matches = re.findall(
+    #    Also "828 Tampines Ave 3" (number-first without Blk prefix)
+    block_patterns = [
         r'(?:blk|block)\s*(\d+[A-Za-z]?[\s,]+[A-Za-z\s]+(?:street|st|ave|avenue|road|rd|drive|dr|cres|crescent|walk|way|lane|lor|lorong|close|terrace|link|central|north|south|east|west)(?:\s+\d+)?)',
-        text, re.I
-    )
-    for m in block_matches:
-        addr = re.sub(r'\s+', ' ', m).strip()
-        addr = re.split(r'[.!?\n]', addr)[0].strip().rstrip(',')
-        if len(addr) > 5:
-            candidates.append(addr)
+        r'(\d+[A-Za-z]?\s+(?:ang mo kio|tampines|bedok|toa payoh|geylang|hougang|jurong|bukit|serangoon|yishun|woodlands|clementi|pasir|circuit|owen|adam|beach|smith)\s*(?:street|st|ave|avenue|road|rd|drive|dr|cres|crescent|walk|way|lane|lor|lorong|close|terrace|link|central|north|south|east|west)?(?:\s+\d+)?)',
+    ]
+    for pat in block_patterns:
+        for m in re.findall(pat, text, re.I):
+            addr = re.sub(r'\s+', ' ', m).strip()
+            addr = re.split(r'[.!?\n]', addr)[0].strip().rstrip(',')
+            if len(addr) > 5:
+                candidates.append(addr)
 
     # 3. Named hawker centres / food courts / markets
     hawker_patterns = [
-        r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court|market(?:\s*&\s*food\s*cent(?:re|er))?|coffee\s*shop|coffeeshop))',
+        r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court|food\s*house|market(?:\s*(?:&|and)\s*(?:food\s*cent(?:re|er)|hawker))?|coffee\s*shop|coffeeshop))',
         r'((?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court)\s+[A-Z][\w\s\'\-]+)',
     ]
     for pat in hawker_patterns:
         matches = re.findall(pat, text, re.I)
         for m in matches:
             name = re.sub(r'\s+', ' ', m).strip()
+            # Strip leading junk words that slipped into the regex
+            name = re.sub(r'^(?:at|in|the|a|an|of|or|my|this|from)\s+', '', name, flags=re.I).strip()
             if len(name) > 5 and len(name) < 80:
                 candidates.append(name)
 
@@ -239,32 +447,60 @@ def save_cache(cache):
 def geocode_post(post, token, cache):
     """Try to geocode a post. Returns (lat, lng, matched_query, address) or None.
 
-    Tries each candidate in order, using cache when available.
+    Strategy:
+      1. For each candidate, generate cleaned variations
+      2. Try OneMap first (best for addresses, postal codes, building names)
+      3. Fall back to Nominatim (best for POIs, stall names, businesses)
     """
     candidates = extract_location_candidates(post)
     if not candidates:
         return None
 
-    for query in candidates:
-        cache_key = query.strip().lower()
+    # Collect all query variations across candidates
+    all_queries = []  # (original_candidate, query_variation)
+    for candidate in candidates:
+        for variation in clean_query(candidate):
+            all_queries.append((candidate, variation))
 
-        # Check cache
+    # Phase 1: Try OneMap with all variations
+    for original, query in all_queries:
+        cache_key = f"onemap:{query.strip().lower()}"
+
         if cache_key in cache:
             cached = cache[cache_key]
             if cached is None:
-                continue  # Previously failed, skip
-            return (cached["lat"], cached["lng"], query, cached["address"])
+                continue
+            return (cached["lat"], cached["lng"], original, cached["address"])
 
-        # Query OneMap
         result = onemap_search(query, token)
-        time.sleep(0.3)  # Rate limit
+        time.sleep(0.3)
 
         if result:
             lat, lng, address = result
             cache[cache_key] = {"lat": lat, "lng": lng, "address": address}
-            return (lat, lng, query, address)
+            return (lat, lng, original, address)
         else:
-            cache[cache_key] = None  # Cache miss too
+            cache[cache_key] = None
+
+    # Phase 2: Try Nominatim with all variations
+    for original, query in all_queries:
+        cache_key = f"nominatim:{query.strip().lower()}"
+
+        if cache_key in cache:
+            cached = cache[cache_key]
+            if cached is None:
+                continue
+            return (cached["lat"], cached["lng"], original, cached["address"])
+
+        result = nominatim_search(query)
+        time.sleep(1.1)  # Nominatim requires 1 req/sec
+
+        if result:
+            lat, lng, address = result
+            cache[cache_key] = {"lat": lat, "lng": lng, "address": address}
+            return (lat, lng, original, address)
+        else:
+            cache[cache_key] = None
 
     return None
 

@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1d548bc846ce6700f582b07e26b6fd7a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_1d548bc846ce6700f582b07e26b6fd7a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1d548bc846ce6700f582b07e26b6fd7a = L.map(
+                "map_1d548bc846ce6700f582b07e26b6fd7a",
+                {
+                    center: [1.3521, 103.8198],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_840aabc93eee4a459aebe23aefa16316 = L.tileLayer(
+                "https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u003cimg src=\"https://www.onemap.gov.sg/web-assets/images/logo/om_logo.png\" style=\"height:20px;width:20px;\"/\u003e OneMap | Map data \u0026copy; contributors, \u003ca href=\"https://www.sla.gov.sg/\"\u003eSingapore Land Authority\u003c/a\u003e",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_840aabc93eee4a459aebe23aefa16316.addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var marker_c9f879947eef00ccc3f206f5c527aa8f = L.marker(
+                [1.307344109463725, 103.85688878376834],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_d9dc8e73bc5f69dd1562532cba792dc3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_61bd2fa98e1d23b4278a66bb0a1d0bde = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2c5f99e99d404a7cbe269fd0ea7edd20 = $(`<div id="html_2c5f99e99d404a7cbe269fd0ea7edd20" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 166 JALAN BESAR BERSEH FOOD CENTRE SINGAPORE 208877</b><br><small style="color:gray;">2 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Keng Ann Yap</b><br><small>Has anyone tried this stall at Berseh Food Center ?<br>Jeremy<br>View more answers</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/633176799_34833004922956998_6887103731226315073_n.jpg?stp=cp6_dst-jpegr_s1080x2048_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=WCSDx3F6WrMQ7kNvwEsCETI&_nc_oc=AdkyH2L8St4Fj6eJX6OBoZhaZNac-ZhTu3oZYWNCYAtkohbY0GsoULmxDlD8K8WbBiM&_nc_zt=23&se=-1&_nc_ht=scontent.fsin14-2.fna&_nc_gid=ivszIwMsJd69EByG1Gb-6Q&oh=00_AftUfVHsi66X1F5MwbNYFNdZhVUjIvuG975oRTU_58dq2A&oe=699D99EB" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25658427543825754/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Luke Koh</b><br><small>Didn’t look fantastic but tasted fantastic. Not sure why I didn’t try it earlier. Only $6 and with 2 sizeable prawns. Ah Seng Hokkien Prawn Mee @ Bers</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/634252541_10162963333024998_744043787848443312_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=HXkgBquuzlIQ7kNvwHvqVaB&_nc_oc=Adlzvhx_8d9RDr3bxTw53CLSxSb5rQTEw8yLZ5Ey05GEGvMl0iUUeP2gX3Ye3P8yamg&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=ApkLOkK1laCj39nMY5gIrA&oh=00_Afvm3zpit2qGXZ9SDcBMmksP37ZAsQtO-Gr0pcpJ8MTrzA&oe=69A01D49" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25710765328591975/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_61bd2fa98e1d23b4278a66bb0a1d0bde.setContent(html_2c5f99e99d404a7cbe269fd0ea7edd20);
+            
+        
+
+        marker_c9f879947eef00ccc3f206f5c527aa8f.bindPopup(popup_61bd2fa98e1d23b4278a66bb0a1d0bde)
+        ;
+
+        
+    
+    
+            marker_c9f879947eef00ccc3f206f5c527aa8f.bindTooltip(
+                `<div>
+                     166 JALAN BESAR BERSEH FOOD CENTRE SINGAPORE 208877 (2 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c9f879947eef00ccc3f206f5c527aa8f.setIcon(icon_d9dc8e73bc5f69dd1562532cba792dc3);
+            
+    
+            var marker_0fb9b82790d4a7badb052c22c8ec3c09 = L.marker(
+                [1.399227725389123, 103.88965593060921],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_21e6eefeb31217f169c18e79f84cd7cf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8cbb052f2c719fa95f8da85856661428 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3d2a830c27c221870ff5d7cba06a4f1f = $(`<div id="html_3d2a830c27c221870ff5d7cba06a4f1f" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 338 ANCHORVALE CRESCENT ANCHORVALE PARKVIEW SINGAPORE 540338</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Tony Chia</b><br><small>My last HKM before CNY! Delicious   Big Fat Boy Fried HKM338 Anchorvale Cres, Singapore 540338<br>Jeremy<br>My last HKM before CNY! Delicious   <br><br>Big Fat Bo</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/633859274_10166751512054115_2510474140968401958_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=rFJdQBGzf68Q7kNvwEStxfD&_nc_oc=AdnnWQaAj2uPjD8jL9yssjZSX4apaIHXoHD-WJcdrwd0kBl8pJkWRJIOTqv9dIaW2VA&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=ivszIwMsJd69EByG1Gb-6Q&oh=00_AfvSn1GwZC8cPyt35MWvsJJGcQAzxrxZwnKMBL8wGp21-w&oe=699D95E3" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25658281947173647/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_8cbb052f2c719fa95f8da85856661428.setContent(html_3d2a830c27c221870ff5d7cba06a4f1f);
+            
+        
+
+        marker_0fb9b82790d4a7badb052c22c8ec3c09.bindPopup(popup_8cbb052f2c719fa95f8da85856661428)
+        ;
+
+        
+    
+    
+            marker_0fb9b82790d4a7badb052c22c8ec3c09.bindTooltip(
+                `<div>
+                     338 ANCHORVALE CRESCENT ANCHORVALE PARKVIEW SINGAPORE 540338 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0fb9b82790d4a7badb052c22c8ec3c09.setIcon(icon_21e6eefeb31217f169c18e79f84cd7cf);
+            
+    
+            var marker_c3c786d36fafe885e82dfbaa0cb07b74 = L.marker(
+                [1.338070816461294, 103.84945717881038],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_a76c563493821c6aa868463f3b483f3c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_292117ce41affa33371ffd181799972f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_596ebfa1f2a2f3ec687bff7c264887b7 = $(`<div id="html_596ebfa1f2a2f3ec687bff7c264887b7" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 92 LORONG 4 TOA PAYOH TOA PAYOH PALM SPRING SINGAPORE 310092</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Gopalsamy Rajkumar</b><br><small>Some people might think this stall isn’t great, but honestly it’s better than many others. Since it’s my last time eating here, I’m going all out with</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/632494156_10164820399922139_1302911144392125028_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Oxxzpmc1jMcQ7kNvwH1Te8h&_nc_oc=AdkCUjTkaXZqtxI4JJ5DRfmBBbZqVe_FFfmGhTdaphfF-8hK55KqJtX6CvyTCKKuB8k&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=sc3yuk9fENRHk11ZFhpgLw&oh=00_AfuU_nOgJ8qzDgo25nppjHuyjN-Xhxf8qENaEcE9SCKVhw&oe=699D8858" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25656102817391560/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_292117ce41affa33371ffd181799972f.setContent(html_596ebfa1f2a2f3ec687bff7c264887b7);
+            
+        
+
+        marker_c3c786d36fafe885e82dfbaa0cb07b74.bindPopup(popup_292117ce41affa33371ffd181799972f)
+        ;
+
+        
+    
+    
+            marker_c3c786d36fafe885e82dfbaa0cb07b74.bindTooltip(
+                `<div>
+                     92 LORONG 4 TOA PAYOH TOA PAYOH PALM SPRING SINGAPORE 310092 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c3c786d36fafe885e82dfbaa0cb07b74.setIcon(icon_a76c563493821c6aa868463f3b483f3c);
+            
+    
+            var marker_86a354db0c825e0512cb9caa196f46e6 = L.marker(
+                [1.4187353006021, 103.83570328066855],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_c2702a30649d9bdad19bdc0c7f842b11 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f8f603db9f27fa2d1a2831fc6600ea82 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_df148d7b915cb13b4595cdbd68a52792 = $(`<div id="html_df148d7b915cb13b4595cdbd68a52792" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 618 YISHUN RING ROAD SINGAPORE 760618</b><br><small style="color:gray;">2 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Edwin Ng</b><br><small>618 YishunNoticed the pork lard had some skin and wanted to revisit. This time I noticed the carrot cake stall was open and asked if I can order one. </small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/631618662_10161793696757583_1232326579759708270_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=105&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=4eUWEsAUGC8Q7kNvwFD3oh8&_nc_oc=Adk9LYdLhRevyeXENh9tmugFZ5n0QswsnPsfUq2jxkYkA7FOnjbhIqYBkCpNhNyHqMk&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=ylcVNAuP-pEQecOUel0q8w&oh=00_Afsrf1B0AF7pBgzETNpgTDPehfkgMs8qEM1tAGlHmXjNRg&oe=699D9660" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25646780738323768/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Gopalsamy Rajkumar</b><br><small>Another must-eat FHM for me before CNY, where good food meets good mood and great vibes. 618 Hokkien Mee will be closed from 15 Feb 2026 ~ 23 Feb 2026</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/632519177_10164810362697139_5347436255853846698_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=BShV-Ovg-_0Q7kNvwHQYK0g&_nc_oc=AdnsVNmgdxxage9e3c9aMMjxiLP6jnjwzRBogBjBQRn2-C1PEOJNnYXJnfKa9nSvh4Q&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=niq3Pf-DyJIvoShfoiJZLg&oh=00_AfuT2akXG50qsbO4QsJfqHQ7nVUN8g49Z69c9kdomlV1hA&oe=699D9B86" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25636448856023623/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_f8f603db9f27fa2d1a2831fc6600ea82.setContent(html_df148d7b915cb13b4595cdbd68a52792);
+            
+        
+
+        marker_86a354db0c825e0512cb9caa196f46e6.bindPopup(popup_f8f603db9f27fa2d1a2831fc6600ea82)
+        ;
+
+        
+    
+    
+            marker_86a354db0c825e0512cb9caa196f46e6.bindTooltip(
+                `<div>
+                     618 YISHUN RING ROAD SINGAPORE 760618 (2 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_86a354db0c825e0512cb9caa196f46e6.setIcon(icon_c2702a30649d9bdad19bdc0c7f842b11);
+            
+    
+            var marker_99058547cf1b784392a9e11b355f6477 = L.marker(
+                [1.321953854888838, 103.86984339181228],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_d453eab1b34f9dfde1d53c29a78734c3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_60ba89a9a42bbc55513fd4c1e0ed07dd = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_fb06cc8f00dbdf92feb051ad7a32d0bb = $(`<div id="html_fb06cc8f00dbdf92feb051ad7a32d0bb" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 68 GEYLANG BAHRU GEYLANG BAHRU VILLE SINGAPORE 330068</b><br><small style="color:gray;">5 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Thomas Lee Chee Hwa</b><br><small>S$5 FHKM lunch on 13 Feb 2026 at Ah Ong of blk 68 Geylang Bahru vs S$5 FHKM on Tue 10 Feb 2026 at Tian Tian Lai of Blk 127 Lorong 1 Toa Payoh Hawker C</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/634033489_10164554053061894_5038809511454214608_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=103&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Pg6Bbs7n2VQQ7kNvwE6ljE2&_nc_oc=AdnNnx505AidIA4CHLoDGUHkWFvE9NS0RrWqULx0XTrqd_CZbOEApk_7trqo3K1IIQ8&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=7sh7lZ1yMhm3zRWPDqHKpw&oh=00_Afts_DA0VpffIimpGj0hE1c7VHtmlS_miIezzsea8TR8Qw&oe=699C2B5D" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25646092521725923/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Chin Hong Toh</b><br><small>Ah Ong Hokkien Mee<br>The fried Hokkien mee tastes really good. The portion is generous with lots of sotong and pork belly, and the chilli pairs perfectl</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/630097632_2935553976642000_1738135393681838144_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=102&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=5w9OUiA4Rp0Q7kNvwFOylEU&_nc_oc=AdnLt2sFrm-SGC5BFo_MihEyA3TA_TuwiwRg9ZHAVsQmSpfd30lfCfxgOBqiy1wDIGA&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=M9v_6LcZwc7D7DYMOFEJgg&oh=00_AfvV2pPrMbqS8Ns3A7WS0V1FGDLvk4LDlJUxKO_0iL4o_Q&oe=699C5ACF" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25594238550244654/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Gopalsamy Rajkumar</b><br><small>These days, you don’t see many people talking about this gem. I was craving a solid plate of FHM and Ah Ong delivered as always. The wok-hey was spot </small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/629372571_10164783100062139_7914848320411723327_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=111&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=iLvwDgpwNtYQ7kNvwFQb5OB&_nc_oc=AdlrBnlZs4nZ6mk2Ox6XVP0fuV1J14Z3Z35dJjTgiU8Vq77vlYEQ5g0gHEg2fWFuA4c&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=K9M-mCTZ3Q4QJ0ygGbaJ1A&oh=00_AfuffIe8eaHcEvQNp4hnuwqpwaQ7JOD5whnykbCdX4J3ZQ&oe=699D7BB5" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25584816557853520/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Gopalsamy Rajkumar</b><br><small>Ah Ong is usually closed on Saturdays, but today it’s open. I haven’t had FHM for quite a few days and was feeling off, so I tried my luck and it paid</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/638404434_10164854998607139_5734349380630007175_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=-CWv63sROjsQ7kNvwHjug7H&_nc_oc=AdnIxGScq5xwJ3_RVtFMxr2XyXtWS9lYNDI9joTm8bUrkjtL2nILfaAnxUwqohRrUEk&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=njw_J1defkEkQtfvMGKwww&oh=00_AfvN9O3y2uz2HzZOUoh_osXRcQwFg-QR4bIBF7cTu2LxpQ&oe=69A01A75" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25720089170992924/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Edwin Ng</b><br><small>Ah Ong Hokkien Mee first HKM of the Chinese New Year. Unfortunately no pork lard. Plenty of ingredients for a $6+$2 extra ingredients plate. Very mild</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/637976289_10161822961942583_3743528389263754564_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=101&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=bfFiKM4gwoIQ7kNvwEudGew&_nc_oc=AdkXtsX3nv4FSU3YhFEwKrRFMmsplx14g_-fkUHRjax7SPn1EMTvEL4XmrBKzR4TT9w&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=jEAwuRDGD1kAsOzJdUQKhA&oh=00_AfvGBHtj8JyXBib0kajsRmjkEY9fAzh9smpbIcBhUZ9Kng&oe=69A048F9" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25711045435230631/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_60ba89a9a42bbc55513fd4c1e0ed07dd.setContent(html_fb06cc8f00dbdf92feb051ad7a32d0bb);
+            
+        
+
+        marker_99058547cf1b784392a9e11b355f6477.bindPopup(popup_60ba89a9a42bbc55513fd4c1e0ed07dd)
+        ;
+
+        
+    
+    
+            marker_99058547cf1b784392a9e11b355f6477.bindTooltip(
+                `<div>
+                     68 GEYLANG BAHRU GEYLANG BAHRU VILLE SINGAPORE 330068 (5 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_99058547cf1b784392a9e11b355f6477.setIcon(icon_d453eab1b34f9dfde1d53c29a78734c3);
+            
+    
+            var marker_0de88e94dcfef459da7b080a86ae9736 = L.marker(
+                [1.339044797832278, 103.85554106336],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_fce2ebb7b095f839ec8eea14566c8503 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_81b300a16da3eea0996c4cd64700ff7b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1f3d426afa5f6fe671b87e5e34d2e870 = $(`<div id="html_1f3d426afa5f6fe671b87e5e34d2e870" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 4 LORONG 7 TOA PAYOH KIM KEAT COURT SINGAPORE 310004</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Dave Wong</b><br><small>Trying before they Permanently close on <br>28 Feb.<br>金吉 Kim Keat Hokkien Mee <br>92 Lor 4 Toa Payoh<br>Jeremy<br>Trying before they Permanently close on <br>28 Feb.<br><br></small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/632149999_10162525761288277_6267844904819251419_n.jpg?stp=dst-jpg_s1080x2048_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Le3nBQ5SXf0Q7kNvwEK5I0Z&_nc_oc=AdnGaGHyElOmz7Efb_C1YqVV7VE-JWlRlFL6fMsdmUU_jp8tVCOUzjzTNXTyvda8IMU&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=iL0-txNDZfYIzA2KqDVu1A&oh=00_AfvDQvK9e89vE0lK0zwwx3GiOkLNQS6pe0UBzIiSYObluw&oe=699DA322" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25639813585687150/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_81b300a16da3eea0996c4cd64700ff7b.setContent(html_1f3d426afa5f6fe671b87e5e34d2e870);
+            
+        
+
+        marker_0de88e94dcfef459da7b080a86ae9736.bindPopup(popup_81b300a16da3eea0996c4cd64700ff7b)
+        ;
+
+        
+    
+    
+            marker_0de88e94dcfef459da7b080a86ae9736.bindTooltip(
+                `<div>
+                     4 LORONG 7 TOA PAYOH KIM KEAT COURT SINGAPORE 310004 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0de88e94dcfef459da7b080a86ae9736.setIcon(icon_fce2ebb7b095f839ec8eea14566c8503);
+            
+    
+            var marker_9ce40d05ba4e90cab571b0568b5b3efb = L.marker(
+                [1.3769861, 103.893657],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_effd5e0b379ecf03c2f16437b79b7dcb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8f430e152e6fd5f777cddb0289336914 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7deed08dfdb2fa582fd7c73942603530 = $(`<div id="html_7deed08dfdb2fa582fd7c73942603530" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 Blk 436, Hougang Avenue 8, Hougang East</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Chee Kong</b><br><small>Lunch Time Craving FHM</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/634110327_10163833228849243_3352108582479888515_n.jpg?stp=cp6_dst-jpg_p843x403_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Ci3-5bUe390Q7kNvwHPiaFe&_nc_oc=AdnokItJWyL-ZuBOqkgXGvYmODhCA0Wq9h1rZROXR-HHdV89hhR-W97OKzIA4in3mdE&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=KJ6fflo055oj--MYEjEuXQ&oh=00_Aft2HJFVA4cAHh2CB0nBY0v1rBMR7YEa6fkracs8buXZfw&oe=699C2DA2" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25638440129157829/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_8f430e152e6fd5f777cddb0289336914.setContent(html_7deed08dfdb2fa582fd7c73942603530);
+            
+        
+
+        marker_9ce40d05ba4e90cab571b0568b5b3efb.bindPopup(popup_8f430e152e6fd5f777cddb0289336914)
+        ;
+
+        
+    
+    
+            marker_9ce40d05ba4e90cab571b0568b5b3efb.bindTooltip(
+                `<div>
+                     Blk 436, Hougang Avenue 8, Hougang East (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9ce40d05ba4e90cab571b0568b5b3efb.setIcon(icon_effd5e0b379ecf03c2f16437b79b7dcb);
+            
+    
+            var marker_e0ea58d5a3e95891280a0cd59217c043 = L.marker(
+                [1.367178740946947, 103.84015774197732],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_5f2676ee490e1d6319c29ab594441095 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6bd8a9e49332c914cc2a99c48f96999c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3f2ebfeb0f324dadf2a379a7a1a20f3c = $(`<div id="html_3f2ebfeb0f324dadf2a379a7a1a20f3c" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 226H ANG MO KIO STREET 22 KEBUN BARU FOOD CENTRE SINGAPORE 568226</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Meepok Man</b><br><small>Fat Fat Fried Hokkien Mee<br>226H Ang Mo Kio Street 22,<br>#01-22,<br>Singapore 568226</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/633288849_122124175761046174_612843919647497521_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=emj8JM0hCY8Q7kNvwE0_WyJ&_nc_oc=AdnIENLOxB97jsIHObaPihKfBbpDZJy3Hr51c-E6iYbT85cdrfMqPvhmIAHVwDRLt1Y&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=w-VoDPbf9gXc2M1b7opSVA&oh=00_AfvjuNQg2PKJZtw2h6yJ3xXoYc9pmUgxBNGjmtY1Grzh9Q&oe=699C5DA0" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25627837740218068/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_6bd8a9e49332c914cc2a99c48f96999c.setContent(html_3f2ebfeb0f324dadf2a379a7a1a20f3c);
+            
+        
+
+        marker_e0ea58d5a3e95891280a0cd59217c043.bindPopup(popup_6bd8a9e49332c914cc2a99c48f96999c)
+        ;
+
+        
+    
+    
+            marker_e0ea58d5a3e95891280a0cd59217c043.bindTooltip(
+                `<div>
+                     226H ANG MO KIO STREET 22 KEBUN BARU FOOD CENTRE SINGAPORE 568226 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e0ea58d5a3e95891280a0cd59217c043.setIcon(icon_5f2676ee490e1d6319c29ab594441095);
+            
+    
+            var marker_f635b7a96a5995600be52aafc7022be3 = L.marker(
+                [1.28227496052711, 103.84323851807116],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_9a28453393242903ea0cd31a37f6cd00 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b01f2719e139a3eaa9ef3308eba0c5bd = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_653d693326a7fe2287c39fcc188b4198 = $(`<div id="html_653d693326a7fe2287c39fcc188b4198" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Andy Quek</b><br><small>This stall needs no introduction. If you don’t know this stall, please leave the group. Anyway, jokes aside. Heard of this legendary stall so many tim</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/631608425_26037490362557554_3308249640232085217_n.jpg?stp=dst-jpg_p720x720_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=GcNcx40gJZgQ7kNvwGtl_fq&_nc_oc=Adn2incJIaTrsb8iomt0O_Gd2dpIZLrIXYYNvjDV_N9v3Tj_rINk275gVCWNoIlDxvg&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=bePJPyGGmApkkO5xMg7Cdg&oh=00_AfvZFdgkuqzsAd3Ba3hR5Skjf4NxxAKExI69qs-cAye_mw&oe=699D8E02" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25621958374139338/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_b01f2719e139a3eaa9ef3308eba0c5bd.setContent(html_653d693326a7fe2287c39fcc188b4198);
+            
+        
+
+        marker_f635b7a96a5995600be52aafc7022be3.bindPopup(popup_b01f2719e139a3eaa9ef3308eba0c5bd)
+        ;
+
+        
+    
+    
+            marker_f635b7a96a5995600be52aafc7022be3.bindTooltip(
+                `<div>
+                     335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f635b7a96a5995600be52aafc7022be3.setIcon(icon_9a28453393242903ea0cd31a37f6cd00);
+            
+    
+            var marker_85b16ecfd2973c06ab2e8a67fc3a34b3 = L.marker(
+                [1.429892559808654, 103.77385392757743],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_c476f380a2f4c772b496881f62a1154d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9ba5c62f40de8e28ed19f61c606678c6 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c10b8cbe752aa67e762714664e7fa7f5 = $(`<div id="html_c10b8cbe752aa67e762714664e7fa7f5" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 304 WOODLANDS STREET 31 FUCHUN NEIGHBOURHOOD CENTRE SINGAPORE 730304</b><br><small style="color:gray;">2 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Joshua Tan</b><br><small>Coming soon to S11 at Marsiling Central.<br>Block 304, Woodlands Street 31<br>Singapore 730304<br>Jeremy<br>Coming soon to S11 at Marsiling Central.<br>Block 304, Wo</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/631587004_10161811346640836_3276144664615709215_n.jpg?stp=cp6_dst-jpegr_tt6&_nc_cat=111&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=ChIzlOiSH3cQ7kNvwHCU8st&_nc_oc=Adm0iF6PqVH2oPRmb0RFMloF-15ngPpOl-e_YzCpmMq6T15N7qQDNilIH0-MMkxr7dM&_nc_zt=23&se=-1&_nc_ht=scontent.fsin14-2.fna&_nc_gid=JBGJH2N0YnFFfGJuHb4pZA&oh=00_AfvUS6awCkmDx6uyYE9FioPEe9cn9ID4TsufItppLOOQEQ&oe=699C3DD8" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25621344990867343/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Nick Wong</b><br><small>Shiok HM in Woodlands opening soon! <br>304 Woodlands Street 31, Block<br>304, Singapore 730304<br>Jeremy</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/630029506_2330506757417791_2148013863301348541_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Z0CycQGKNhIQ7kNvwEc04lv&_nc_oc=AdlH-INUgfkhigPAcgfLbKGvE2RCK8qT6UrWUt5AQBPGi76cUJiDx0G69N2J6eGIQYk&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=GvCeI52oL0pYklL03xg74Q&oh=00_AftIfJ7yAuzz3o4b-tRPFlMfs0mW1uEfGT0RxPP2wK9M7g&oe=699C55B4" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25611877495147426/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_9ba5c62f40de8e28ed19f61c606678c6.setContent(html_c10b8cbe752aa67e762714664e7fa7f5);
+            
+        
+
+        marker_85b16ecfd2973c06ab2e8a67fc3a34b3.bindPopup(popup_9ba5c62f40de8e28ed19f61c606678c6)
+        ;
+
+        
+    
+    
+            marker_85b16ecfd2973c06ab2e8a67fc3a34b3.bindTooltip(
+                `<div>
+                     304 WOODLANDS STREET 31 FUCHUN NEIGHBOURHOOD CENTRE SINGAPORE 730304 (2 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_85b16ecfd2973c06ab2e8a67fc3a34b3.setIcon(icon_c476f380a2f4c772b496881f62a1154d);
+            
+    
+            var marker_b3b31fdc6a1c37202e758f6b14da2b99 = L.marker(
+                [1.327834146159377, 103.88710266923555],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_85284599084a8237fec56acb89639d63 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0e80b64b56f11d6f450bf751a2c079a4 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2be94e3022a880e03d72757ae205088b = $(`<div id="html_2be94e3022a880e03d72757ae205088b" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 80 CIRCUIT ROAD CIRCUIT ROAD MARKET AND FOOD CENTRE SINGAPORE 370080</b><br><small style="color:gray;">2 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Nicholas Tan Eng Sin</b><br><small>Early dinner at Block 80 Circuit Rd, #02-05, Singapore 370080, good to see that Boss Chuan is fine and also to拜个早年. Still one of my favorites.$6 plate</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/629542125_10242020306473074_7548462062486324117_n.jpg?stp=cp6_dst-jpg_p552x414_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=pOQrIklbgS0Q7kNvwG3oynT&_nc_oc=AdmZD2q0QJ6QWNbOf-LTJahnotscAurymF5yVxCKUO2022Mo6OAVm9GOupkNPIaVbUs&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=JBGJH2N0YnFFfGJuHb4pZA&oh=00_Afs9Ht6QI5fIDOynOnw8odcH_1eF-eYGKC6POPVLOyJZ5w&oe=699C3FA6" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25620768297591679/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Tony Chia</b><br><small>Heard that Master Chuan injured his right wrist, so came down to visit him , saw he switch to left hand most of time to fried the noodles , this is pu</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/627880453_10166706449384115_4905015935355210401_n.jpg?stp=cp6_dst-jpg_p720x720_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Kh5wZFcUtY0Q7kNvwES729p&_nc_oc=AdkbIzUmW5mpi-2j5CNuMNk-5-CqbPwF3XaJx3xnkPfZpdv6seBqBCvb41KjNG_Qhyc&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=apPgiK0YdkJGFMYIj5pSMQ&oh=00_AfvyoYBd6rcdtIgpebcWXMiVEc3lhTzr5RisrPjogrDeDg&oe=699D79FA" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25582695881398921/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_0e80b64b56f11d6f450bf751a2c079a4.setContent(html_2be94e3022a880e03d72757ae205088b);
+            
+        
+
+        marker_b3b31fdc6a1c37202e758f6b14da2b99.bindPopup(popup_0e80b64b56f11d6f450bf751a2c079a4)
+        ;
+
+        
+    
+    
+            marker_b3b31fdc6a1c37202e758f6b14da2b99.bindTooltip(
+                `<div>
+                     80 CIRCUIT ROAD CIRCUIT ROAD MARKET AND FOOD CENTRE SINGAPORE 370080 (2 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b3b31fdc6a1c37202e758f6b14da2b99.setIcon(icon_85284599084a8237fec56acb89639d63);
+            
+    
+            var marker_eb2f2e5b93781e08e91b54d5586fe54c = L.marker(
+                [1.349300045848388, 103.8484847323989],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_de2ebe730d6f35ecf47c859bf236275a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f8ccec2547a2359a66096009a81532bb = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_78728e95fd1d0e86bd91f40687df5f59 = $(`<div id="html_78728e95fd1d0e86bd91f40687df5f59" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 504 BISHAN STREET 11 SINGAPORE 570504</b><br><small style="color:gray;">3 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Edwin Ng</b><br><small>Shiok (Bishan)Purposely went to the gym there so that I can do a post recovery brunch. Waited till it opened and ordered a small $6 + $4 ingredients +</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/630750591_10161781744297583_4376780922248313455_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=111&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=Oyp-MWwjwMAQ7kNvwHLAsfi&_nc_oc=AdkbujWR1VXKwCNmL9xSNUANxyA2grGXwRm8xlKLpJ3RG2--0QVORgROYQmRkzPRnmg&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=gqsNACc5ZvouucFIhUrkgQ&oh=00_AfuOszxihGdlGiVLqliAZut0OYiUUswmNkIkZ5t0gaXXBw&oe=699D814F" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25620157537652755/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Isaac James Neo</b><br><small>$6 + $2 add ingredients. 5 prawns and quite a bit of sotong and pork. Can taste the wok hei and chili is spicy enough. Quality is good!<br>Shiok Hokkien </small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/630235182_10166880695873378_1953449497241711294_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=4a7BoYs7LkoQ7kNvwH-hULQ&_nc_oc=AdlKfClHRhbgCiqy0BJsAiC031Xzvn638d-biyXwaViRl6beE4JsQQVAs7qkNkuR53w&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=pBygGJ6XIoLqBoFPlVX9Bw&oh=00_AftL914qwA6Ij1hIs0hB3HlkCzIIDTeSrqP2AfErHs-erw&oe=699D7F5B" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25591609533840889/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Chin Hong Toh</b><br><small>Shiok Hokkien Mee Bishan<br>The fried Hokkien mee delivers bold wok hei aroma and the fried Hokkien mee is damn shiok — super flavourful, and the prawns </small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/628100027_2934264420104289_3686897514618300072_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=111&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=GgU_ZF5eR4MQ7kNvwE9C2WP&_nc_oc=Adn3MrOWm2_7pC_eqN5QtHggTIQy3tFaFJMj60Ot1PfDmu5wOnvlQ8XwUiPzLf8r7Nk&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=g7t_hrSE57ezgD7m8IzuoQ&oh=00_Afs0GKh7DASUd_Ms6YjCmC-qWaYjYFIqjHclcfvGjYB5Rg&oe=699C4487" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25582584204743422/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_f8ccec2547a2359a66096009a81532bb.setContent(html_78728e95fd1d0e86bd91f40687df5f59);
+            
+        
+
+        marker_eb2f2e5b93781e08e91b54d5586fe54c.bindPopup(popup_f8ccec2547a2359a66096009a81532bb)
+        ;
+
+        
+    
+    
+            marker_eb2f2e5b93781e08e91b54d5586fe54c.bindTooltip(
+                `<div>
+                     504 BISHAN STREET 11 SINGAPORE 570504 (3 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_eb2f2e5b93781e08e91b54d5586fe54c.setIcon(icon_de2ebe730d6f35ecf47c859bf236275a);
+            
+    
+            var marker_bc572c211a281d0ceaa9f96262a289f4 = L.marker(
+                [1.324159852595583, 103.81416592413566],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_e46b5d968cc958cf9dbdf629c54923b5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0eb7fa5e2bdab8c9572b10fcf3998560 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3cf95255cc4ce86533a6554c10eadc5a = $(`<div id="html_3cf95255cc4ce86533a6554c10eadc5a" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 2 ADAM ROAD ADAM FOOD CENTRE SINGAPORE 289876</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Cellin Tham</b><br><small>$5 to buy an experience. No pork in hokkien mee but auntie sell got pork trotter beehoon. I thought she put fried shallots in replacement of pork lard</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/629889642_10162842923258821_6889148447317902003_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=f8utSZuL6nIQ7kNvwE989hz&_nc_oc=AdnIIP_CDFb5KshRBQzsM9fQ_rl0CqrseEivpRL1Sd3p2qdRH0-Zr1Jh4fBcqxQR5ow&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=kyVN6gl4030VlZw3q17gIg&oh=00_Aft9CldBUW_p2OhLjpiKhBN9oub7XjidYBMTYkHllK0csQ&oe=699C5CA4" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25619194151082427/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_0eb7fa5e2bdab8c9572b10fcf3998560.setContent(html_3cf95255cc4ce86533a6554c10eadc5a);
+            
+        
+
+        marker_bc572c211a281d0ceaa9f96262a289f4.bindPopup(popup_0eb7fa5e2bdab8c9572b10fcf3998560)
+        ;
+
+        
+    
+    
+            marker_bc572c211a281d0ceaa9f96262a289f4.bindTooltip(
+                `<div>
+                     2 ADAM ROAD ADAM FOOD CENTRE SINGAPORE 289876 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bc572c211a281d0ceaa9f96262a289f4.setIcon(icon_e46b5d968cc958cf9dbdf629c54923b5);
+            
+    
+            var marker_2755c7f8fcf7e00316b96ba5eafd1bee = L.marker(
+                [1.352105835324201, 103.93653087332234],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_3a8c6f28d7a2493784dc1800b9559084 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_87026be1a3dd5a2cd8b53e1cf2e918ee = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f7d3d713bd4cfb137c27ce4e821e5075 = $(`<div id="html_f7d3d713bd4cfb137c27ce4e821e5075" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844</b><br><small style="color:gray;">2 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Gopalsamy Rajkumar</b><br><small>This is my must-eat FHM before Chinese New Year! Boss Kenny will open daily until this Friday, then close for CNY holiday and reopen on 8th day of CNY</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/629901571_10164797768377139_7560233759246806976_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=lOk83Ix09bIQ7kNvwE8TTUm&_nc_oc=AdlZ8Agj1uYqYRVcOB7JPR3WDLbgp7EYPoBc8Cv_vZFyoK9PrcKlSql0-F9YjGW74Mk&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=iJhMMvfbEMf6WGWeSX-Tfw&oh=00_AftAea9WcYimoSqW0EvN5i5xisZg-p3n_0bhix6039a2BA&oe=699D7F84" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25612657498402759/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Angel Tee</b><br><small>Finally understand the hype about Fung YiTried w my bf and he say this is his top fav now HAHHA FUNG YI @844 Tampines<br>49<br>18</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/628363633_34915589838039897_3943803325955711348_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=110&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=6ShRcrFrinMQ7kNvwG74C4Z&_nc_oc=AdmIut9uB7dHgaj2R_te8LOgsTTaH5xnI4gXtUZvKAnkwpWqm6FBQsrfvaAlX5lpJhU&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=M4i-gzEOGv8VHKE1wrv0SA&oh=00_Aft6FSn69oOdJWwkPJgv7AZHSFJxpRiouGHhz51XWghrSA&oe=699D827C" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25590778863923956/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_87026be1a3dd5a2cd8b53e1cf2e918ee.setContent(html_f7d3d713bd4cfb137c27ce4e821e5075);
+            
+        
+
+        marker_2755c7f8fcf7e00316b96ba5eafd1bee.bindPopup(popup_87026be1a3dd5a2cd8b53e1cf2e918ee)
+        ;
+
+        
+    
+    
+            marker_2755c7f8fcf7e00316b96ba5eafd1bee.bindTooltip(
+                `<div>
+                     844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844 (2 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2755c7f8fcf7e00316b96ba5eafd1bee.setIcon(icon_3a8c6f28d7a2493784dc1800b9559084);
+            
+    
+            var marker_b0d28a2c11e2a6e4ef5eda6201277176 = L.marker(
+                [1.3502317, 103.717609],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_31ac7e89a274dbd0a2b6cc480dcf1acd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_583772734bd72287f2c5d09cf86a9ee4 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a43c59752066eba8c77fb47bfd61238d = $(`<div id="html_a43c59752066eba8c77fb47bfd61238d" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 503 Food Court, Jurong West Street 52, Hong Kah</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Lim Simon</b><br><small></small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/630269850_10163227121674927_7361082403022785110_n.jpg?stp=dst-jpg_p720x720_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=NUseW6a-3McQ7kNvwFjeIr9&_nc_oc=AdkFFbGChpVoWHmN4XVnj-dusDHDnAb8dJj93Y4XEdGG_gDAt59sCrWfsKz5uFhC73g&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=0JU3I9WReWLvFmiDGkJsrA&oh=00_AfvF11Mkj4N7tw5ctM18_-XJINehGT1SInRYY0ToFlDJtA&oe=699C3DCC" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25610636511938191/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_583772734bd72287f2c5d09cf86a9ee4.setContent(html_a43c59752066eba8c77fb47bfd61238d);
+            
+        
+
+        marker_b0d28a2c11e2a6e4ef5eda6201277176.bindPopup(popup_583772734bd72287f2c5d09cf86a9ee4)
+        ;
+
+        
+    
+    
+            marker_b0d28a2c11e2a6e4ef5eda6201277176.bindTooltip(
+                `<div>
+                     503 Food Court, Jurong West Street 52, Hong Kah (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b0d28a2c11e2a6e4ef5eda6201277176.setIcon(icon_31ac7e89a274dbd0a2b6cc480dcf1acd);
+            
+    
+            var marker_a9ed387dd7177b69f3fb38c9bada85b2 = L.marker(
+                [1.314845007609258, 103.88980544295312],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_8cf1e476a4d59232afd68ade794bc629 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ac422b6ce30907e2439a50181de7479f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e2b19d0b55e410c2d473f0c91f1153e7 = $(`<div id="html_e2b19d0b55e410c2d473f0c91f1153e7" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 709 GEYLANG ROAD SINGAPORE 389624</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Lee Chee Keong</b><br><small>It's been a decade long since I last posted on a new FHM stall (bcos all my last few had been return visits to my usual few) until I finally visited t</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/630956204_10224323711559540_3417429803116083789_n.jpg?stp=cp6_dst-jpegr_p960x960_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=5Mpxl9VxLpEQ7kNvwG80tQ7&_nc_oc=AdmOQSnnje5zxUGRw-o2KpeQD3424dOt6BPqHI3hgvaQROVGbrN3fTuThJ7RZra90B0&_nc_zt=23&se=-1&_nc_ht=scontent.fsin14-2.fna&_nc_gid=fZKN0Lp7yCrhKwjHd3MaTA&oh=00_AfsxZqUOi5uG3LivZpSRUn72uAcQEu4RuIKNMNaSPds5UA&oe=699D87B6" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25604648269203682/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_ac422b6ce30907e2439a50181de7479f.setContent(html_e2b19d0b55e410c2d473f0c91f1153e7);
+            
+        
+
+        marker_a9ed387dd7177b69f3fb38c9bada85b2.bindPopup(popup_ac422b6ce30907e2439a50181de7479f)
+        ;
+
+        
+    
+    
+            marker_a9ed387dd7177b69f3fb38c9bada85b2.bindTooltip(
+                `<div>
+                     709 GEYLANG ROAD SINGAPORE 389624 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a9ed387dd7177b69f3fb38c9bada85b2.setIcon(icon_8cf1e476a4d59232afd68ade794bc629);
+            
+    
+            var marker_ab65ff5d7f16ce636b078b9387aa7ff6 = L.marker(
+                [1.303141753203337, 103.86387761533359],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_a98af78abe6271597a4ebc55d81cc91e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9ae3be75cf74b4e298fadfabd5423907 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3bf1884a7fc3792e0f60d42e05c66f04 = $(`<div id="html_3bf1884a7fc3792e0f60d42e05c66f04" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 505 BEACH ROAD GOLDEN MILE FOOD CENTRE SINGAPORE 199583</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Yuelin Ang Natasha</b><br><small>Still my number one. Delicious and flavourful. Golden mile food centre. B1<br>17</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/630624886_26073597112275384_7044623703054232288_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=102&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=ihGdlYbPK5cQ7kNvwGiof5E&_nc_oc=Adn_bAlZuZHikslLhAdiJZ6UQwRda5MjR5C97FCFPscP15AUjMzyUCwoy5XevT8nYDg&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=unxMafA3jv1i_VEO-OrARw&oh=00_AftaxOVIYOHXbTYK0vkiShGtKcsuu1nnIWStrMgTlemRNQ&oe=699C4C34" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25602624562739386/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_9ae3be75cf74b4e298fadfabd5423907.setContent(html_3bf1884a7fc3792e0f60d42e05c66f04);
+            
+        
+
+        marker_ab65ff5d7f16ce636b078b9387aa7ff6.bindPopup(popup_9ae3be75cf74b4e298fadfabd5423907)
+        ;
+
+        
+    
+    
+            marker_ab65ff5d7f16ce636b078b9387aa7ff6.bindTooltip(
+                `<div>
+                     505 BEACH ROAD GOLDEN MILE FOOD CENTRE SINGAPORE 199583 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ab65ff5d7f16ce636b078b9387aa7ff6.setIcon(icon_a98af78abe6271597a4ebc55d81cc91e);
+            
+    
+            var marker_994ff5ba6f338bb457d68f39040f1f50 = L.marker(
+                [1.346344074514813, 103.741742087315],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_e4a892e11f4342e1729dfc690a035e00 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_006c3d13159dc71b95b85c8178d5da2c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_6f4e3cf0e6a6ebe8c53c28e4b1823307 = $(`<div id="html_6f4e3cf0e6a6ebe8c53c28e4b1823307" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 177 BUKIT BATOK WEST AVENUE 8 SINGAPORE 650177</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Angel Tee</b><br><small>this weekend on hkm feasting or smth hahaha<br>happened to be at batok side so came to try my top 1<br>neighbourwok@ 177 bukit batok<br>Jeremy<br>this weekend on </small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/630449723_34933973172868230_2677069566717422420_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=og4PduC7_1oQ7kNvwF74xQm&_nc_oc=AdkvO2I0UCY36wYMiBnim0wveNoeA6aq_Eic9y_jcupNKkq8qsqdDwYkVllTU84rdwo&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=DWgbcfuomBcSW5wry5m2fQ&oh=00_AfuetxWvuas8pzf9kVpK8NGg7qiv2Y1X2LqpsxKkKSNlVQ&oe=699DA282" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25600436296291546/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_006c3d13159dc71b95b85c8178d5da2c.setContent(html_6f4e3cf0e6a6ebe8c53c28e4b1823307);
+            
+        
+
+        marker_994ff5ba6f338bb457d68f39040f1f50.bindPopup(popup_006c3d13159dc71b95b85c8178d5da2c)
+        ;
+
+        
+    
+    
+            marker_994ff5ba6f338bb457d68f39040f1f50.bindTooltip(
+                `<div>
+                     177 BUKIT BATOK WEST AVENUE 8 SINGAPORE 650177 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_994ff5ba6f338bb457d68f39040f1f50.setIcon(icon_e4a892e11f4342e1729dfc690a035e00);
+            
+    
+            var marker_052e24560041ba56790523a0ad48d9ec = L.marker(
+                [1.364232524768871, 103.86652701737994],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_0b81b04dc8afe700d94ec753645f4c9f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_34217d24de9dabd75a12eb510df4dccf = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_54863c5c1ba0b2e9116c9af23d6d6623 = $(`<div id="html_54863c5c1ba0b2e9116c9af23d6d6623" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 20 KENSINGTON PARK ROAD CHOMP CHOMP FOOD CENTRE SINGAPORE 557269</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>EdmundnGeraldine Loh</b><br><small>1-hr wait but worth it. Only hokkien  mee I eat with just cut chilli and a dash of soy sauce. <br>Very different from the others. No pork no lard but the</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/626125199_10163774359888550_6153652783773855017_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=wuLxs_aQu1kQ7kNvwFhGPCX&_nc_oc=Adm5vnQfuhFAVkkdNeL0ThuWucCmf_NNgqijvFjnuigaoTiSw6AVSRO7YKSGaTFfMJM&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=FZ0e8gbUfR7PlcdgzRYcdA&oh=00_AftzrwSTxmffrtopX7qm61w2trI4KHonDC1eG1Wtonfm_w&oe=699DA1DD" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25595502556784920/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_34217d24de9dabd75a12eb510df4dccf.setContent(html_54863c5c1ba0b2e9116c9af23d6d6623);
+            
+        
+
+        marker_052e24560041ba56790523a0ad48d9ec.bindPopup(popup_34217d24de9dabd75a12eb510df4dccf)
+        ;
+
+        
+    
+    
+            marker_052e24560041ba56790523a0ad48d9ec.bindTooltip(
+                `<div>
+                     20 KENSINGTON PARK ROAD CHOMP CHOMP FOOD CENTRE SINGAPORE 557269 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_052e24560041ba56790523a0ad48d9ec.setIcon(icon_0b81b04dc8afe700d94ec753645f4c9f);
+            
+    
+            var marker_3716a7281653674ccdbfbeb354e96614 = L.marker(
+                [1.307343983704754, 103.88401769931855],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_9660df7e919b208758373b36e8589eaf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3ee247c748d77e5373b8647f1ccf3586 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5779188622f9d458d4e68f797f9ae3b2 = $(`<div id="html_5779188622f9d458d4e68f797f9ae3b2" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 17 OLD AIRPORT ROAD KALLANG ESTATE FRESH MARKET AND FOOD CENTRE SINGAPORE 397972</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>David Yeo</b><br><small>I must confess, for a HKM aficionado, I have not tried Nam Sing. But definitely not for the lack of trying. Many times I reached Old Airport market on</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/627389757_10162203857055849_6230587111725163521_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=rXfV2_Os_ScQ7kNvwFbuY2W&_nc_oc=AdmgGezb6P6UhDW6_2LUINFRn1ezkLvk_-tO-s7vRMo3xSv67SxfFhsB0413f2IDZ7E&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=Nn4SqQnSJAdYsFk8EjmFHw&oh=00_AfvglTg8D1ct49UD__WnVIIfXuHkm5qRGiPxhEAczrSlJw&oe=699D8116" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25595281816806994/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_3ee247c748d77e5373b8647f1ccf3586.setContent(html_5779188622f9d458d4e68f797f9ae3b2);
+            
+        
+
+        marker_3716a7281653674ccdbfbeb354e96614.bindPopup(popup_3ee247c748d77e5373b8647f1ccf3586)
+        ;
+
+        
+    
+    
+            marker_3716a7281653674ccdbfbeb354e96614.bindTooltip(
+                `<div>
+                     17 OLD AIRPORT ROAD KALLANG ESTATE FRESH MARKET AND FOOD CENTRE SINGAPORE 397972 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3716a7281653674ccdbfbeb354e96614.setIcon(icon_9660df7e919b208758373b36e8589eaf);
+            
+    
+            var marker_e6c6fbfbcb6740b43b5484dcefd76195 = L.marker(
+                [1.380987616654542, 103.84062808748412],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_01a396ac1eca6b06028d906c3d0ef49a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8d55bc4941dd859b37b6889a409259b7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_940374533f007497a60e86fc71aa0799 = $(`<div id="html_940374533f007497a60e86fc71aa0799" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 628 ANG MO KIO AVENUE 4 ANG MO KIO 628 MARKET SINGAPORE 560628</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Teo ChinTiong</b><br><small>First Time trying this FHM.<br>Content was a bit dry when the packet was opened after 1 hour but surprisingly still flavorfully nice <br> For $6, Generous Q</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/625676079_10237735032812616_1059330801805464607_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=101&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=nZh8He2CuPYQ7kNvwE4z3h_&_nc_oc=AdkRgOycM2gMQSW1MFN_IWdeBnYEeopzCJ93HsZK-z3t3LcnSf7W8_pF9i3nzHBviMg&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=pBygGJ6XIoLqBoFPlVX9Bw&oh=00_AftFqJy9fWxpgFGC3wLn9CszQIFzzXO4Fr4vnStqhWepsA&oe=699D9124" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25591704150498094/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_8d55bc4941dd859b37b6889a409259b7.setContent(html_940374533f007497a60e86fc71aa0799);
+            
+        
+
+        marker_e6c6fbfbcb6740b43b5484dcefd76195.bindPopup(popup_8d55bc4941dd859b37b6889a409259b7)
+        ;
+
+        
+    
+    
+            marker_e6c6fbfbcb6740b43b5484dcefd76195.bindTooltip(
+                `<div>
+                     628 ANG MO KIO AVENUE 4 ANG MO KIO 628 MARKET SINGAPORE 560628 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e6c6fbfbcb6740b43b5484dcefd76195.setIcon(icon_01a396ac1eca6b06028d906c3d0ef49a);
+            
+    
+            var marker_50ef2c9165690679dba11cbc6421d9f6 = L.marker(
+                [1.284785598103721, 103.83218154688441],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_bb23a61f4355c9670333a8b191198ef9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f538f6f6c3da9ff89dd425247f81a3a0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_4ddaa64559cbed926f4472db010b1aad = $(`<div id="html_4ddaa64559cbed926f4472db010b1aad" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 30 SENG POH ROAD TIONG BAHRU MARKET SINGAPORE 168898</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Jennifer Quek</b><br><small>Amount of ingredients generous for $5 plate (especially pork lard) and wetness well managed. Always a queue but fast moving. <br>Need a bit more wok hey </small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/628163584_10162833676407799_1729374380798884040_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=OaJEFjUJx4wQ7kNvwGKTu-o&_nc_oc=AdmV9Ee0ChE8OLddOT8vT4SbobPCUeVkVgfH-Ir_kfc01-idOsgcNopk3o9sck1IsOI&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=_SdDxWAeUbbqEEPhXY0LWg&oh=00_AfsJoSjAu3vSWqr5IBtcMdD5TetU6B0fDVF43GCncMNLJg&oe=699DA98B" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25590954940573015/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_f538f6f6c3da9ff89dd425247f81a3a0.setContent(html_4ddaa64559cbed926f4472db010b1aad);
+            
+        
+
+        marker_50ef2c9165690679dba11cbc6421d9f6.bindPopup(popup_f538f6f6c3da9ff89dd425247f81a3a0)
+        ;
+
+        
+    
+    
+            marker_50ef2c9165690679dba11cbc6421d9f6.bindTooltip(
+                `<div>
+                     30 SENG POH ROAD TIONG BAHRU MARKET SINGAPORE 168898 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_50ef2c9165690679dba11cbc6421d9f6.setIcon(icon_bb23a61f4355c9670333a8b191198ef9);
+            
+    
+            var marker_7202df516fd6f701c45ef2fa676ed954 = L.marker(
+                [1.353811983424735, 103.87013457464967],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_25dedda1121b0ed8631a344f6f6cef79 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b78231bc6b221f16a7c3266506ae578e = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_135ae348e81a0edd3ad49f2e7d64d555 = $(`<div id="html_135ae348e81a0edd3ad49f2e7d64d555" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 237 SERANGOON AVENUE 3 SINGAPORE 550237</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Rio Wang</b><br><small>Chang Cheng Fried Prawn Noodles 长城炒虾面 (237 Serangoon Ave 3, #01-130, Singapore 550237).https://maps.app.goo.gl/gKk6khkXG8C6eFwz9?g_st=icBeen here for </small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/629507401_10225853953610229_712523550159049173_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=n73EdWyrDV8Q7kNvwG2xb0e&_nc_oc=AdnKwUZBdzRTu9vyd9_1NSxDlOnBPAuiRlOBgikG-qy6OTyFXlsHIh6W9JJ90U1qjr4&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=i6Wp6Ns_m7WkWh8RiN4Prg&oh=00_Afv2rUljAznuU3Jif06nEvJIjd7v70SM2czeESujlJebZw&oe=699D9D42" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25590495547285621/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_b78231bc6b221f16a7c3266506ae578e.setContent(html_135ae348e81a0edd3ad49f2e7d64d555);
+            
+        
+
+        marker_7202df516fd6f701c45ef2fa676ed954.bindPopup(popup_b78231bc6b221f16a7c3266506ae578e)
+        ;
+
+        
+    
+    
+            marker_7202df516fd6f701c45ef2fa676ed954.bindTooltip(
+                `<div>
+                     237 SERANGOON AVENUE 3 SINGAPORE 550237 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7202df516fd6f701c45ef2fa676ed954.setIcon(icon_25dedda1121b0ed8631a344f6f6cef79);
+            
+    
+            var marker_589e591c32e3bdd95093a61528e20fde = L.marker(
+                [1.34802620956271, 103.7435950349998],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_ff0ecbbb4a4b36356e9579c25e17a5f7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_57c3acd75b56e47c8744ceb00d4aed0b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f8de2af325caf0d27fe1edda42485162 = $(`<div id="html_f8de2af325caf0d27fe1edda42485162" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 155 BUKIT BATOK STREET 11 SINGAPORE 650155</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Jeremy Tan</b><br><small>$5 portion. Comes with 2 prawns, sotong and pork belly slices. Free loading of pork lard. Decent sambal chilli and sambal belachan.<br>Yong Heng Hokkien </small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/627493009_10238067291248800_3394158553230548689_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=sQ8JQuyF95wQ7kNvwGTXZ1v&_nc_oc=Adnm6PB6QW_sTVlbdQWyWUoM4CkISJX4k5Jhui0ukNcLSqY2FEcD6VWfvEvQF7HeUKA&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=of6fQAAnGAo-48ECWaEQAA&oh=00_AfunGcQe2bBaCANPnVCm3vvlUy8uSFRLjD1kWQ1arp_DPg&oe=699DA0F6" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25582497998085376/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_57c3acd75b56e47c8744ceb00d4aed0b.setContent(html_f8de2af325caf0d27fe1edda42485162);
+            
+        
+
+        marker_589e591c32e3bdd95093a61528e20fde.bindPopup(popup_57c3acd75b56e47c8744ceb00d4aed0b)
+        ;
+
+        
+    
+    
+            marker_589e591c32e3bdd95093a61528e20fde.bindTooltip(
+                `<div>
+                     155 BUKIT BATOK STREET 11 SINGAPORE 650155 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_589e591c32e3bdd95093a61528e20fde.setIcon(icon_ff0ecbbb4a4b36356e9579c25e17a5f7);
+            
+    
+            var marker_6871842ff6920a16c8b87f55d83acc9b = L.marker(
+                [1.36265410749322, 103.85528829763116],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_ae988b96375788d3ee268882f02250da = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6e87701adfda91adb603c6f82de85f3c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_91be5095eecb15124c28f3ecb0803911 = $(`<div id="html_91be5095eecb15124c28f3ecb0803911" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 409 ANG MO KIO AVENUE 10 MARKET & HAWKER CENTRE (BLK 409 ANG MO KIO AVE 10) SINGAPORE 560409</b><br><small style="color:gray;">2 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Tan Tze Kelvin</b><br><small>Royal flush.Got Q.Come try it.榮和 Eng Ho Fried Hokkien Mee409 Ang Mo Kio Ave 10, #01-34, Singapore 560409.<br>15<br>13</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/627495118_10163467901853673_6324343848403828203_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=P2kvNAdO5aAQ7kNvwEk6RPu&_nc_oc=Adm747sNGIEe71CaYFDw_UaqlQqtRCRU70WDcUzfF8Ph6UMWBkNl8UDkx6GedeGwBK0&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=cKRR9UybhzUC5AGq9xD7GA&oh=00_Aft0VdHi5jv2dNI4IxTDh5DCgsLe6QgVg0d-DHtSSX0hiw&oe=699C466F" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25457819110553266/" target="_blank">View post →</a></div><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Tan Tze Kelvin</b><br><small>Royal flush.Got Q.Come try it.<br>榮和 Eng Ho Fried Hokkien Mee<br>409 Ang Mo Kio Ave 10, #01-34, Singapore 560409.</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/627495118_10163467901853673_6324343848403828203_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=109&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=P2kvNAdO5aAQ7kNvwEk6RPu&_nc_oc=Adm747sNGIEe71CaYFDw_UaqlQqtRCRU70WDcUzfF8Ph6UMWBkNl8UDkx6GedeGwBK0&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=W5RklWyyqLTOVIWhngeI7w&oh=00_AfttdKIaCw8agzxYkWnyZLmiOb_icT35zAzsP_WVCEFVCQ&oe=699D97EF" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25575005612167948/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_6e87701adfda91adb603c6f82de85f3c.setContent(html_91be5095eecb15124c28f3ecb0803911);
+            
+        
+
+        marker_6871842ff6920a16c8b87f55d83acc9b.bindPopup(popup_6e87701adfda91adb603c6f82de85f3c)
+        ;
+
+        
+    
+    
+            marker_6871842ff6920a16c8b87f55d83acc9b.bindTooltip(
+                `<div>
+                     409 ANG MO KIO AVENUE 10 MARKET & HAWKER CENTRE (BLK 409 ANG MO KIO AVE 10) SINGAPORE 560409 (2 posts)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6871842ff6920a16c8b87f55d83acc9b.setIcon(icon_ae988b96375788d3ee268882f02250da);
+            
+    
+            var marker_7f7ec20378f750785d8c7618a3a371dc = L.marker(
+                [1.3217464, 103.9054817],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_fbda06d7623310091c9b9bd84c3c3639 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e824544c19af3909adf2a7e3945091cd = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_21e3381325b546512742b7517dec7345 = $(`<div id="html_21e3381325b546512742b7517dec7345" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 Mim’s Fried Hokkien Prawn Mee, Jalan Kechot, Kembangan</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Meepok Man</b><br><small>Came here for my dose of Vitamin-618 , as usual everything was on point because 美珍 always ensures an enjoyable HKM experience.<br>11</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/627681325_122123436975046174_2665946899638441252_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=G381DhUd2_kQ7kNvwHnqjbT&_nc_oc=AdnPCI9fVKZtDjsbzY50uzKlZux67191GWCSpakQS9u6a88bDOhhmJYwYO4KA75NhsA&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=pnAGxWht8RT0TSUATUA6gw&oh=00_Aft1_EhVpVsK6jEt05WZgzK8A_Cgca3WyEZy7LfuXwYlnQ&oe=699C4ED5" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25572932845708558/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_e824544c19af3909adf2a7e3945091cd.setContent(html_21e3381325b546512742b7517dec7345);
+            
+        
+
+        marker_7f7ec20378f750785d8c7618a3a371dc.bindPopup(popup_e824544c19af3909adf2a7e3945091cd)
+        ;
+
+        
+    
+    
+            marker_7f7ec20378f750785d8c7618a3a371dc.bindTooltip(
+                `<div>
+                     Mim’s Fried Hokkien Prawn Mee, Jalan Kechot, Kembangan (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7f7ec20378f750785d8c7618a3a371dc.setIcon(icon_fbda06d7623310091c9b9bd84c3c3639);
+            
+    
+            var marker_e2978b3116972314470b43d5c3945de8 = L.marker(
+                [1.26656813225079, 103.81924803576496],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_bf89817e4fa587e87fd013864c822eae = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e2e3ea4e88477cddaf0794687e90c098 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5caa52e3f9bb1db215d4478a3f398fd1 = $(`<div id="html_5caa52e3f9bb1db215d4478a3f398fd1" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 2 SEAH IM ROAD SEAH IM FOOD CENTRE SINGAPORE 099114</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>TabbyCatKenny</b><br><small>I was shocked with the number of prawns. Only $4. Seah Im Food Center. But doesn't taste good unfortunately. Lacks the essence of pork lard.<br>Jeremy</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/629288836_1919635059426969_3680953807778090057_n.jpg?stp=cp6_dst-jpegr_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=EAbHpMYojbEQ7kNvwG9zqXC&_nc_oc=AdkcceiYaJr4lURsGqmi063fLWQzBYy2pcCvY_Iqn2wxfDne-3ubsZ3tLGuAE337MuY&_nc_zt=23&se=-1&_nc_ht=scontent.fsin14-2.fna&_nc_gid=pnAGxWht8RT0TSUATUA6gw&oh=00_Afs363GRhxVE7H2JcdrilxGDRPB6tjPF2FSDELfPAo6EMg&oe=699C4616" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25572043822464127/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_e2e3ea4e88477cddaf0794687e90c098.setContent(html_5caa52e3f9bb1db215d4478a3f398fd1);
+            
+        
+
+        marker_e2978b3116972314470b43d5c3945de8.bindPopup(popup_e2e3ea4e88477cddaf0794687e90c098)
+        ;
+
+        
+    
+    
+            marker_e2978b3116972314470b43d5c3945de8.bindTooltip(
+                `<div>
+                     2 SEAH IM ROAD SEAH IM FOOD CENTRE SINGAPORE 099114 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e2978b3116972314470b43d5c3945de8.setIcon(icon_bf89817e4fa587e87fd013864c822eae);
+            
+    
+            var marker_dbc766fee791374d2eea6f14733ac727 = L.marker(
+                [1.315515531254514, 103.8896496481294],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_d4c1997791955e0f302f33db0becbfa8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fd27a8c1e0f0d203273a90ac26f1ce28 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_05175643253cb98f871218125e953853 = $(`<div id="html_05175643253cb98f871218125e953853" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 LORONG 37 GEYLANG</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Erwin Low</b><br><small>Umami @ Lorong 37 Geylang. Had it a few times now and the plate has progressively improved. Wok hei, prawns perfectly cooked that are not boiled to de</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/625167683_10167473135284199_1031013160783134376_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=WIPBRZKyVo4Q7kNvwHAAQHr&_nc_oc=Adm84eJSUCR8GG300RXfXILdoXJVCi4C6pxXqNaFicndg8VASlijc_4qMgSJOvNmdGQ&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=zf0H_WrBswZEliTJ2lvUTg&oh=00_AfvkmV4Hjc80GFf_SY1qBHp7qm_S1Jn3Q-Qb8IFyvWvUdQ&oe=699C578B" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25565069103161599/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_fd27a8c1e0f0d203273a90ac26f1ce28.setContent(html_05175643253cb98f871218125e953853);
+            
+        
+
+        marker_dbc766fee791374d2eea6f14733ac727.bindPopup(popup_fd27a8c1e0f0d203273a90ac26f1ce28)
+        ;
+
+        
+    
+    
+            marker_dbc766fee791374d2eea6f14733ac727.bindTooltip(
+                `<div>
+                     LORONG 37 GEYLANG (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dbc766fee791374d2eea6f14733ac727.setIcon(icon_d4c1997791955e0f302f33db0becbfa8);
+            
+    
+            var marker_2d0f50323149bedcb4857a04383c83ee = L.marker(
+                [1.313224325033954, 103.85969950435451],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_0ff143bb30196c58bda51cbc359770a9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_164f8ad488061d14a10a7869a3cbad2a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d36ec93bcad9c309a3997658f99369ba = $(`<div id="html_d36ec93bcad9c309a3997658f99369ba" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 383 JALAN BESAR KAM LENG HOTEL SINGAPORE 209001</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Edwin Ng</b><br><small>The Canteen by Enjoy$15.80++ for the HKM. 2 big prawns but not flavorful or juicy. Slightly dry and tasted like those freshwater big head prawns. Clai</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/626636881_10161758289687583_5390648481552884506_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=mQn8qtlch68Q7kNvwEFSe47&_nc_oc=AdlaPZTJkKPAY1mI6D0QdGMUJuMyp_awNjFe85OMtic1sYZNtAcuFIqvhvh5YvK_qL4&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=lcv8iNnTx6bzgo-MXcJ89Q&oh=00_AfuPY0rdFkgn1AdYjv2YQUWgjYzkOuX5H_QH89AWIs86DA&oe=699DA46A" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25564594553209054/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_164f8ad488061d14a10a7869a3cbad2a.setContent(html_d36ec93bcad9c309a3997658f99369ba);
+            
+        
+
+        marker_2d0f50323149bedcb4857a04383c83ee.bindPopup(popup_164f8ad488061d14a10a7869a3cbad2a)
+        ;
+
+        
+    
+    
+            marker_2d0f50323149bedcb4857a04383c83ee.bindTooltip(
+                `<div>
+                     383 JALAN BESAR KAM LENG HOTEL SINGAPORE 209001 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2d0f50323149bedcb4857a04383c83ee.setIcon(icon_0ff143bb30196c58bda51cbc359770a9);
+            
+    
+            var marker_02a3e225a6633fd597ee2185d807edd5 = L.marker(
+                [1.346084423982096, 103.93803402313183],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_51d2a9e9a8b1e58023fdc371cece97ba = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bf780847545ed831ba17ecf2a3ad1a1b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_b5576f045a6e6e03aecab2b068c10583 = $(`<div id="html_b5576f045a6e6e03aecab2b068c10583" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 802 TAMPINES AVENUE 4 TAMPINES POLYVIEW SINGAPORE 520802</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Ena Tan</b><br><small>Guess...where one ?<br>Update : this blk 802 tampines. 844 said 30mnt wait, i cant. So buy red bean soup only for emergency eat in car.<br>Jeremy<br>Guess...wh</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/627115962_838872805854978_2354990505332432579_n.jpg?stp=cp6_dst-jpegr_s1080x2048_tt6&_nc_cat=105&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=nWe_0SVgbFIQ7kNvwF8WMH1&_nc_oc=Adm91RATvH3b4SQIdtVqT6Sor0kF6vs8O7TAEhX5JHHspqdplp7ACWwoazG1amrdAPw&_nc_zt=23&se=-1&_nc_ht=scontent.fsin14-1.fna&_nc_gid=AyoQ_o_rkR-z0N6VHPnJ3g&oh=00_Afv_wF79ov6juQ47gG7PwuHJoz-tUxEyaZ-VqHvUh1Gg3A&oe=699C4657" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25554431414225368/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_bf780847545ed831ba17ecf2a3ad1a1b.setContent(html_b5576f045a6e6e03aecab2b068c10583);
+            
+        
+
+        marker_02a3e225a6633fd597ee2185d807edd5.bindPopup(popup_bf780847545ed831ba17ecf2a3ad1a1b)
+        ;
+
+        
+    
+    
+            marker_02a3e225a6633fd597ee2185d807edd5.bindTooltip(
+                `<div>
+                     802 TAMPINES AVENUE 4 TAMPINES POLYVIEW SINGAPORE 520802 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_02a3e225a6633fd597ee2185d807edd5.setIcon(icon_51d2a9e9a8b1e58023fdc371cece97ba);
+            
+    
+            var marker_628077ab27e9ab76857ad2d6fa3e8bc0 = L.marker(
+                [1.349657291307473, 103.71844367782505],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_7528b92ad3f0328319f80dea86202a86 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7e3e6c1cb03ee6a24583fa008d48fa9f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_54470ca534bfc6019bd3304a9249ba22 = $(`<div id="html_54470ca534bfc6019bd3304a9249ba22" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Thomas Lim</b><br><small>Feng Hokkien Mee @ 505 Jurong WestHad my HKM fix earlier today as I was nearby Boon Lay area. $8 portion with 5 prawns and generous pork belly. For we</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/627243833_10163447440223346_8602124609234668885_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=111&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=lcj8Z90ollMQ7kNvwEiUmHB&_nc_oc=AdnStF3HrO7ANVT-czXKGJAeC2HclLx7Xkq82wqn5LXS64VflP_5-VNXy16_bCWVyp0&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=gQZ80hVGZQQx6BtsoGVDbA&oh=00_AfsUQMh6-t7cLu9a2W5VYSmtIRAvyFLGvhx-VT49xIsUug&oe=699C5A89" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25547529798248863/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_7e3e6c1cb03ee6a24583fa008d48fa9f.setContent(html_54470ca534bfc6019bd3304a9249ba22);
+            
+        
+
+        marker_628077ab27e9ab76857ad2d6fa3e8bc0.bindPopup(popup_7e3e6c1cb03ee6a24583fa008d48fa9f)
+        ;
+
+        
+    
+    
+            marker_628077ab27e9ab76857ad2d6fa3e8bc0.bindTooltip(
+                `<div>
+                     505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_628077ab27e9ab76857ad2d6fa3e8bc0.setIcon(icon_7528b92ad3f0328319f80dea86202a86);
+            
+    
+            var marker_a53e8bb828e2d436c5415df3599eba3f = L.marker(
+                [1.3500858, 103.8431488],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_3179743c9557f6bd7a1b355c6ae80487 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2aec539d8979dedd2a8ac404512bedca = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_99f5b2eb3160f990213eecf323c6c679 = $(`<div id="html_99f5b2eb3160f990213eecf323c6c679" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 KOPI+ (Food Court), Clover Avenue, Marymount</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Chee Kong</b><br><small>Feeling Shiok again at Bishan</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/627122044_10163791140514243_2803870999139014841_n.jpg?stp=cp6_dst-jpg_p565x565_tt6&_nc_cat=105&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=947KpucZ9xcQ7kNvwH2qWHl&_nc_oc=AdnEqqp1j2QKn6CMYm0AbHNnLo2DOO1_5S9RWP0mTWfrx5isTiX6f0rMGH5CSa56Kbg&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=gQZ80hVGZQQx6BtsoGVDbA&oh=00_AfuzXs-8c_hfnLJ3wWUY-CQ3TipfXyC7fUruKWIJRRyz2w&oe=699C591A" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25546537251681451/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_2aec539d8979dedd2a8ac404512bedca.setContent(html_99f5b2eb3160f990213eecf323c6c679);
+            
+        
+
+        marker_a53e8bb828e2d436c5415df3599eba3f.bindPopup(popup_2aec539d8979dedd2a8ac404512bedca)
+        ;
+
+        
+    
+    
+            marker_a53e8bb828e2d436c5415df3599eba3f.bindTooltip(
+                `<div>
+                     KOPI+ (Food Court), Clover Avenue, Marymount (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a53e8bb828e2d436c5415df3599eba3f.setIcon(icon_3179743c9557f6bd7a1b355c6ae80487);
+            
+    
+            var marker_a742d5982594058dbabde848d5c22ad7 = L.marker(
+                [1.3510127, 103.9313764],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_1668e1a44cc3d38cb5b3c9c25d101244 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fa0c8665add50bb485ab1a0c27130852 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_42519f9256852d8a281b41d919b54854 = $(`<div id="html_42519f9256852d8a281b41d919b54854" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 Tampines Avenue 3, Tampines West, Tampines</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>黄宇铭</b><br><small>$6 - 3 prawns (2 big, 1 small)<br>@ Blk 828 Tampines Ave 3</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/627358081_10236553588354642_3421874509837705969_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=tBAAMRzjNI8Q7kNvwEPqLqM&_nc_oc=AdkNOLXjF6SFU8PXQlopFda08BGoc6a3WFLNHlMmkyVXqp1ivO3vbfxkmfTqqXVe1xI&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=kOYpkurXnsZO_yYlUPJKHw&oh=00_AfukbCXHuxhYTA6XLpj-c1RSgHxVE6Qx9uA_5idUvlMvLw&oe=699C5AD5" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25544344288567414/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_fa0c8665add50bb485ab1a0c27130852.setContent(html_42519f9256852d8a281b41d919b54854);
+            
+        
+
+        marker_a742d5982594058dbabde848d5c22ad7.bindPopup(popup_fa0c8665add50bb485ab1a0c27130852)
+        ;
+
+        
+    
+    
+            marker_a742d5982594058dbabde848d5c22ad7.bindTooltip(
+                `<div>
+                     Tampines Avenue 3, Tampines West, Tampines (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a742d5982594058dbabde848d5c22ad7.setIcon(icon_1668e1a44cc3d38cb5b3c9c25d101244);
+            
+    
+            var marker_af020d1cf4199b35f590669eb52696d3 = L.marker(
+                [1.34792965256801, 103.9361199339763],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_716037350c30d1853542dca180694802 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c51aeb354281c00addc628374c470a98 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_6140b1ebbb36f2d50ecf91c0607d0b71 = $(`<div id="html_6140b1ebbb36f2d50ecf91c0607d0b71" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 820 TAMPINES STREET 81 TAMPINES POLYVIEW SINGAPORE 520820</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Nicholas Tan Eng Sin</b><br><small>820 Tampines St 81, new HKM stall. Went and tried the $8 plate had 5 prawns, all ingredients were fresh and there's wok hei and the broth has a rich u</small><br><img src="https://scontent.fsin14-1.fna.fbcdn.net/v/t39.30808-6/630690728_10242018164859535_8028795235603989662_n.jpg?stp=dst-jpg_p843x403_tt6&_nc_cat=110&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=helA-AQnDmMQ7kNvwH-adOD&_nc_oc=Adl3GPslA-z4zrcEs-uTujfdSAUSZY-WiQTM8fbPK_5or8T1BKMS7O8E5cXJYnDNOJQ&_nc_zt=23&_nc_ht=scontent.fsin14-1.fna&_nc_gid=j_zL2PFWU-LzLjg23-n-nw&oh=00_AftXBO7-wo0aBcArpSor5UG3BYHQ1IuvfkDuOupPuLFWtA&oe=699D79F2" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25619192807749228/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_c51aeb354281c00addc628374c470a98.setContent(html_6140b1ebbb36f2d50ecf91c0607d0b71);
+            
+        
+
+        marker_af020d1cf4199b35f590669eb52696d3.bindPopup(popup_c51aeb354281c00addc628374c470a98)
+        ;
+
+        
+    
+    
+            marker_af020d1cf4199b35f590669eb52696d3.bindTooltip(
+                `<div>
+                     820 TAMPINES STREET 81 TAMPINES POLYVIEW SINGAPORE 520820 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_af020d1cf4199b35f590669eb52696d3.setIcon(icon_716037350c30d1853542dca180694802);
+            
+    
+            var marker_49a9583720cae1304f46098856ff9df8 = L.marker(
+                [1.315511629762019, 103.85037787906386],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_a08cf5a45003d5fef5c9de4812fd9129 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9770c421b35d99ccd79d88abf840a03d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_acca30d23a6a1704b455eb00ea814f4e = $(`<div id="html_acca30d23a6a1704b455eb00ea814f4e" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 44 OWEN ROAD SINGAPORE 210044</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Matilda Lim</b><br><small>𝐓𝐇𝐄 𝐍𝐄𝐈𝐆𝐇𝐁𝐎𝐔𝐑𝐖𝐎𝐊 @ 𝐏𝐄𝐊 𝐊𝐈𝐎First day of operation at Pek Kio after CNY holidays . My greeting of Happy New year didn't get me extra pork lard  . Nevert</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/637449082_10161869071027294_1972305697642087210_n.jpg?stp=dst-jpg_p960x960_tt6&_nc_cat=108&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=7wx81f8yQqAQ7kNvwE2zym9&_nc_oc=AdkewSeB87chv9MC00jKR_WYwDiRt-otyZuQAdYqqI_J40fKtUotEmLpKh1qfxt_dsM&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=df7dO-OeDuqw4OvxllH8yA&oh=00_AfuhL7-l3beCUVJm3MHluMmBiQHRgLI0daRzHThLvV24qA&oe=69A04A4D" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25719013084433866/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_9770c421b35d99ccd79d88abf840a03d.setContent(html_acca30d23a6a1704b455eb00ea814f4e);
+            
+        
+
+        marker_49a9583720cae1304f46098856ff9df8.bindPopup(popup_9770c421b35d99ccd79d88abf840a03d)
+        ;
+
+        
+    
+    
+            marker_49a9583720cae1304f46098856ff9df8.bindTooltip(
+                `<div>
+                     44 OWEN ROAD SINGAPORE 210044 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_49a9583720cae1304f46098856ff9df8.setIcon(icon_a08cf5a45003d5fef5c9de4812fd9129);
+            
+    
+            var marker_526e52afa3c563110e74025ca67eee0f = L.marker(
+                [1.327740236451, 103.93900569696281],
+                {
+}
+            ).addTo(map_1d548bc846ce6700f582b07e26b6fd7a);
+        
+    
+            var icon_e3738259c406d4c6c241a647d84a6c43 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "cutlery",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0bb70abfd06e5979d06e6ecdd7c04fb0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c577c95556eb5f1413718e61651a8db6 = $(`<div id="html_c577c95556eb5f1413718e61651a8db6" style="width: 100.0%; height: 100.0%;"><div style="max-width:300px;max-height:400px;overflow-y:auto;"><b style="font-size:14px;">📍 128 BEDOK NORTH STREET 2 SINGAPORE 460128</b><br><small style="color:gray;">1 post(s) at this location</small><hr style="margin:5px 0;"><div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;"><b>Tony Chia</b><br><small>Delicious HKM with generous ingredients for just $5.50! Today’s portion a lot too! Huat Ah! Nam Hua Fried HKM 128 Bedok North Street 2, Singapore 4601</small><br><img src="https://scontent.fsin14-2.fna.fbcdn.net/v/t39.30808-6/637100536_10166784954399115_9132113688175693055_n.jpg?stp=cp6_dst-jpg_p720x720_tt6&_nc_cat=106&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=62ZpkLhYzHoQ7kNvwFwpxxj&_nc_oc=AdlWNU3GEA_CKx7L4lUiC2XzvsFF2iGzMYnPWDbtdnXAkItUhcWv0JqOq3uwWVvMsCA&_nc_zt=23&_nc_ht=scontent.fsin14-2.fna&_nc_gid=jEAwuRDGD1kAsOzJdUQKhA&oh=00_AfuGrzZk1clVh0VGf7CTSAPoV_IF2Lg_C9yuQ5aspusuLg&oe=69A04F30" style="max-width:200px;max-height:150px;margin-top:5px;" onerror="this.style.display='none'"><br><a href="https://www.facebook.com/groups/227074250721100/posts/25710980221903819/" target="_blank">View post →</a></div></div></div>`)[0];
+                popup_0bb70abfd06e5979d06e6ecdd7c04fb0.setContent(html_c577c95556eb5f1413718e61651a8db6);
+            
+        
+
+        marker_526e52afa3c563110e74025ca67eee0f.bindPopup(popup_0bb70abfd06e5979d06e6ecdd7c04fb0)
+        ;
+
+        
+    
+    
+            marker_526e52afa3c563110e74025ca67eee0f.bindTooltip(
+                `<div>
+                     128 BEDOK NORTH STREET 2 SINGAPORE 460128 (1 post)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_526e52afa3c563110e74025ca67eee0f.setIcon(icon_e3738259c406d4c6c241a647d84a6c43);
+            
+</script>
+</html>
