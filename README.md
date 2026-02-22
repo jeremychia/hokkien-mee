@@ -50,7 +50,27 @@ onemap = {
 
 ---
 
-## Usage
+## Quick start
+
+Once setup is complete, run the full pipeline (extract → download images → map):
+
+```bash
+./run.sh
+```
+
+Or run individual steps:
+
+```bash
+./run.sh extract           # extract posts only
+./run.sh extract --pages 20  # extract with options
+./run.sh images            # download images only
+./run.sh map               # generate map only
+./run.sh help              # show usage
+```
+
+---
+
+## Usage (manual)
 
 ### Extract posts
 
@@ -146,6 +166,7 @@ Geocoding results are cached in `output/geocode_cache.json` so subsequent runs a
 hokkien-mee/
 ├── README.md
 ├── pyproject.toml
+├── run.sh                  ← run pipeline (extract → images → map)
 ├── .gitignore
 ├── facebook_cookies.txt    ← you create this (git-ignored)
 ├── secrets/
