@@ -300,16 +300,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   gap: 6px;
 }
 .loc-distance { font-weight: 600; color: var(--primary); }
-.loc-rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 11px;
-  color: var(--primary);
-  font-weight: 600;
-  letter-spacing: -0.5px;
-}
-.loc-rating .stars { color: #F39C12; font-size: 10px; letter-spacing: -1px; }
+.loc-stars { color: #F39C12; font-size: 10px; letter-spacing: -1px; }
 .loc-card {
   content-visibility: auto;
   contain-intrinsic-size: 0 68px;
@@ -392,18 +383,47 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .popup-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
 .popup-rating {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  margin-bottom: 8px;
-  background: #FEF9E7;
-  border-radius: 6px;
-  font-size: 12px;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
 }
-.popup-rating .stars { color: #F39C12; font-size: 13px; letter-spacing: -0.5px; }
-.popup-rating .score { font-weight: 700; color: var(--text); }
+.popup-rating .stars { color: #F39C12; font-size: 11px; letter-spacing: -0.5px; }
+.popup-rating .score { font-weight: 600; color: var(--text); }
 .popup-rating .basis { color: var(--text-tertiary); font-size: 10px; }
+.popup-directions {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 500;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.popup-directions:hover { text-decoration: underline; }
+.rating-info-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-tertiary); font-size: 11px; padding: 0 2px;
+  line-height: 1;
+}
+.rating-info-btn:hover { color: var(--text-secondary); }
+.rating-tooltip {
+  display: none;
+  position: absolute;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  width: 260px;
+  box-shadow: var(--shadow-lg);
+  z-index: 2000;
+  bottom: calc(100% + 6px);
+  left: 0;
+}
+.rating-tooltip.show { display: block; }
 .popup-post {
   padding-bottom: 10px;
   margin-bottom: 10px;
@@ -670,10 +690,19 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
     </div>
 
     <!-- Sort pills -->
-    <div class="sort-row" id="sortRow">
+    <div class="sort-row" id="sortRow" style="position:relative;">
       <button class="sort-pill active" data-sort="posts">Most discussed</button>
       <button class="sort-pill" data-sort="rating">Highest rated</button>
       <button class="sort-pill" data-sort="reactions">Most liked</button>
+      <button class="rating-info-btn" id="ratingInfoBtn" title="How are ratings calculated?">ⓘ</button>
+      <div class="rating-tooltip" id="ratingTooltip">
+        <strong>How ratings work</strong><br>
+        Ratings are derived from the language used in posts and comments. Positive signals
+        (e.g. "shiok", "best", "worth the queue") and negative signals (e.g. "bland",
+        "disappointing", "avoid") are tallied to produce a 1–5 star score. A location needs
+        at least 2 reviews with clear sentiment to receive a rating. Ratings are indicative
+        — they reflect group members' opinions, not an official review.
+      </div>
     </div>
 
     <!-- Location cards -->
@@ -810,17 +839,20 @@ function buildPopupHtml(loc) {
   const count = loc.posts.length;
   const badge = count > 1 ? `<span class="popup-count">${count} posts</span>` : '';
 
-  // Rating bar
+  // Rating (inline)
   let ratingHtml = '';
   if (loc.sentiment && loc.sentiment.score !== null) {
     const s = loc.sentiment;
     ratingHtml = `
-      <div class="popup-rating">
+      <span class="popup-rating">
         <span class="stars">${starsHtml(s.score)}</span>
         <span class="score">${s.score.toFixed(1)}</span>
-        <span class="basis">from ${s.rated_comments} review${s.rated_comments > 1 ? 's' : ''}</span>
-      </div>`;
+        <span class="basis">(${s.rated_comments})</span>
+      </span>`;
   }
+
+  // Google Maps directions link
+  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
 
   let postsHtml = '';
   for (const p of loc.posts) {
@@ -858,8 +890,9 @@ function buildPopupHtml(loc) {
       <div class="popup-location">
         <span>${escapeHtml(loc.address)}</span>
         ${badge}
+        ${ratingHtml}
+        <a class="popup-directions" href="${gmapsUrl}" target="_blank" rel="noopener">📍 Directions</a>
       </div>
-      ${ratingHtml}
       <hr class="popup-divider">
       ${postsHtml}
       <div class="popup-scroll-fade">↓ scroll for more</div>
@@ -916,11 +949,10 @@ MAP_DATA.locations.forEach((loc, i) => {
   const metaParts = [postCountLabel(postCount)];
   if (reactions > 0) metaParts.push('\u{1F44D} ' + reactions);
 
-  // Rating display
+  // Rating (inline with meta)
   const sent = loc.sentiment || {};
-  let ratingLine = '';
   if (sent.score !== undefined && sent.score !== null) {
-    ratingLine = `<div class="loc-rating"><span class="stars">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}</div>`;
+    metaParts.push(`<span class="loc-stars">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}`);
   }
 
   // Store data attributes for sorting
@@ -936,7 +968,6 @@ MAP_DATA.locations.forEach((loc, i) => {
     ${thumbHtml}
     <div class="loc-card-body">
       <div class="loc-name">${escapeHtml(loc.address)}</div>
-      ${ratingLine}
       <div class="loc-meta">
         <span>${metaParts.join(' \u00B7 ')}</span>
       </div>
@@ -1133,6 +1164,15 @@ document.querySelectorAll('#sortRow .sort-pill').forEach(pill => {
   });
 });
 
+// Rating info tooltip toggle
+const ratingInfoBtn = document.getElementById('ratingInfoBtn');
+const ratingTooltip = document.getElementById('ratingTooltip');
+ratingInfoBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  ratingTooltip.classList.toggle('show');
+});
+document.addEventListener('click', () => ratingTooltip.classList.remove('show'));
+
 function clearUserLocation() {
   userLatLng = null;
   if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
@@ -1217,7 +1257,13 @@ document.addEventListener('keydown', (e) => {
 // ── Fit map to markers ──────────────────────────────────────────
 if (MAP_DATA.locations.length > 0) {
   const bounds = L.latLngBounds(MAP_DATA.locations.map(l => [l.lat, l.lng]));
-  map.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
+  const isMobile = window.innerWidth <= 768;
+  map.fitBounds(bounds, {
+    padding: isMobile ? [10, 10] : [40, 40],
+    maxZoom: 15,
+  });
+  // On mobile, ensure Singapore is not too zoomed out
+  if (isMobile && map.getZoom() < 11) map.setZoom(11);
 }
 
 // ── Hide loader ─────────────────────────────────────────────────

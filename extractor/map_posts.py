@@ -38,6 +38,10 @@ GROUP_URL = "https://www.facebook.com/groups/227074250721100/"
 # Maximum number of images to include per post in the output (saves bandwidth)
 MAX_IMAGES_PER_POST = 3
 
+# Logged-in user name that may have leaked into scraped text.
+# The scraper's "comment as <user>" UI element sometimes gets captured.
+_SCRAPER_USER = "Jeremy"
+
 ONEMAP_AUTH_URL = "https://www.onemap.gov.sg/api/auth/post/getToken"
 ONEMAP_SEARCH_URL = "https://www.onemap.gov.sg/api/common/elastic/search"
 NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search"
@@ -594,6 +598,36 @@ def geocode_post(post, token, cache):
 
 
 # ---------------------------------------------------------------------------
+# Text cleaning
+# ---------------------------------------------------------------------------
+
+def _clean_post_text(text):
+    """Remove artifacts left by the scraper.
+
+    The logged-in user's name (e.g. "Jeremy") sometimes appears as a
+    standalone line sandwiched between the collapsed and expanded versions
+    of the post text.  This strips it, as well as trailing numeric
+    reaction counts that leaked in.
+    """
+    if not text:
+        return text
+    name = _SCRAPER_USER
+    # Remove standalone line matching the user's name (case-insensitive)
+    # Pattern: "\nJeremy\n" or trailing "\nJeremy"
+    text = re.sub(
+        rf'\n{re.escape(name)}\s*$', '', text, flags=re.I
+    )
+    text = re.sub(
+        rf'\n{re.escape(name)}\n', '\n', text, flags=re.I
+    )
+    # Remove trailing bare numbers (leaked reaction counts like "\n32")
+    text = re.sub(r'\n\d{1,4}\s*$', '', text)
+    # Remove trailing "View more answers" UI leak
+    text = re.sub(r'\nView more answers\s*$', '', text, flags=re.I)
+    return text.strip()
+
+
+# ---------------------------------------------------------------------------
 # Sentiment analysis
 # ---------------------------------------------------------------------------
 
@@ -742,7 +776,7 @@ def build_site(geocoded_posts, total_posts):
 
         location_groups[key]["posts"].append({
             "author": post.get("author", "Unknown"),
-            "text": post.get("text", ""),
+            "text": _clean_post_text(post.get("text", "")),
             "images": post.get("images", [])[:MAX_IMAGES_PER_POST],
             "post_link": post.get("post_link", ""),
             "timestamp": post.get("timestamp", ""),

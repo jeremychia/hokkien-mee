@@ -415,9 +415,35 @@ def extract_posts_from_page(page, debug=False):
     - Post text, images, etc. live outside of comment articles
     """
 
-    posts = page.evaluate("""
+    # Detect the logged-in user's display name so we can skip it
+    # Facebook shows "Write a comment…" placeholder near a profile image
+    # whose aria-label contains the user's name, or in the nav bar.
+    logged_in_user = page.evaluate("""
     () => {
+        // Try the profile photo in the comment box
+        const commentImg = document.querySelector('form[role="presentation"] image, form img[alt]');
+        if (commentImg) {
+            const alt = commentImg.getAttribute('alt') || '';
+            if (alt && alt !== 'Facebook') return alt.split(',')[0].trim();
+        }
+        // Try navigation bar profile link
+        const navLink = document.querySelector('[role="navigation"] a[aria-label]');
+        if (navLink) {
+            const label = navLink.getAttribute('aria-label') || '';
+            if (label && !['Facebook', 'Home', 'Watch'].includes(label)) return label.trim();
+        }
+        return '';
+    }
+    """) or ""
+
+    if debug and logged_in_user:
+        print(f"  Detected logged-in user: {logged_in_user}")
+
+    posts = page.evaluate("""
+    (loggedInUser) => {
         const results = [];
+        const loggedInLower = (loggedInUser || '').toLowerCase();
+        const loggedInFirst = loggedInLower.split(' ')[0];
 
         // The feed container holds all posts as direct children
         const feed = document.querySelector('[role="feed"]');
@@ -529,6 +555,9 @@ def extract_posts_from_page(page, debug=False):
 
                     // Skip author name, badge text
                     if (tLower === author.toLowerCase()) continue;
+
+                    // Skip logged-in user's display name (appears in "comment as" area)
+                    if (loggedInFirst && (tLower === loggedInLower || tLower === loggedInFirst)) continue;
 
                     // Skip UI patterns
                     if (/^\\d+\\s*comments?$/i.test(t)) continue;
@@ -748,7 +777,7 @@ def extract_posts_from_page(page, debug=False):
         }
         return results;
     }
-    """)
+    """, logged_in_user)
 
     if debug and posts:
         print(f"\n--- DEBUG: Sample post ---")
