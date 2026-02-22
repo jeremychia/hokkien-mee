@@ -120,6 +120,74 @@ Geocoding results are cached in `output/geocode_cache.json` so subsequent runs a
 
 ---
 
+## How it works
+
+### Step 1: Extraction (`extract_group.py`)
+
+Uses [Playwright](https://playwright.dev/) to scrape the public Facebook group in a headless Chromium browser.
+
+1. **Authentication** — loads exported browser cookies (`facebook_cookies.txt`) to access the group as a logged-in user
+2. **Scrolling** — auto-scrolls the group feed to load posts (configurable number of scroll batches, or `--pages 0` for all)
+3. **Parsing** — extracts structured data from each post:
+   - Author name and profile link
+   - Post text content
+   - Facebook check-in location (if tagged)
+   - Image URLs (from Facebook CDN)
+   - Reaction counts
+   - Comments (author, text, images, timestamp)
+   - Post permalink
+4. **Output** — saves all posts as JSON to `output/group_posts.json`
+
+### Step 2: Image download (`download_images.py`)
+
+Downloads all referenced images locally before Facebook CDN URLs expire (typically hours to days).
+
+- Reads image URLs from `output/group_posts.json`
+- Downloads each image to `output/images/` with deduplication
+- Skips already-downloaded images on subsequent runs
+
+### Step 3: Geocoding & mapping (`map_posts.py`)
+
+Transforms raw posts into an interactive map through a multi-stage pipeline:
+
+#### Location extraction
+For each post, extracts location candidates from multiple sources:
+1. **Facebook check-in** — the `location` field if the author tagged a place
+2. **Postal codes** — 6-digit Singapore postal codes found in post text
+3. **Known stall aliases** — a curated dictionary mapping colloquial names (e.g. "Kim Keat Hokkien Mee") to geocodable addresses
+4. **Street addresses** — regex patterns for Singapore address formats (Block/Blk + street, Lorong patterns)
+5. **Singapore abbreviations** — expands common shorthand (AMK → Ang Mo Kio, TPY → Toa Payoh, etc.)
+
+#### Geocoding (two-phase)
+Each location candidate is geocoded with caching to avoid redundant API calls:
+1. **OneMap API** (primary) — Singapore government geocoder, accurate for local addresses, HDB blocks, and hawker centres
+2. **Nominatim/OpenStreetMap** (fallback) — knows POIs, restaurants, and landmarks that OneMap may not index
+
+Results outside Singapore's bounding box (lat 1.15–1.47, lng 103.60–104.05) are rejected.
+
+#### Map generation
+1. **Groups** posts by geocoded lat/lng into unique stall locations
+2. **Sorts** locations by post count (most discussed first), then alphabetically
+3. **Builds** a JSON data payload with metadata and all locations/posts
+4. **Injects** the data into `extractor/map_template.html` (a self-contained Leaflet + MarkerCluster template)
+5. **Outputs** the final `docs/index.html` — a single HTML file with embedded CSS, JS, and data
+
+### Map features
+
+The generated map (`docs/index.html`) includes:
+
+- 🗺️ **Interactive map** — Leaflet 1.9.4 with OneMap Singapore tiles and MarkerCluster
+- 📍 **Custom markers** — Hokkien Mee bowl icon for each stall location
+- 🔍 **Location search** — filter sidebar by location name
+- 📡 **"Near me" geolocation** — uses browser Geolocation API with haversine distance calculation, sorts stalls by proximity
+- 🖼️ **Photo thumbnails** — sidebar cards show actual food photos from posts
+- 💬 **Rich popups** — click a marker to see all posts for that location with images, reactions, and Facebook links
+- 🔗 **Image lightbox** — click any photo to enlarge
+- 📊 **Metadata tooltip** — hover over the stall count to see total posts, geocoded count, and last updated date
+- 📱 **Responsive** — works on mobile with collapsible sidebar
+
+---
+
 ## Output format
 
 `output/group_posts.json` contains an array of post objects:

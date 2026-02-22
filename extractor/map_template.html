@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hokkien Mee Map — Singapore</title>
 <meta name="description" content="Find the best Hokkien Mee near you in Singapore. Interactive map curated from the Hokkien Mee Hunting Facebook group.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><ellipse cx='32' cy='42' rx='28' ry='10' fill='%23E8D5B7'/><ellipse cx='32' cy='40' rx='28' ry='10' fill='%23F5E6CC'/><ellipse cx='32' cy='38' rx='25' ry='8' fill='%23C8870E' opacity='0.85'/><path d='M14 36c5-4 9 3 16-1s9 4 14 0' stroke='%23F5D78E' stroke-width='3.5' fill='none' stroke-linecap='round'/><path d='M16 32c4-3 8 3 13-1s8 4 11 1' stroke='%23F0C75E' stroke-width='3' fill='none' stroke-linecap='round'/><ellipse cx='41' cy='26' rx='6' ry='4' fill='%23E8734A' transform='rotate(-25 41 26)'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23FEF3E2'/><ellipse cx='32' cy='42' rx='26' ry='9' fill='%23D4B088'/><ellipse cx='32' cy='35' rx='21' ry='7' fill='%23A07020'/><path d='M13 34c5-5 10 4 18-1s10 5 15 0' stroke='%23E8B830' stroke-width='4.5' fill='none' stroke-linecap='round'/><path d='M15 29c5-4 9 4 15-1s9 4 13 1' stroke='%23D49A18' stroke-width='3.5' fill='none' stroke-linecap='round'/><ellipse cx='42' cy='22' rx='7' ry='4.5' fill='%23E04A20' transform='rotate(-20 42 22)'/><circle cx='19' cy='27' r='2.2' fill='%23CC1100' opacity='0.7'/><circle cx='47' cy='30' r='2' fill='%236DB33F' opacity='0.7'/></svg>">
 
 <!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -63,8 +63,39 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   font-size: 12px;
   color: var(--text-secondary);
   white-space: nowrap;
+  position: relative;
+  cursor: default;
 }
 .header-stat strong { color: var(--primary); font-weight: 700; }
+.stat-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-lg);
+  font-size: 12px;
+  line-height: 1.9;
+  white-space: nowrap;
+  z-index: 1200;
+  color: var(--text);
+}
+.stat-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.header-stat:hover .stat-tooltip { display: block; }
 .header-link {
   display: inline-flex;
   align-items: center;
@@ -212,6 +243,13 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   background: var(--primary-light);
 }
 .loc-card-icon { flex-shrink: 0; width: 34px; height: 34px; }
+.loc-thumb {
+  width: 48px; height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--bg);
+}
 .loc-card-body { flex: 1; min-width: 0; }
 .loc-name {
   font-size: 13px;
@@ -277,6 +315,17 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .popup-wrap::-webkit-scrollbar { width: 4px; }
 .popup-wrap::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 2px; }
+.popup-scroll-fade {
+  position: sticky;
+  bottom: 0;
+  text-align: center;
+  padding: 16px 0 2px;
+  background: linear-gradient(transparent, white 50%);
+  font-size: 10px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
 
 .popup-location {
   font-size: 14px;
@@ -353,7 +402,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   justify-content: center;
   transition: transform 0.15s;
   overflow: hidden;
-  background: white;
+  background: #FEF3E2;
 }
 .leaflet-marker-icon:hover .marker-icon { transform: scale(1.15); }
 
@@ -481,27 +530,32 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 <!-- Hokkien Mee SVG symbols (hidden, referenced via <use>) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="hkm-bowl" viewBox="0 0 64 64">
+    <!-- warm background -->
+    <circle cx="32" cy="32" r="30" fill="#FEF3E2"/>
     <!-- plate -->
-    <ellipse cx="32" cy="42" rx="28" ry="10" fill="#E8D5B7"/>
-    <ellipse cx="32" cy="40" rx="28" ry="10" fill="#F5E6CC"/>
-    <ellipse cx="32" cy="38" rx="25" ry="8" fill="#C8870E" opacity="0.85"/>
-    <!-- thick yellow noodles -->
-    <path d="M14 36c5-4 9 3 16-1s9 4 14 0" stroke="#F5D78E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <path d="M16 32c4-3 8 3 13-1s8 4 11 1" stroke="#F0C75E" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M18 28c3-2 7 2 11-1s6 3 9 1" stroke="#F5D78E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <!-- vermicelli (thin white noodles) -->
-    <path d="M20 34c3-2 5 2 9-1s5 2 7 0" stroke="#FFF8E7" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
-    <!-- prawn -->
-    <ellipse cx="41" cy="26" rx="6" ry="4" fill="#E8734A" transform="rotate(-25 41 26)"/>
-    <path d="M45 23c2-3 4-5 4.5-6" stroke="#E8734A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-    <circle cx="43" cy="24.5" r="0.8" fill="#333"/>
-    <!-- dark sauce patches -->
-    <ellipse cx="24" cy="33" rx="4" ry="2" fill="#8B4513" opacity="0.3"/>
-    <ellipse cx="35" cy="35" rx="3" ry="1.5" fill="#8B4513" opacity="0.25"/>
-    <!-- spring onion garnish -->
-    <circle cx="28" cy="29" r="1.2" fill="#6B8E23" opacity="0.7"/>
-    <circle cx="34" cy="31" r="1" fill="#6B8E23" opacity="0.6"/>
-    <circle cx="22" cy="31" r="0.9" fill="#6B8E23" opacity="0.6"/>
+    <ellipse cx="32" cy="42" rx="26" ry="9" fill="#D4B088"/>
+    <ellipse cx="32" cy="40" rx="26" ry="9" fill="#F0DFC0"/>
+    <!-- noodle bed (wok hei base) -->
+    <ellipse cx="32" cy="35" rx="21" ry="7" fill="#A07020"/>
+    <!-- thick yellow egg noodles -->
+    <path d="M13 34c5-5 10 4 18-1s10 5 15 0" stroke="#E8B830" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M15 29c5-4 9 4 15-1s9 4 13 1" stroke="#D49A18" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M18 25c4-3 7 3 11-1s7 4 10 1" stroke="#E8B830" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- white bee hoon -->
+    <path d="M20 32c3-2 6 2 10-1s5 2 8 0" stroke="#FFF5D8" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- prawn (bold) -->
+    <ellipse cx="42" cy="22" rx="7" ry="4.5" fill="#E04A20" transform="rotate(-20 42 22)"/>
+    <path d="M46 19c1.5-3 2.5-5.5 2.5-7" stroke="#E04A20" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <circle cx="44" cy="21" r="1" fill="#1a1a1a"/>
+    <!-- dark sauce -->
+    <ellipse cx="24" cy="31" rx="4" ry="2" fill="#4A2508" opacity="0.35"/>
+    <!-- sambal (red chili) -->
+    <circle cx="19" cy="27" r="2.2" fill="#CC1100" opacity="0.7"/>
+    <!-- calamansi lime -->
+    <circle cx="47" cy="30" r="2" fill="#6DB33F" opacity="0.7"/>
+    <!-- spring onion -->
+    <circle cx="30" cy="27" r="1.5" fill="#2D6A10" opacity="0.8"/>
+    <circle cx="36" cy="30" r="1.2" fill="#2D6A10" opacity="0.7"/>
   </symbol>
 
   <symbol id="icon-locate" viewBox="0 0 24 24">
@@ -530,7 +584,10 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
     <span class="header-title">Hokkien Mee Map</span>
   </a>
   <span class="header-spacer"></span>
-  <span class="header-stat"><strong id="statStalls">—</strong> stalls across Singapore</span>
+  <span class="header-stat">
+    <strong id="statStalls">—</strong> stalls across Singapore
+    <div class="stat-tooltip" id="statTooltip"></div>
+  </span>
   <a class="header-link" href="__GROUP_URL__" target="_blank" rel="noopener">FB Group ↗</a>
 </header>
 
@@ -595,20 +652,21 @@ const locData = {};
 
 // ── Hokkien Mee marker SVG (inline for each marker) ────────────
 const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="28" height="28">
-  <ellipse cx="32" cy="42" rx="28" ry="10" fill="#E8D5B7"/>
-  <ellipse cx="32" cy="40" rx="28" ry="10" fill="#F5E6CC"/>
-  <ellipse cx="32" cy="38" rx="25" ry="8" fill="#C8870E" opacity="0.85"/>
-  <path d="M14 36c5-4 9 3 16-1s9 4 14 0" stroke="#F5D78E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-  <path d="M16 32c4-3 8 3 13-1s8 4 11 1" stroke="#F0C75E" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <path d="M18 28c3-2 7 2 11-1s6 3 9 1" stroke="#F5D78E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <path d="M20 34c3-2 5 2 9-1s5 2 7 0" stroke="#FFF8E7" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
-  <ellipse cx="41" cy="26" rx="6" ry="4" fill="#E8734A" transform="rotate(-25 41 26)"/>
-  <path d="M45 23c2-3 4-5 4.5-6" stroke="#E8734A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <circle cx="43" cy="24.5" r="0.8" fill="#333"/>
-  <ellipse cx="24" cy="33" rx="4" ry="2" fill="#8B4513" opacity="0.3"/>
-  <ellipse cx="35" cy="35" rx="3" ry="1.5" fill="#8B4513" opacity="0.25"/>
-  <circle cx="28" cy="29" r="1.2" fill="#6B8E23" opacity="0.7"/>
-  <circle cx="34" cy="31" r="1" fill="#6B8E23" opacity="0.6"/>
+  <circle cx="32" cy="32" r="30" fill="#FEF3E2"/>
+  <ellipse cx="32" cy="42" rx="26" ry="9" fill="#D4B088"/>
+  <ellipse cx="32" cy="35" rx="21" ry="7" fill="#A07020"/>
+  <path d="M13 34c5-5 10 4 18-1s10 5 15 0" stroke="#E8B830" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M15 29c5-4 9 4 15-1s9 4 13 1" stroke="#D49A18" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M18 25c4-3 7 3 11-1s7 4 10 1" stroke="#E8B830" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M20 32c3-2 6 2 10-1s5 2 8 0" stroke="#FFF5D8" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="42" cy="22" rx="7" ry="4.5" fill="#E04A20" transform="rotate(-20 42 22)"/>
+  <path d="M46 19c1.5-3 2.5-5.5 2.5-7" stroke="#E04A20" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <circle cx="44" cy="21" r="1" fill="#1a1a1a"/>
+  <ellipse cx="24" cy="31" rx="4" ry="2" fill="#4A2508" opacity="0.35"/>
+  <circle cx="19" cy="27" r="2.2" fill="#CC1100" opacity="0.7"/>
+  <circle cx="47" cy="30" r="2" fill="#6DB33F" opacity="0.7"/>
+  <circle cx="30" cy="27" r="1.5" fill="#2D6A10" opacity="0.8"/>
+  <circle cx="36" cy="30" r="1.2" fill="#2D6A10" opacity="0.7"/>
 </svg>`;
 
 // ── Map setup ───────────────────────────────────────────────────
@@ -710,6 +768,7 @@ function buildPopupHtml(loc) {
       </div>
       <hr class="popup-divider">
       ${postsHtml}
+      <div class="popup-scroll-fade">↓ scroll for more</div>
     </div>`;
 }
 
@@ -757,12 +816,22 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.dataset.idx = i;
   card.dataset.search = loc.address.toLowerCase();
 
+  // Get first image and total reactions for the card
+  const firstImg = loc.posts.flatMap(p => p.images || []).find(Boolean);
+  const totalReactions = loc.posts.reduce((sum, p) => sum + (parseInt(p.reactions) || 0), 0);
+  const metaParts = [postCountLabel(postCount)];
+  if (totalReactions > 0) metaParts.push('\u{1F44D} ' + totalReactions);
+
+  const thumbHtml = firstImg
+    ? `<img class="loc-thumb" src="${escapeHtml(firstImg)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+    : `<svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>`;
+
   card.innerHTML = `
-    <svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>
+    ${thumbHtml}
     <div class="loc-card-body">
       <div class="loc-name">${escapeHtml(loc.address)}</div>
       <div class="loc-meta">
-        <span>${postCountLabel(postCount)}</span>
+        <span>${metaParts.join(' \u00B7 ')}</span>
       </div>
     </div>`;
 
@@ -783,8 +852,39 @@ MAP_DATA.locations.forEach((loc, i) => {
 
 map.addLayer(cluster);
 
+// ── Popup scroll indicator ──────────────────────────────────────
+map.on('popupopen', () => {
+  requestAnimationFrame(() => {
+    const wrap = document.querySelector('.leaflet-popup .popup-wrap');
+    if (!wrap) return;
+    const fade = wrap.querySelector('.popup-scroll-fade');
+    if (!fade) return;
+    if (wrap.scrollHeight <= wrap.clientHeight + 10) {
+      fade.style.display = 'none';
+    } else {
+      fade.style.display = '';
+      wrap.addEventListener('scroll', function onScroll() {
+        const atEnd = wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 10;
+        fade.style.opacity = atEnd ? '0' : '1';
+      });
+    }
+  });
+});
+
 // ── Stats ───────────────────────────────────────────────────────
 document.getElementById('statStalls').textContent = MAP_DATA.locations.length;
+
+// Populate metadata tooltip
+const statTooltip = document.getElementById('statTooltip');
+if (statTooltip && MAP_DATA.meta) {
+  const genDate = new Date(MAP_DATA.meta.generated_at);
+  const dateStr = genDate.toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
+  statTooltip.innerHTML =
+    `<div>\u{1F4CD} <strong>${MAP_DATA.locations.length}</strong> unique stalls</div>` +
+    `<div>\u{1F4CA} <strong>${MAP_DATA.meta.geocoded_count}</strong> posts mapped</div>` +
+    `<div>\u{1F4DD} <strong>${MAP_DATA.meta.total_posts}</strong> total posts</div>` +
+    `<div>\u{1F550} Updated ${dateStr}</div>`;
+}
 
 // ── Active location ─────────────────────────────────────────────
 function setActiveLocation(idx) {
