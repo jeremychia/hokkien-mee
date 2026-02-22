@@ -13,6 +13,7 @@ Data is extracted from the public Facebook group: [Hokkien Mee (227074250721100)
 - Python 3.9+
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) (Python package manager)
 - A Facebook account (needed for cookies)
+- A free [OneMap API account](https://www.onemap.gov.sg/apidocs/register) (needed for mapping)
 
 ### 2. Install dependencies
 
@@ -32,6 +33,18 @@ The scraper needs your browser cookies to access the group.
 4. Save the file as `facebook_cookies.txt` in the project root (same level as this README).
 
 > **Note:** Cookies expire after some time. If you get login errors, re-export a fresh cookies file.
+
+### 4. Set up OneMap API credentials
+
+The mapping script uses [OneMap](https://www.onemap.gov.sg/) to geocode addresses.
+
+1. Register for a free account at https://www.onemap.gov.sg/apidocs/register
+2. Create a `.env` file in the project root:
+
+```
+ONEMAP_EMAIL=your_email@example.com
+ONEMAP_PASSWORD=your_password
+```
 
 ---
 
@@ -67,6 +80,21 @@ uv run python extractor/download_images.py
 ```
 
 Images are saved to `output/images/`.
+
+### Plot on a map
+
+After extracting posts, geocode locations and generate an interactive map:
+
+```bash
+uv run python extractor/map_posts.py
+```
+
+This will:
+1. Extract location info from post text (postal codes, addresses, stall names, check-in locations)
+2. Geocode each location using the OneMap API
+3. Generate an interactive HTML map at `output/hokkien_mee_map.html`
+
+Geocoding results are cached in `output/geocode_cache.json` so subsequent runs are faster.
 
 ---
 
@@ -117,11 +145,15 @@ hokkien-mee/
 ├── README.md
 ├── pyproject.toml
 ├── .gitignore
+├── .env                    ← you create this (git-ignored)
 ├── facebook_cookies.txt    ← you create this (git-ignored)
 ├── extractor/
 │   ├── extract_group.py    ← extracts posts + comments to JSON
-│   └── download_images.py  ← downloads images locally
-└── output/                 ← created automatically (git-ignored)
-    ├── group_posts.json
-    └── images/
+│   ├── download_images.py  ← downloads images locally
+│   └── map_posts.py        ← geocodes locations and builds HTML map
+└── output/                 ← created automatically
+    ├── group_posts.json    ← extracted data (version controlled)
+    ├── geocode_cache.json  ← cached geocoding results (git-ignored)
+    ├── hokkien_mee_map.html ← interactive map (version controlled)
+    └── images/             ← downloaded images (git-ignored)
 ```

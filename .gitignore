@@ -1,5 +1,7 @@
 output/images/
+output/geocode_cache.json
 facebook_cookies.txt
+.env
 .venv/
 __pycache__/
 *.pyc
