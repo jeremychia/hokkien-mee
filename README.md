@@ -39,11 +39,13 @@ The scraper needs your browser cookies to access the group.
 The mapping script uses [OneMap](https://www.onemap.gov.sg/) to geocode addresses.
 
 1. Register for a free account at https://www.onemap.gov.sg/apidocs/register
-2. Create a `.env` file in the project root:
+2. Create `secrets/secrets.py`:
 
-```
-ONEMAP_EMAIL=your_email@example.com
-ONEMAP_PASSWORD=your_password
+```python
+onemap = {
+    "email": "your_email@example.com",
+    "password": "your_password"
+}
 ```
 
 ---
@@ -145,8 +147,9 @@ hokkien-mee/
 ├── README.md
 ├── pyproject.toml
 ├── .gitignore
-├── .env                    ← you create this (git-ignored)
 ├── facebook_cookies.txt    ← you create this (git-ignored)
+├── secrets/
+│   └── secrets.py          ← you create this (git-ignored)
 ├── extractor/
 │   ├── extract_group.py    ← extracts posts + comments to JSON
 │   ├── download_images.py  ← downloads images locally

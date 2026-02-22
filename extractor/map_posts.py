@@ -46,36 +46,35 @@ SG_CENTRE = [1.3521, 103.8198]
 # ---------------------------------------------------------------------------
 # OneMap helpers
 # ---------------------------------------------------------------------------
-def load_env():
-    """Load .env file into os.environ."""
-    env_path = ".env"
-    if not os.path.exists(env_path):
-        return
-    with open(env_path) as f:
-        for line in f:
-            line = line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
-            key, _, value = line.partition("=")
-            os.environ.setdefault(key.strip(), value.strip())
-
-
 def get_onemap_token():
-    """Authenticate with OneMap and return an access token."""
-    email = os.environ.get("ONEMAP_EMAIL", "")
-    password = os.environ.get("ONEMAP_PASSWORD", "")
-    if not email or not password:
-        print("Error: ONEMAP_EMAIL and ONEMAP_PASSWORD must be set.")
-        print("Create a .env file with:")
-        print("  ONEMAP_EMAIL=your_email@example.com")
-        print("  ONEMAP_PASSWORD=your_password")
+    """Authenticate with OneMap using credentials from secrets/secrets.py."""
+    # Import credentials from secrets/secrets.py
+    secrets_path = os.path.join(os.path.dirname(__file__), '..', 'secrets', 'secrets.py')
+    secrets_path = os.path.abspath(secrets_path)
+    if not os.path.exists(secrets_path):
+        print(f"Error: {secrets_path} not found.")
+        print("Create secrets/secrets.py with:")
+        print('  onemap = {')
+        print('      "email": "your_email@example.com","')
+        print('      "password": "your_password"')
+        print('  }')
         print()
         print("Register free at https://www.onemap.gov.sg/apidocs/register")
         sys.exit(1)
 
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("secrets", secrets_path)
+    secrets_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(secrets_mod)
+
+    creds = getattr(secrets_mod, 'onemap', None)
+    if not creds or not creds.get('email') or not creds.get('password'):
+        print("Error: secrets/secrets.py must contain an 'onemap' dict with 'email' and 'password'.")
+        sys.exit(1)
+
     resp = requests.post(
         ONEMAP_AUTH_URL,
-        json={"email": email, "password": password},
+        json={"email": creds['email'], "password": creds['password']},
         timeout=15,
     )
     if resp.status_code != 200:
@@ -354,8 +353,6 @@ def build_map(geocoded_posts):
 # Main
 # ---------------------------------------------------------------------------
 def main():
-    load_env()
-
     # Load posts
     if not os.path.exists(INPUT_FILE):
         print(f"Error: {INPUT_FILE} not found. Run extract_group.py first.")
