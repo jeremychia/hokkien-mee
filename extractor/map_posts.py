@@ -35,6 +35,9 @@ TEMPLATE_FILE = os.path.join(os.path.dirname(__file__), "map_template.html")
 
 GROUP_URL = "https://www.facebook.com/groups/227074250721100/"
 
+# Maximum number of images to include per post in the output (saves bandwidth)
+MAX_IMAGES_PER_POST = 3
+
 ONEMAP_AUTH_URL = "https://www.onemap.gov.sg/api/auth/post/getToken"
 ONEMAP_SEARCH_URL = "https://www.onemap.gov.sg/api/common/elastic/search"
 NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search"
@@ -591,6 +594,125 @@ def geocode_post(post, token, cache):
 
 
 # ---------------------------------------------------------------------------
+# Sentiment analysis
+# ---------------------------------------------------------------------------
+
+# Positive keywords / phrases — food-context and Singlish aware
+_POSITIVE = [
+    # Strong positive
+    r'\bbest\b', r'\bamazing\b', r'\bexcellent\b', r'\bfantastic\b',
+    r'\boutstanding\b', r'\bperfect\b', r'\bincredible\b', r'\blegit\b',
+    r'\bmust.?try\b', r'\bworth\b', r'\btop.?notch\b', r'\b10/10\b',
+    # Moderate positive
+    r'\bgood\b', r'\bgreat\b', r'\bnice\b', r'\bdelicious\b', r'\btasty\b',
+    r'\byummy\b', r'\brecommend\b', r'\bfavou?rite\b', r'\bawesome\b',
+    r'\blove(?:d|s)?\b', r'\bwonderful\b', r'\bsuperb\b',
+    # Singlish / local positive
+    r'\bshiok\b', r'\bsedap\b', r'\bpower\b', r'\bnot bad\b',
+    r'\bquite good\b', r'\bdamn good\b', r'\bsolid\b',
+    # Hokkien mee specific positive signals
+    r'\bwok.?hei\b', r'\bfragran[ct]\b', r'\blard\b', r'\bcharcoal\b',
+    r'\bqueue\b', r'\blong queue\b', r'\bsell.?out\b', r'\bsold.?out\b',
+    r'\bbig.?prawn\b', r'\bfresh prawn\b', r'\bgood stuff\b',
+    # Reaction signals
+    r'\b(?:5|4\.5|4)\s*/\s*5\b',
+    '\U0001F44D', '\u2764', '\U0001F60B', '\U0001F929',
+]
+
+# Negative keywords / phrases
+_NEGATIVE = [
+    # Strong negative
+    r'\bterrible\b', r'\bhorrible\b', r'\bworst\b', r'\bawful\b',
+    r'\bnever going back\b', r"\bdon'?t bother\b", r'\bavoid\b',
+    r'\bdisgusting\b', r'\binedible\b',
+    # Moderate negative
+    r'\bbad\b', r'\bdisappoint\w*\b', r'\boverrated\b', r'\bmeh\b',
+    r'\bmediocre\b', r'\bskip\b', r'\bnot.{0,5}good\b', r'\bnot.{0,5}nice\b',
+    r'\bnot.{0,5}worth\b', r'\btoo wet\b', r'\btoo dry\b', r'\btoo salty\b',
+    r'\bno taste\b', r'\btasteless\b', r'\bbland\b',
+    # Singlish / local negative
+    r'\bcmi\b', r'\bcannot make it\b', r'\bsoso\b', r'\bso.?so\b',
+    r'\blor(?:\b|$)', r'\bok(?:ay)? only\b', r'\bnothing special\b',
+    # Hokkien mee specific negative
+    r'\bno pork\b', r'\bno lard\b', r'\bdecline\b', r'\bwen?t down\w*\b',
+    r'\bnot.{0,10}same\b', r'\bused to be\b',
+    # Reaction signals
+    '\U0001F44E', '\U0001F922',
+    r'\b[01]\s*/\s*5\b',
+]
+
+_POS_PATTERNS = [re.compile(p, re.I) for p in _POSITIVE]
+_NEG_PATTERNS = [re.compile(p, re.I) for p in _NEGATIVE]
+
+
+def _score_text(text):
+    """Score a single text. Returns (positive_hits, negative_hits)."""
+    if not text:
+        return (0, 0)
+    pos = sum(1 for p in _POS_PATTERNS if p.search(text))
+    neg = sum(1 for p in _NEG_PATTERNS if p.search(text))
+    return (pos, neg)
+
+
+def compute_location_sentiment(posts_at_location):
+    """Compute a sentiment score for a location from all its posts and comments.
+
+    Returns a dict with:
+      - score: float 0.0-5.0 (star rating), or None if insufficient data
+      - positive: int total positive signals
+      - negative: int total negative signals
+      - total_signals: int total signals found
+      - rated_comments: int number of comments that had sentiment signals
+    """
+    total_pos = 0
+    total_neg = 0
+    rated_comments = 0
+
+    for post in posts_at_location:
+        # Score the post text itself (often neutral/descriptive, lower weight)
+        post_pos, post_neg = _score_text(post.get("text", ""))
+        total_pos += post_pos
+        total_neg += post_neg
+        if post_pos or post_neg:
+            rated_comments += 1
+
+        # Score each comment (these are the real opinions)
+        for comment in post.get("comments", []):
+            c_pos, c_neg = _score_text(comment.get("text", ""))
+            total_pos += c_pos
+            total_neg += c_neg
+            if c_pos or c_neg:
+                rated_comments += 1
+
+    total_signals = total_pos + total_neg
+
+    # Need at least 2 signal-bearing texts to produce a rating
+    if rated_comments < 2 or total_signals < 2:
+        return {
+            "score": None,
+            "positive": total_pos,
+            "negative": total_neg,
+            "total_signals": total_signals,
+            "rated_comments": rated_comments,
+        }
+
+    # Positive ratio → map to 1.0–5.0 star scale
+    # 100% positive = 5.0, 50/50 = 3.0, 100% negative = 1.0
+    ratio = total_pos / total_signals
+    score = 1.0 + ratio * 4.0
+    # Round to nearest 0.5
+    score = round(score * 2) / 2
+
+    return {
+        "score": score,
+        "positive": total_pos,
+        "negative": total_neg,
+        "total_signals": total_signals,
+        "rated_comments": rated_comments,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Map generation
 # ---------------------------------------------------------------------------
 def build_site(geocoded_posts, total_posts):
@@ -605,8 +727,11 @@ def build_site(geocoded_posts, total_posts):
                 "lng": item["lng"],
                 "address": item["address"],
                 "posts": [],
+                "_raw_posts": [],  # keep originals for sentiment analysis
             }
         post = item["post"]
+        location_groups[key]["_raw_posts"].append(post)
+
         # Extract a clean reaction count
         reactions_raw = post.get("reactions", "")
         reactions = ""
@@ -618,18 +743,36 @@ def build_site(geocoded_posts, total_posts):
         location_groups[key]["posts"].append({
             "author": post.get("author", "Unknown"),
             "text": post.get("text", ""),
-            "images": post.get("images", []),
+            "images": post.get("images", [])[:MAX_IMAGES_PER_POST],
             "post_link": post.get("post_link", ""),
             "timestamp": post.get("timestamp", ""),
             "comment_count": len(post.get("comments", [])),
             "reactions": reactions,
         })
 
+    # Compute sentiment for each location
+    for loc in location_groups.values():
+        sentiment = compute_location_sentiment(loc["_raw_posts"])
+        loc["sentiment"] = {
+            "score": sentiment["score"],
+            "positive": sentiment["positive"],
+            "negative": sentiment["negative"],
+            "rated_comments": sentiment["rated_comments"],
+        }
+        del loc["_raw_posts"]  # don't include raw posts in output
+
     # Sort locations: most posts first, then alphabetically
     locations = sorted(
         location_groups.values(),
         key=lambda loc: (-len(loc["posts"]), loc["address"].lower()),
     )
+
+    # Log sentiment stats
+    rated = [l for l in locations if l["sentiment"]["score"] is not None]
+    print(f"  Sentiment: {len(rated)}/{len(locations)} locations have ratings")
+    if rated:
+        avg = sum(l["sentiment"]["score"] for l in rated) / len(rated)
+        print(f"  Average rating: {avg:.1f}/5.0")
 
     # Build the data payload for the template
     map_data = {

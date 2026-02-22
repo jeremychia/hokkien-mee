@@ -210,6 +210,37 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .search-hint.located { color: var(--primary); }
 
+/* Sort pills */
+.sort-row {
+  display: flex;
+  gap: 4px;
+  padding: 0 12px 8px;
+  flex-wrap: wrap;
+}
+.sort-pill {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.sort-pill:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.sort-pill.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
 /* Location list */
 .location-list {
   flex: 1;
@@ -269,6 +300,20 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   gap: 6px;
 }
 .loc-distance { font-weight: 600; color: var(--primary); }
+.loc-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+.loc-rating .stars { color: #F39C12; font-size: 10px; letter-spacing: -1px; }
+.loc-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 68px;
+}
 
 /* Sidebar footer */
 .sidebar-footer {
@@ -346,6 +391,19 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   white-space: nowrap;
 }
 .popup-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+.popup-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  background: #FEF9E7;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.popup-rating .stars { color: #F39C12; font-size: 13px; letter-spacing: -0.5px; }
+.popup-rating .score { font-weight: 700; color: var(--text); }
+.popup-rating .basis { color: var(--text-tertiary); font-size: 10px; }
 .popup-post {
   padding-bottom: 10px;
   margin-bottom: 10px;
@@ -611,6 +669,13 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
       <div class="search-hint" id="searchHint">Showing all stalls</div>
     </div>
 
+    <!-- Sort pills -->
+    <div class="sort-row" id="sortRow">
+      <button class="sort-pill active" data-sort="posts">Most discussed</button>
+      <button class="sort-pill" data-sort="rating">Highest rated</button>
+      <button class="sort-pill" data-sort="reactions">Most liked</button>
+    </div>
+
     <!-- Location cards -->
     <div class="location-list" id="locationList"></div>
 
@@ -724,10 +789,38 @@ function postCountLabel(n) {
   return n + ' post' + (n > 1 ? 's' : '');
 }
 
+/** Render star rating as text (★★★★☆ style) */
+function starsHtml(score) {
+  const full = Math.floor(score);
+  const half = score % 1 >= 0.5 ? 1 : 0;
+  const empty = 5 - full - half;
+  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+}
+
+/** Get total reactions for a location */
+function totalReactions(loc) {
+  return loc.posts.reduce((sum, p) => sum + (parseInt(p.reactions) || 0), 0);
+}
+
+// Current sort mode
+let currentSort = 'posts';
+
 // ── Popup HTML ──────────────────────────────────────────────────
 function buildPopupHtml(loc) {
   const count = loc.posts.length;
   const badge = count > 1 ? `<span class="popup-count">${count} posts</span>` : '';
+
+  // Rating bar
+  let ratingHtml = '';
+  if (loc.sentiment && loc.sentiment.score !== null) {
+    const s = loc.sentiment;
+    ratingHtml = `
+      <div class="popup-rating">
+        <span class="stars">${starsHtml(s.score)}</span>
+        <span class="score">${s.score.toFixed(1)}</span>
+        <span class="basis">from ${s.rated_comments} review${s.rated_comments > 1 ? 's' : ''}</span>
+      </div>`;
+  }
 
   let postsHtml = '';
   for (const p of loc.posts) {
@@ -766,6 +859,7 @@ function buildPopupHtml(loc) {
         <span>${escapeHtml(loc.address)}</span>
         ${badge}
       </div>
+      ${ratingHtml}
       <hr class="popup-divider">
       ${postsHtml}
       <div class="popup-scroll-fade">↓ scroll for more</div>
@@ -818,18 +912,31 @@ MAP_DATA.locations.forEach((loc, i) => {
 
   // Get first image and total reactions for the card
   const firstImg = loc.posts.flatMap(p => p.images || []).find(Boolean);
-  const totalReactions = loc.posts.reduce((sum, p) => sum + (parseInt(p.reactions) || 0), 0);
+  const reactions = totalReactions(loc);
   const metaParts = [postCountLabel(postCount)];
-  if (totalReactions > 0) metaParts.push('\u{1F44D} ' + totalReactions);
+  if (reactions > 0) metaParts.push('\u{1F44D} ' + reactions);
+
+  // Rating display
+  const sent = loc.sentiment || {};
+  let ratingLine = '';
+  if (sent.score !== undefined && sent.score !== null) {
+    ratingLine = `<div class="loc-rating"><span class="stars">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}</div>`;
+  }
+
+  // Store data attributes for sorting
+  card.dataset.posts = postCount;
+  card.dataset.rating = (sent.score !== undefined && sent.score !== null) ? sent.score : -1;
+  card.dataset.reactions = reactions;
 
   const thumbHtml = firstImg
-    ? `<img class="loc-thumb" src="${escapeHtml(firstImg)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+    ? `<img class="loc-thumb" src="${escapeHtml(firstImg)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
     : `<svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>`;
 
   card.innerHTML = `
     ${thumbHtml}
     <div class="loc-card-body">
       <div class="loc-name">${escapeHtml(loc.address)}</div>
+      ${ratingLine}
       <div class="loc-meta">
         <span>${metaParts.join(' \u00B7 ')}</span>
       </div>
@@ -986,21 +1093,54 @@ locateBtn.addEventListener('click', () => {
   );
 });
 
+function applySortOrder() {
+  const sorted = MAP_DATA.locations.map((_, i) => i);
+  if (currentSort === 'rating') {
+    sorted.sort((a, b) => {
+      const ra = parseFloat(cardMap[a].dataset.rating);
+      const rb = parseFloat(cardMap[b].dataset.rating);
+      if (rb !== ra) return rb - ra;               // higher rating first
+      return locData[b].posts.length - locData[a].posts.length; // tiebreak: more posts
+    });
+  } else if (currentSort === 'reactions') {
+    sorted.sort((a, b) => {
+      const ra = parseInt(cardMap[a].dataset.reactions);
+      const rb = parseInt(cardMap[b].dataset.reactions);
+      if (rb !== ra) return rb - ra;
+      return locData[a].address.localeCompare(locData[b].address);
+    });
+  } else {
+    // 'posts' (default)
+    sorted.sort((a, b) => {
+      const d = locData[b].posts.length - locData[a].posts.length;
+      return d !== 0 ? d : locData[a].address.localeCompare(locData[b].address);
+    });
+  }
+  for (const idx of sorted) locationList.appendChild(cardMap[idx]);
+}
+
+// Sort pill click handlers
+document.querySelectorAll('#sortRow .sort-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#sortRow .sort-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentSort = pill.dataset.sort;
+    if (userLatLng) {
+      sortByDistance(); // distance sort takes precedence when located
+    } else {
+      applySortOrder();
+    }
+  });
+});
+
 function clearUserLocation() {
   userLatLng = null;
   if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
   locateBtn.classList.remove('active');
   locateBtn.querySelector('.btn-label').textContent = 'Near me';
 
-  // Restore original sort (most posts first, then alphabetical)
-  const sorted = MAP_DATA.locations.map((_, i) => i);
-  sorted.sort((a, b) => {
-    const d = locData[b].posts.length - locData[a].posts.length;
-    return d !== 0 ? d : locData[a].address.localeCompare(locData[b].address);
-  });
-
-  for (const idx of sorted) {
-    locationList.appendChild(cardMap[idx]);
+  // Restore current sort, removing distance labels
+  for (const idx of MAP_DATA.locations.map((_, i) => i)) {
     const meta = cardMap[idx].querySelector('.loc-meta');
     const distEl = meta.querySelector('.loc-distance');
     const sepEl = meta.querySelector('.loc-dist-sep');
@@ -1008,6 +1148,7 @@ function clearUserLocation() {
     if (sepEl) sepEl.remove();
   }
 
+  applySortOrder();
   searchHint.textContent = `Showing all ${MAP_DATA.locations.length} stalls`;
   searchHint.className = 'search-hint';
 }
