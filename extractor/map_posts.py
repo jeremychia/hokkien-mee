@@ -47,6 +47,7 @@ SG_CENTRE = [1.3521, 103.8198]
 
 # Known location aliases — map colloquial/variant names to canonical geocodable names
 LOCATION_ALIASES = {
+    # Hawker centres / markets — colloquial → canonical
     "tiong bahru food market": "Tiong Bahru Market",
     "old airport market": "Old Airport Road Food Centre",
     "old airport road market": "Old Airport Road Food Centre",
@@ -55,6 +56,29 @@ LOCATION_ALIASES = {
     "smith street market & hawker center": "Chinatown Complex",
     "smith street market and hawker center": "Chinatown Complex",
     "smith street market": "Chinatown Complex",
+    "mayflower hawker centre": "Mayflower food Center",
+    "mayflower hawker center": "Mayflower food Center",
+    "mayflower food center": "Mayflower food Center",
+    "mayflower food centre": "Mayflower food Center",
+    "mayflower hawker ctr": "Mayflower food Center",
+    # Known stall → address mappings (stalls not indexed on geocoders)
+    "kim keat hokkien mee": "511 Bishan Street 13",
+    "kim keat hokkien mee - official": "511 Bishan Street 13",
+    "ahjie hokkien mee": "7 Lorong 8 Toa Payoh",
+    "ah ong hokkien mee": "4 Lorong 7 Toa Payoh",
+    "chuan fried hokkien prawn mee": "84 Marine Parade Central",
+    "shiok hokkien mee": "Beauty World Centre",
+    "ho ji fried hokkien prawn noodles": "Mayflower food Center",
+    "big fat boy fried hokkien mee": "352 Clementi Avenue 2",
+    "bedok 69 hokkien mee": "69 Bedok South Avenue 3",
+    "uncle peter hokkien mee": "216 Bedok North Street 1",
+    "ah huat hokkien prawn mee": "216 Bedok North Street 1",
+    "old airport hawker ctr": "Old Airport Road Food Centre",
+    "old airport hawker centre": "Old Airport Road Food Centre",
+    "old airport hawker center": "Old Airport Road Food Centre",
+    "ah hak fish soup": "69 Bedok South Avenue 3",
+    "sheng cheng char kway teow": "665 Buffalo Road",
+    "yong heng hokkien mee": "155 Bukit Batok Street 11",
 }
 
 # Common Singapore abbreviations used in posts
@@ -65,6 +89,9 @@ SG_ABBREVIATIONS = {
     "jw": "Jurong West",
     "je": "Jurong East",
     "bb": "Bukit Batok",
+    "bt": "Bukit",
+    "bm": "Bukit Merah",
+    "bp": "Bukit Panjang",
 }
 
 
@@ -217,10 +244,19 @@ def clean_query(query):
     if alias:
         variations.append(alias)
 
+    # Also check alias on ASCII-stripped version (for "Chuan Fried Hokkien Prawn Mee 川炒…")
+    q_ascii = re.sub(r'[^\x00-\x7F]+', ' ', q).strip()
+    q_ascii = re.sub(r'[.\-]+$', '', q_ascii).strip()  # strip trailing dots/dashes
+    q_ascii = re.sub(r'\s+', ' ', q_ascii).strip()
+    if q_ascii and q_ascii.lower() != q.lower():
+        alias_ascii = LOCATION_ALIASES.get(q_ascii.lower())
+        if alias_ascii and alias_ascii not in variations:
+            variations.append(alias_ascii)
+
     # Iteratively strip leading junk words (handles chained artifacts like
     # "ny times I reached Old Airport market" → "Old Airport market")
     _JUNK = (
-        r'the|a|an|my|this|that|one|of|ny|at|in|I|to|very|towards|'
+        r'the|a|an|my|this|that|one|of|ny|at|in|I|to|very|towards|from|'
         r'no one|only|just|every|many|some|few|have|had|has|went|'
         r'go|going|was|been|am|is|are|tried|known|times|reached|'
         r'like|love|stall|place|spot'
@@ -233,7 +269,7 @@ def clean_query(query):
     # Filter false positives — generic phrases that aren't locations
     if not q or len(q) < 4:
         return variations
-    if re.search(r'\b(?:goal|say in|stay in|known place|have a say)\b', q, re.I):
+    if re.search(r'\b(?:goal|say in|stay in|known place|have a say|better$|worse$|not very clean$)\b', q, re.I):
         return variations
     # Reject standalone generic terms
     if q.lower() in {
@@ -336,38 +372,37 @@ def clean_query(query):
 # ---------------------------------------------------------------------------
 # Location extraction from post text
 # ---------------------------------------------------------------------------
-def extract_location_candidates(post):
-    """Extract potential location search strings from a post.
-
-    Returns a list of candidates ordered from most to least specific:
-      1. Singapore 6-digit postal code
-      2. Block/Blk + street address
-      3. Hawker centre / food court name
-      4. Facebook check-in location field
-      5. Stall name from text
-    """
-    text = post.get("text", "")
-    location = post.get("location", "")
-    candidates = []
-
+def _extract_from_text(text, candidates):
+    """Extract location candidates from a block of text (post or comment)."""
     # 1. Singapore postal codes (6 digits, typically starting with 0-8)
-    #    Match "Singapore 540338" or standalone 6-digit codes, but not inside URLs
-    # Remove URLs first to avoid false matches
     text_no_urls = re.sub(r'https?://\S+', '', text)
     postal_codes = re.findall(
         r'(?:singapore\s*)?(\d{6})\b', text_no_urls, re.I
     )
     for pc in postal_codes:
-        # Basic validation: Singapore postal codes are 01xxxx to 83xxxx
         if pc[0] in '012345678' and not pc.startswith('000'):
             candidates.append(pc)
 
-    # 2. Block + street address
-    #    "Blk 308C Punggol Walk" or "Block 304, Woodlands Street 31"
-    #    Also "828 Tampines Ave 3" (number-first without Blk prefix)
+    # 2. Block + street address patterns
+    _ROAD_SUFFIX = (
+        r'(?:street|st|ave|avenue|road|rd|drive|dr|cres|crescent|walk|way|'
+        r'lane|lor|lorong|close|terrace|link|central|north|south|east|west)'
+    )
+    _AREA_NAMES = (
+        r'(?:ang mo kio|tampines|bedok|toa payoh|geylang|hougang|jurong|'
+        r'bukit|serangoon|yishun|woodlands|clementi|pasir|circuit|owen|'
+        r'adam|beach|smith|marine|kelantan|jalan|anchorvale|sengkang|'
+        r'punggol|bishan|commonwealth|queenstown|bendemeer|kallang|'
+        r'whampoa|balestier|novena|telok|changi|simei|kembangan|'
+        r'aljunied|mountbatten|macpherson|paya|upper|lower)'
+    )
     block_patterns = [
-        r'(?:blk|block)\s*(\d+[A-Za-z]?[\s,]+[A-Za-z\s]+(?:street|st|ave|avenue|road|rd|drive|dr|cres|crescent|walk|way|lane|lor|lorong|close|terrace|link|central|north|south|east|west)(?:\s+\d+)?)',
-        r'(\d+[A-Za-z]?\s+(?:ang mo kio|tampines|bedok|toa payoh|geylang|hougang|jurong|bukit|serangoon|yishun|woodlands|clementi|pasir|circuit|owen|adam|beach|smith)\s*(?:street|st|ave|avenue|road|rd|drive|dr|cres|crescent|walk|way|lane|lor|lorong|close|terrace|link|central|north|south|east|west)?(?:\s+\d+)?)',
+        # "Blk 308C Punggol Walk" or "Block 304, Woodlands Street 31"
+        rf'(?:blk|block)\s*(\d+[A-Za-z]?[\s,]+[A-Za-z\s]+{_ROAD_SUFFIX}(?:\s+\d+)?)',
+        # "828 Tampines Ave 3" — number-first with known area name
+        rf'(\d+[A-Za-z]?\s+{_AREA_NAMES}\s*{_ROAD_SUFFIX}?(?:\s+\d+)?)',
+        # Standalone street address: "31 Kelantan Lane", "68 Geylang Bahru"
+        rf'(\d+[A-Za-z]?\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\s+{_ROAD_SUFFIX})',
     ]
     for pat in block_patterns:
         for m in re.findall(pat, text, re.I):
@@ -376,33 +411,39 @@ def extract_location_candidates(post):
             if len(addr) > 5:
                 candidates.append(addr)
 
-    # 3. Named hawker centres / food courts / markets
+    # 3. Named hawker centres / food courts / markets / coffeeshops
     hawker_patterns = [
         r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court|food\s*house|market(?:\s*(?:&|and)\s*(?:food\s*cent(?:re|er)|hawker))?|coffee\s*shop|coffeeshop))',
         r'((?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court)\s+[A-Z][\w\s\'\-]+)',
+        # "hawker Ctr" abbreviation
+        r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*ctr))',
     ]
     for pat in hawker_patterns:
         matches = re.findall(pat, text, re.I)
         for m in matches:
             name = re.sub(r'\s+', ' ', m).strip()
-            # Strip leading junk words that slipped into the regex
             name = re.sub(r'^(?:at|in|the|a|an|of|or|my|this|from)\s+', '', name, flags=re.I).strip()
             if len(name) > 5 and len(name) < 80:
                 candidates.append(name)
 
-    # 4. Facebook check-in location field
-    if location:
-        candidates.append(location)
+    # 4. Known area / neighbourhood names — "Beauty World", "Bukit Batok", etc.
+    area_pattern = re.findall(
+        r'\b(Beauty\s+World|Holland\s+Village|Tiong\s+Bahru|'
+        r'Golden\s+Mile|Tanjong\s+Pagar|Telok\s+Ayer|'
+        r'Chinatown|Geylang\s+Serai|Little\s+India|'
+        r'Bugis|Lavender|Bencoolen|Novena|Newton)\b',
+        text, re.I
+    )
+    for area in area_pattern:
+        candidates.append(area.strip())
 
-    # 5. Named stalls — look for proper-noun-like names before "Hokkien Mee" etc.
-    #    e.g. "Ah Ong Hokkien Mee", "618 Hokkien Mee", "Nam Sing hokkien fried mee"
+    # 5. Named stalls — proper-noun-like names before "Hokkien Mee" etc.
     stall_patterns = re.findall(
         r'((?:[A-Z][\w\'-]*\s+){1,4}(?:Fried\s+)?(?:Hokkien|Prawn)[\w\s\']*(?:Mee|Noodle|Mie)s?)',
         text,
     )
     for m in stall_patterns:
         name = re.sub(r'\s+', ' ', m).strip()
-        # Skip generic phrases that aren't stall names
         generic = {
             'hokkien mee', 'fried hokkien mee', 'hkm', 'hokkien mie',
             'the hokkien mee', 'a hokkien mee', 'my hokkien mee',
@@ -412,6 +453,48 @@ def extract_location_candidates(post):
             continue
         if len(name) > 5 and len(name) < 60:
             candidates.append(name)
+
+    # 6. "Address:" prefix — explicit address mention
+    addr_match = re.search(
+        r'[Aa]ddress\s*:?\s*(.+?)(?:\n|$)', text
+    )
+    if addr_match:
+        addr_text = addr_match.group(1).strip().rstrip('.')
+        if len(addr_text) > 5 and len(addr_text) < 100:
+            candidates.append(addr_text)
+
+
+def extract_location_candidates(post):
+    """Extract potential location search strings from a post.
+
+    Returns a list of candidates ordered from most to least specific:
+      1. Singapore 6-digit postal code
+      2. Block/Blk + street address
+      3. Hawker centre / food court name
+      4. Named area / neighbourhood
+      5. Facebook check-in location field
+      6. Stall name from text
+      7. Location clues from comments (lower priority)
+    """
+    text = post.get("text", "")
+    location = post.get("location", "")
+    candidates = []
+
+    # Extract from post text (highest priority)
+    _extract_from_text(text, candidates)
+
+    # Facebook check-in location field
+    if location:
+        candidates.append(location)
+
+    # Extract from comments (lower priority — appended after post candidates)
+    comments = post.get("comments", [])
+    comment_candidates = []
+    for comment in comments:
+        comment_text = comment.get("text", "")
+        if comment_text:
+            _extract_from_text(comment_text, comment_candidates)
+    candidates.extend(comment_candidates)
 
     # Deduplicate while preserving order
     seen = set()
