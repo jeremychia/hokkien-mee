@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hokkien Mee Map — Singapore</title>
-<meta name="description" content="Interactive map of Hokkien Mee spots across Singapore, curated from the Hokkien Mee Hunting Facebook group.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍜</text></svg>">
+<meta name="description" content="Find the best Hokkien Mee near you in Singapore. Interactive map curated from the Hokkien Mee Hunting Facebook group.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><ellipse cx='32' cy='42' rx='28' ry='10' fill='%23E8D5B7'/><ellipse cx='32' cy='40' rx='28' ry='10' fill='%23F5E6CC'/><ellipse cx='32' cy='38' rx='25' ry='8' fill='%23C8870E' opacity='0.85'/><path d='M14 36c5-4 9 3 16-1s9 4 14 0' stroke='%23F5D78E' stroke-width='3.5' fill='none' stroke-linecap='round'/><path d='M16 32c4-3 8 3 13-1s8 4 11 1' stroke='%23F0C75E' stroke-width='3' fill='none' stroke-linecap='round'/><ellipse cx='41' cy='26' rx='6' ry='4' fill='%23E8734A' transform='rotate(-25 41 26)'/></svg>">
 
 <!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -28,17 +28,13 @@
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
   --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
   --radius: 10px;
-  --sidebar-width: 370px;
-  --header-height: 54px;
+  --sidebar-width: 350px;
+  --header-height: 50px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 html, body { height: 100%; overflow: hidden; }
-body {
-  font-family: var(--font);
-  color: var(--text);
-  background: var(--bg);
-}
+body { font-family: var(--font); color: var(--text); background: var(--bg); }
 
 /* ── Header ──────────────────────────────────────────────────── */
 .header {
@@ -47,36 +43,37 @@ body {
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 0 14px;
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1100;
-  gap: 10px;
+  gap: 8px;
 }
-.header-logo { font-size: 24px; line-height: 1; }
-.header-title {
-  font-size: 17px;
-  font-weight: 700;
-  white-space: nowrap;
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  color: var(--text);
 }
-.header-subtitle {
+.header-brand svg { width: 28px; height: 28px; }
+.header-title { font-size: 16px; font-weight: 700; white-space: nowrap; }
+.header-spacer { flex: 1; }
+.header-stat {
   font-size: 12px;
   color: var(--text-secondary);
-  margin-left: 2px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.header-spacer { flex: 1; }
+.header-stat strong { color: var(--primary); font-weight: 700; }
 .header-link {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--primary);
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 6px;
   transition: background 0.2s;
   white-space: nowrap;
@@ -114,52 +111,21 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* Stats row */
-.stats-row {
-  display: flex;
-  gap: 8px;
-  padding: 14px 16px 10px;
-}
-.stat-badge {
-  flex: 1;
-  background: var(--card);
-  border-radius: 8px;
-  padding: 10px 12px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-.stat-value {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--primary);
-  display: block;
-}
-.stat-label {
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 2px;
-  display: block;
-}
-
-/* Search */
-.search-box {
-  padding: 4px 16px 12px;
-  position: relative;
-}
+/* Search area */
+.search-area { padding: 12px 12px 8px; }
+.search-row { display: flex; gap: 6px; }
+.search-wrap { flex: 1; position: relative; }
 .search-icon {
   position: absolute;
-  left: 28px;
-  top: 50%;
+  left: 10px; top: 50%;
   transform: translateY(-50%);
-  font-size: 14px;
+  width: 15px; height: 15px;
   color: var(--text-tertiary);
   pointer-events: none;
 }
 .search-input {
   width: 100%;
-  padding: 10px 12px 10px 36px;
+  padding: 9px 10px 9px 32px;
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 13px;
@@ -175,11 +141,49 @@ body {
 }
 .search-input::placeholder { color: var(--text-tertiary); }
 
+.locate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.locate-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.locate-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+  font-weight: 600;
+}
+.locate-btn.loading { opacity: 0.6; pointer-events: none; }
+.locate-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.search-hint {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  padding-left: 2px;
+}
+.search-hint.located { color: var(--primary); }
+
 /* Location list */
 .location-list {
   flex: 1;
   overflow-y: auto;
-  padding: 0 12px 16px;
+  padding: 0 12px 12px;
 }
 .location-list::-webkit-scrollbar { width: 5px; }
 .location-list::-webkit-scrollbar-track { background: transparent; }
@@ -189,12 +193,15 @@ body {
 .loc-card {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 12px 14px;
-  margin-bottom: 6px;
+  padding: 10px 12px;
+  margin-bottom: 5px;
   cursor: pointer;
   border: 2px solid transparent;
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
   box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .loc-card:hover {
   border-color: var(--primary-hover);
@@ -204,22 +211,38 @@ body {
   border-color: var(--primary);
   background: var(--primary-light);
 }
+.loc-card-icon { flex-shrink: 0; width: 34px; height: 34px; }
+.loc-card-body { flex: 1; min-width: 0; }
 .loc-name {
   font-size: 13px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.3;
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.loc-name .pin { color: var(--primary); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 .loc-meta {
   font-size: 11px;
   color: var(--text-secondary);
-  margin-top: 4px;
-  margin-left: 20px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
+.loc-distance { font-weight: 600; color: var(--primary); }
+
+/* Sidebar footer */
+.sidebar-footer {
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+.sidebar-footer a { color: var(--primary); text-decoration: none; }
 
 .no-results {
   text-align: center;
@@ -230,11 +253,7 @@ body {
 .no-results-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
 
 /* ── Map ─────────────────────────────────────────────────────── */
-#map {
-  flex: 1;
-  min-width: 0;
-  z-index: 0;
-}
+#map { flex: 1; min-width: 0; z-index: 0; }
 
 /* ── Leaflet Popup Overrides ─────────────────────────────────── */
 .leaflet-popup-content-wrapper {
@@ -247,72 +266,55 @@ body {
   font-family: var(--font) !important;
   font-size: 13px !important;
   line-height: 1.45 !important;
-  min-width: 280px;
+  min-width: 270px;
 }
 .leaflet-popup-tip { box-shadow: none !important; }
 
 .popup-wrap {
   max-height: 400px;
   overflow-y: auto;
-  padding: 16px;
+  padding: 14px;
 }
 .popup-wrap::-webkit-scrollbar { width: 4px; }
 .popup-wrap::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 2px; }
 
 .popup-location {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 .popup-count {
   background: var(--primary);
   color: white;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 10px;
   white-space: nowrap;
 }
-.popup-divider {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 10px 0;
-}
+.popup-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
 .popup-post {
-  padding-bottom: 12px;
-  margin-bottom: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   border-bottom: 1px solid var(--border);
 }
 .popup-post:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.popup-author {
-  font-weight: 600;
-  font-size: 13px;
-  color: var(--text);
-}
-.popup-time {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  margin-left: 6px;
-}
+.popup-author { font-weight: 600; font-size: 12.5px; color: var(--text); }
+.popup-time { font-size: 10.5px; color: var(--text-tertiary); margin-left: 5px; }
 .popup-text {
-  font-size: 12.5px;
+  font-size: 12px;
   color: #555;
-  margin-top: 5px;
+  margin-top: 4px;
   line-height: 1.5;
   word-break: break-word;
 }
-.popup-images {
-  display: flex;
-  gap: 5px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
+.popup-images { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
 .popup-images img {
-  width: 120px;
-  height: 90px;
+  width: 110px; height: 80px;
   object-fit: cover;
   border-radius: 6px;
   background: var(--bg);
@@ -323,80 +325,77 @@ body {
 .popup-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 8px;
-  font-size: 11.5px;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 .popup-fb-link {
   color: var(--primary);
   text-decoration: none;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 11.5px;
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 .popup-fb-link:hover { text-decoration: underline; }
 
 /* ── Custom Markers ──────────────────────────────────────────── */
 .marker-icon {
-  width: 32px;
-  height: 32px;
-  background: var(--primary);
-  border: 3px solid white;
+  width: 36px; height: 36px;
   border-radius: 50%;
+  border: 3px solid white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 13px;
-  font-weight: 700;
   transition: transform 0.15s;
+  overflow: hidden;
+  background: white;
 }
-.marker-icon.multi {
-  width: 36px;
-  height: 36px;
-  font-size: 14px;
-  background: #C0392B;
-}
-.leaflet-marker-icon:hover .marker-icon {
-  transform: scale(1.15);
+.leaflet-marker-icon:hover .marker-icon { transform: scale(1.15); }
+
+/* User location */
+.user-marker {
+  width: 18px; height: 18px;
+  background: #3B82F6;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(59,130,246,0.25), 0 2px 6px rgba(0,0,0,0.3);
 }
 
 /* MarkerCluster overrides */
-.marker-cluster-small {
-  background-color: rgba(211, 84, 0, 0.25) !important;
-}
+.marker-cluster-small { background-color: rgba(211, 84, 0, 0.2) !important; }
 .marker-cluster-small div {
   background-color: rgba(211, 84, 0, 0.7) !important;
-  color: white !important;
-  font-weight: 700;
+  color: white !important; font-weight: 700;
 }
-.marker-cluster-medium {
-  background-color: rgba(192, 57, 43, 0.3) !important;
-}
+.marker-cluster-medium { background-color: rgba(192, 57, 43, 0.25) !important; }
 .marker-cluster-medium div {
   background-color: rgba(192, 57, 43, 0.75) !important;
-  color: white !important;
-  font-weight: 700;
+  color: white !important; font-weight: 700;
 }
-.marker-cluster-large {
-  background-color: rgba(192, 57, 43, 0.35) !important;
-}
+.marker-cluster-large { background-color: rgba(192, 57, 43, 0.3) !important; }
 .marker-cluster-large div {
   background-color: rgba(192, 57, 43, 0.85) !important;
-  color: white !important;
-  font-weight: 700;
+  color: white !important; font-weight: 700;
+}
+
+/* Leaflet tooltip */
+.leaflet-tooltip {
+  font-family: var(--font) !important;
+  font-size: 12px !important;
+  padding: 5px 9px !important;
+  border-radius: 6px !important;
+  box-shadow: var(--shadow) !important;
 }
 
 /* ── Image Lightbox ──────────────────────────────────────────── */
 .lightbox {
   display: none;
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.85);
   z-index: 2000;
   align-items: center;
@@ -405,60 +404,52 @@ body {
 }
 .lightbox.open { display: flex; }
 .lightbox img {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 90vw; max-height: 90vh;
   border-radius: 8px;
   box-shadow: 0 4px 30px rgba(0,0,0,0.5);
 }
 
-/* ── Footer Attribution ──────────────────────────────────────── */
-.footer-attr {
+/* ── Map attribution ─────────────────────────────────────────── */
+.map-attr {
   position: fixed;
-  bottom: 8px;
-  right: 8px;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(6px);
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 10.5px;
-  color: var(--text-secondary);
+  bottom: 4px; right: 4px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(4px);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--text-tertiary);
   z-index: 1000;
-  box-shadow: var(--shadow);
 }
-.footer-attr a { color: var(--primary); text-decoration: none; }
+.map-attr a { color: var(--text-secondary); text-decoration: none; }
 
-/* ── Mobile Responsive ───────────────────────────────────────── */
+/* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .header-subtitle { display: none; }
+  .header-stat { display: none; }
   .sidebar-toggle { display: block; }
 
   .sidebar {
     position: fixed;
     top: var(--header-height);
-    left: 0; right: 0;
-    bottom: 0;
-    width: 100%;
-    min-width: 100%;
+    left: 0; right: 0; bottom: 0;
+    width: 100%; min-width: 100%;
     z-index: 1050;
     transform: translateX(-100%);
     border-right: none;
     box-shadow: var(--shadow-lg);
   }
-  .sidebar.open {
-    transform: translateX(0);
-  }
+  .sidebar.open { transform: translateX(0); }
 
   #map { width: 100%; }
-
-  .popup-images img { width: 100px; height: 75px; }
-
-  .footer-attr { bottom: 4px; right: 4px; font-size: 9.5px; }
+  .popup-images img { width: 100px; height: 70px; }
+  .map-attr { font-size: 9px; }
+  .locate-btn span.btn-label { display: none; }
+  .locate-btn { padding: 0 10px; }
 }
 
-/* ── Loading State ───────────────────────────────────────────── */
+/* ── Loading ─────────────────────────────────────────────────── */
 .loading-overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: white;
   display: flex;
   flex-direction: column;
@@ -469,15 +460,15 @@ body {
 }
 .loading-overlay.hidden { opacity: 0; pointer-events: none; }
 .loading-spinner {
-  font-size: 48px;
-  animation: spin 1.5s ease-in-out infinite;
+  width: 64px; height: 64px;
+  animation: pulse 1.5s ease-in-out infinite;
 }
-@keyframes spin {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.1); }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.8; }
 }
 .loading-text {
-  margin-top: 16px;
+  margin-top: 14px;
   font-size: 14px;
   color: var(--text-secondary);
   font-weight: 500;
@@ -487,48 +478,89 @@ body {
 
 <body>
 
+<!-- Hokkien Mee SVG symbols (hidden, referenced via <use>) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="hkm-bowl" viewBox="0 0 64 64">
+    <!-- plate -->
+    <ellipse cx="32" cy="42" rx="28" ry="10" fill="#E8D5B7"/>
+    <ellipse cx="32" cy="40" rx="28" ry="10" fill="#F5E6CC"/>
+    <ellipse cx="32" cy="38" rx="25" ry="8" fill="#C8870E" opacity="0.85"/>
+    <!-- thick yellow noodles -->
+    <path d="M14 36c5-4 9 3 16-1s9 4 14 0" stroke="#F5D78E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M16 32c4-3 8 3 13-1s8 4 11 1" stroke="#F0C75E" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M18 28c3-2 7 2 11-1s6 3 9 1" stroke="#F5D78E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- vermicelli (thin white noodles) -->
+    <path d="M20 34c3-2 5 2 9-1s5 2 7 0" stroke="#FFF8E7" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <!-- prawn -->
+    <ellipse cx="41" cy="26" rx="6" ry="4" fill="#E8734A" transform="rotate(-25 41 26)"/>
+    <path d="M45 23c2-3 4-5 4.5-6" stroke="#E8734A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <circle cx="43" cy="24.5" r="0.8" fill="#333"/>
+    <!-- dark sauce patches -->
+    <ellipse cx="24" cy="33" rx="4" ry="2" fill="#8B4513" opacity="0.3"/>
+    <ellipse cx="35" cy="35" rx="3" ry="1.5" fill="#8B4513" opacity="0.25"/>
+    <!-- spring onion garnish -->
+    <circle cx="28" cy="29" r="1.2" fill="#6B8E23" opacity="0.7"/>
+    <circle cx="34" cy="31" r="1" fill="#6B8E23" opacity="0.6"/>
+    <circle cx="22" cy="31" r="0.9" fill="#6B8E23" opacity="0.6"/>
+  </symbol>
+
+  <symbol id="icon-locate" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+
+  <symbol id="icon-search" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
 <!-- Loading overlay -->
 <div class="loading-overlay" id="loader">
-  <div class="loading-spinner">🍜</div>
+  <svg class="loading-spinner"><use href="#hkm-bowl"/></svg>
   <div class="loading-text">Loading map…</div>
 </div>
 
 <!-- Header -->
 <header class="header">
   <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
-  <span class="header-logo">🍜</span>
-  <span class="header-title">Hokkien Mee Map</span>
-  <span class="header-subtitle">— Singapore</span>
-  <span class="header-spacer"></span>
-  <a class="header-link" href="__GROUP_URL__" target="_blank" rel="noopener">
-    FB Group ↗
+  <a class="header-brand" href="#">
+    <svg><use href="#hkm-bowl"/></svg>
+    <span class="header-title">Hokkien Mee Map</span>
   </a>
+  <span class="header-spacer"></span>
+  <span class="header-stat"><strong id="statStalls">—</strong> stalls across Singapore</span>
+  <a class="header-link" href="__GROUP_URL__" target="_blank" rel="noopener">FB Group ↗</a>
 </header>
 
 <!-- Main -->
 <main class="main">
   <aside class="sidebar" id="sidebar">
-    <div class="stats-row">
-      <div class="stat-badge">
-        <span class="stat-value" id="statPosts">—</span>
-        <span class="stat-label">Posts mapped</span>
+    <!-- Search + Locate -->
+    <div class="search-area">
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg class="search-icon"><use href="#icon-search"/></svg>
+          <input class="search-input" id="searchInput" type="search"
+                 placeholder="Search by location…"
+                 autocomplete="off" aria-label="Search by location">
+        </div>
+        <button class="locate-btn" id="locateBtn" title="Find Hokkien Mee near you">
+          <svg><use href="#icon-locate"/></svg>
+          <span class="btn-label">Near me</span>
+        </button>
       </div>
-      <div class="stat-badge">
-        <span class="stat-value" id="statLocations">—</span>
-        <span class="stat-label">Locations</span>
-      </div>
-      <div class="stat-badge">
-        <span class="stat-value" id="statTotal">—</span>
-        <span class="stat-label">Total posts</span>
-      </div>
+      <div class="search-hint" id="searchHint">Showing all stalls</div>
     </div>
 
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="searchInput" type="search" placeholder="Search locations or posts…" autocomplete="off" aria-label="Search locations">
-    </div>
-
+    <!-- Location cards -->
     <div class="location-list" id="locationList"></div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      Data from <a href="__GROUP_URL__" target="_blank" rel="noopener">Hokkien Mee Hunting</a> on Facebook
+    </div>
   </aside>
 
   <div id="map"></div>
@@ -539,10 +571,10 @@ body {
   <img id="lightboxImg" src="" alt="Enlarged photo">
 </div>
 
-<!-- Footer attribution -->
-<div class="footer-attr">
-  Data from <a href="__GROUP_URL__" target="_blank" rel="noopener">Hokkien Mee Hunting</a>
-  · Map tiles © <a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener">OneMap</a>
+<!-- Map attribution -->
+<div class="map-attr">
+  Map © <a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener">OneMap</a>
+  · <a href="https://www.sla.gov.sg/" target="_blank" rel="noopener">SLA</a>
 </div>
 
 <!-- Leaflet JS -->
@@ -555,8 +587,29 @@ const MAP_DATA = __MAP_DATA__;
 
 // ── State ───────────────────────────────────────────────────────
 let activeLocationIdx = null;
-const markerMap = {};   // idx → L.marker
-const cardMap = {};     // idx → DOM element
+let userLatLng = null;
+let userMarker = null;
+const markerMap = {};
+const cardMap = {};
+const locData = {};
+
+// ── Hokkien Mee marker SVG (inline for each marker) ────────────
+const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="28" height="28">
+  <ellipse cx="32" cy="42" rx="28" ry="10" fill="#E8D5B7"/>
+  <ellipse cx="32" cy="40" rx="28" ry="10" fill="#F5E6CC"/>
+  <ellipse cx="32" cy="38" rx="25" ry="8" fill="#C8870E" opacity="0.85"/>
+  <path d="M14 36c5-4 9 3 16-1s9 4 14 0" stroke="#F5D78E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M16 32c4-3 8 3 13-1s8 4 11 1" stroke="#F0C75E" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M18 28c3-2 7 2 11-1s6 3 9 1" stroke="#F5D78E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M20 34c3-2 5 2 9-1s5 2 7 0" stroke="#FFF8E7" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <ellipse cx="41" cy="26" rx="6" ry="4" fill="#E8734A" transform="rotate(-25 41 26)"/>
+  <path d="M45 23c2-3 4-5 4.5-6" stroke="#E8734A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <circle cx="43" cy="24.5" r="0.8" fill="#333"/>
+  <ellipse cx="24" cy="33" rx="4" ry="2" fill="#8B4513" opacity="0.3"/>
+  <ellipse cx="35" cy="35" rx="3" ry="1.5" fill="#8B4513" opacity="0.25"/>
+  <circle cx="28" cy="29" r="1.2" fill="#6B8E23" opacity="0.7"/>
+  <circle cx="34" cy="31" r="1" fill="#6B8E23" opacity="0.6"/>
+</svg>`;
 
 // ── Map setup ───────────────────────────────────────────────────
 const map = L.map('map', {
@@ -570,7 +623,6 @@ L.control.zoom({ position: 'topright' }).addTo(map);
 
 L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
   maxZoom: 19,
-  attribution: 'OneMap © Singapore Land Authority',
 }).addTo(map);
 
 // ── Marker cluster ──────────────────────────────────────────────
@@ -584,9 +636,9 @@ const cluster = L.markerClusterGroup({
 
 // ── Helpers ─────────────────────────────────────────────────────
 function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
 }
 
 function truncate(str, len) {
@@ -594,77 +646,102 @@ function truncate(str, len) {
   return str.slice(0, len).replace(/\s+\S*$/, '') + '…';
 }
 
+/** Haversine distance in km. */
+function distanceKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+            Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) *
+            Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function formatDist(km) {
+  if (km < 1) return Math.round(km * 1000) + ' m';
+  return km.toFixed(1) + ' km';
+}
+
+function postCountLabel(n) {
+  return n + ' post' + (n > 1 ? 's' : '');
+}
+
+// ── Popup HTML ──────────────────────────────────────────────────
 function buildPopupHtml(loc) {
   const count = loc.posts.length;
-  const countBadge = count > 1
-    ? `<span class="popup-count">${count} posts</span>`
-    : '';
+  const badge = count > 1 ? `<span class="popup-count">${count} posts</span>` : '';
 
   let postsHtml = '';
   for (const p of loc.posts) {
-    const textPreview = escapeHtml(truncate(p.text || '', 220)).replace(/\n/g, '<br>');
+    const text = escapeHtml(truncate(p.text || '', 200)).replace(/\n/g, '<br>');
 
     let imgHtml = '';
     if (p.images && p.images.length > 0) {
       const imgs = p.images.slice(0, 3).map(url =>
-        `<img src="${escapeHtml(url)}" alt="Photo" loading="lazy" onerror="this.style.display='none'" onclick="openLightbox('${escapeHtml(url)}')">`
+        `<img src="${escapeHtml(url)}" alt="Photo" loading="lazy"
+              onerror="this.style.display='none'"
+              onclick="openLightbox('${escapeHtml(url)}')">`
       ).join('');
       imgHtml = `<div class="popup-images">${imgs}</div>`;
     }
 
-    const metaParts = [];
-    if (p.comment_count > 0) metaParts.push(`💬 ${p.comment_count}`);
-    if (p.reactions) metaParts.push(`👍 ${p.reactions}`);
-    const metaHtml = metaParts.length
-      ? `<div class="popup-meta">${metaParts.join('<span style="color:#ddd">·</span>')}</div>`
-      : '';
+    const meta = [];
+    if (p.comment_count > 0) meta.push(`💬 ${p.comment_count}`);
+    if (p.reactions) meta.push(`👍 ${p.reactions}`);
+    const metaHtml = meta.length
+      ? `<div class="popup-meta">${meta.join(' · ')}</div>` : '';
 
     postsHtml += `
       <div class="popup-post">
         <span class="popup-author">${escapeHtml(p.author)}</span>
         <span class="popup-time">${escapeHtml(p.timestamp || '')}</span>
-        <div class="popup-text">${textPreview}</div>
+        <div class="popup-text">${text}</div>
         ${imgHtml}
         ${metaHtml}
-        <a class="popup-fb-link" href="${escapeHtml(p.post_link)}" target="_blank" rel="noopener">
-          View on Facebook →
-        </a>
+        <a class="popup-fb-link" href="${escapeHtml(p.post_link)}" target="_blank" rel="noopener">View on Facebook →</a>
       </div>`;
   }
 
   return `
     <div class="popup-wrap">
       <div class="popup-location">
-        <span>📍 ${escapeHtml(loc.address)}</span>
-        ${countBadge}
+        <span>${escapeHtml(loc.address)}</span>
+        ${badge}
       </div>
       <hr class="popup-divider">
       ${postsHtml}
     </div>`;
 }
 
-// ── Build markers & sidebar ─────────────────────────────────────
+// ── Build markers & sidebar cards ───────────────────────────────
 const locationList = document.getElementById('locationList');
 
 MAP_DATA.locations.forEach((loc, i) => {
   const postCount = loc.posts.length;
+  locData[i] = loc;
 
-  // Marker
+  // Marker with custom HKM icon
   const marker = L.marker([loc.lat, loc.lng], {
     icon: L.divIcon({
-      html: `<div class="marker-icon${postCount > 1 ? ' multi' : ''}">${postCount > 1 ? postCount : '🍜'}</div>`,
+      html: `<div class="marker-icon">${HKM_MARKER_SVG}</div>`,
       className: '',
-      iconSize: [postCount > 1 ? 36 : 32, postCount > 1 ? 36 : 32],
-      iconAnchor: [postCount > 1 ? 18 : 16, postCount > 1 ? 18 : 16],
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
     }),
   });
 
   marker.bindPopup(() => buildPopupHtml(loc), {
-    maxWidth: 380,
-    minWidth: 260,
+    maxWidth: 360,
+    minWidth: 250,
     className: 'custom-popup',
     autoPanPadding: [40, 40],
   });
+
+  // Tooltip shows address + post count
+  marker.bindTooltip(
+    `<b>${escapeHtml(loc.address)}</b><br>${postCountLabel(postCount)}`,
+    { direction: 'top', offset: [0, -12] }
+  );
 
   marker.on('click', () => {
     setActiveLocation(i);
@@ -678,14 +755,16 @@ MAP_DATA.locations.forEach((loc, i) => {
   const card = document.createElement('div');
   card.className = 'loc-card';
   card.dataset.idx = i;
-  card.dataset.search = (loc.address + ' ' + loc.posts.map(p => p.text + ' ' + p.author).join(' ')).toLowerCase();
+  card.dataset.search = loc.address.toLowerCase();
 
   card.innerHTML = `
-    <div class="loc-name">
-      <span class="pin">📍</span>
-      <span>${escapeHtml(loc.address)}</span>
-    </div>
-    <div class="loc-meta">${postCount} post${postCount > 1 ? 's' : ''}</div>`;
+    <svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>
+    <div class="loc-card-body">
+      <div class="loc-name">${escapeHtml(loc.address)}</div>
+      <div class="loc-meta">
+        <span>${postCountLabel(postCount)}</span>
+      </div>
+    </div>`;
 
   card.addEventListener('click', () => {
     map.setView([loc.lat, loc.lng], 17, { animate: true });
@@ -693,8 +772,6 @@ MAP_DATA.locations.forEach((loc, i) => {
       marker.openPopup();
       setActiveLocation(i);
     }, 350);
-
-    // Close sidebar on mobile
     if (window.innerWidth <= 768) {
       document.getElementById('sidebar').classList.remove('open');
     }
@@ -707,29 +784,23 @@ MAP_DATA.locations.forEach((loc, i) => {
 map.addLayer(cluster);
 
 // ── Stats ───────────────────────────────────────────────────────
-document.getElementById('statPosts').textContent = MAP_DATA.meta.geocoded_count;
-document.getElementById('statLocations').textContent = MAP_DATA.locations.length;
-document.getElementById('statTotal').textContent = MAP_DATA.meta.total_posts;
+document.getElementById('statStalls').textContent = MAP_DATA.locations.length;
 
-// ── Active location highlight ───────────────────────────────────
+// ── Active location ─────────────────────────────────────────────
 function setActiveLocation(idx) {
-  if (activeLocationIdx !== null && cardMap[activeLocationIdx]) {
+  if (activeLocationIdx !== null && cardMap[activeLocationIdx])
     cardMap[activeLocationIdx].classList.remove('active');
-  }
   activeLocationIdx = idx;
-  if (cardMap[idx]) {
-    cardMap[idx].classList.add('active');
-  }
+  if (cardMap[idx]) cardMap[idx].classList.add('active');
 }
 
 function scrollCardIntoView(idx) {
-  if (cardMap[idx]) {
-    cardMap[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+  if (cardMap[idx]) cardMap[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ── Search ──────────────────────────────────────────────────────
+// ── Search by location name ─────────────────────────────────────
 const searchInput = document.getElementById('searchInput');
+const searchHint = document.getElementById('searchHint');
 let searchTimeout;
 
 searchInput.addEventListener('input', () => {
@@ -739,37 +810,146 @@ searchInput.addEventListener('input', () => {
 
 function filterLocations() {
   const q = searchInput.value.trim().toLowerCase();
-  let visibleCount = 0;
 
-  // Remove previous "no results"
   const prev = locationList.querySelector('.no-results');
   if (prev) prev.remove();
 
+  let visible = 0;
   for (const [idx, card] of Object.entries(cardMap)) {
     const match = !q || card.dataset.search.includes(q);
     card.style.display = match ? '' : 'none';
-    if (match) visibleCount++;
+    if (match) visible++;
   }
 
-  if (visibleCount === 0 && q) {
+  if (q) {
+    searchHint.textContent = `${visible} stall${visible !== 1 ? 's' : ''} matching "${searchInput.value.trim()}"`;
+    searchHint.className = 'search-hint';
+  } else if (userLatLng) {
+    searchHint.textContent = 'Sorted by distance from you';
+    searchHint.className = 'search-hint located';
+  } else {
+    searchHint.textContent = `Showing all ${MAP_DATA.locations.length} stalls`;
+    searchHint.className = 'search-hint';
+  }
+
+  if (visible === 0 && q) {
     const msg = document.createElement('div');
     msg.className = 'no-results';
-    msg.innerHTML = '<span class="no-results-emoji">🔍</span>No locations found';
+    msg.innerHTML = '<span class="no-results-emoji">🔍</span>No stalls found';
     locationList.appendChild(msg);
   }
 }
 
-// ── Sidebar toggle (mobile) ────────────────────────────────────
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-  const sidebar = document.getElementById('sidebar');
-  sidebar.classList.toggle('open');
+// ── Locate Me ───────────────────────────────────────────────────
+const locateBtn = document.getElementById('locateBtn');
+
+locateBtn.addEventListener('click', () => {
+  if (userLatLng) { clearUserLocation(); return; }
+
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser.');
+    return;
+  }
+
+  locateBtn.classList.add('loading');
+  locateBtn.querySelector('.btn-label').textContent = 'Locating…';
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+      locateBtn.classList.remove('loading');
+      locateBtn.classList.add('active');
+      locateBtn.querySelector('.btn-label').textContent = 'Near me ✓';
+
+      // Blue dot for user location
+      userMarker = L.marker([userLatLng.lat, userLatLng.lng], {
+        icon: L.divIcon({
+          html: '<div class="user-marker"></div>',
+          className: '',
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
+        }),
+        zIndexOffset: 1000,
+      }).addTo(map);
+      userMarker.bindTooltip('You are here', { direction: 'top', offset: [0, -8] });
+
+      sortByDistance();
+      map.setView([userLatLng.lat, userLatLng.lng], 14, { animate: true });
+    },
+    () => {
+      locateBtn.classList.remove('loading');
+      locateBtn.querySelector('.btn-label').textContent = 'Near me';
+      alert('Could not get your location. Please ensure location access is allowed.');
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
 });
 
-// Close sidebar when clicking map on mobile
-map.on('click', () => {
-  if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.remove('open');
+function clearUserLocation() {
+  userLatLng = null;
+  if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
+  locateBtn.classList.remove('active');
+  locateBtn.querySelector('.btn-label').textContent = 'Near me';
+
+  // Restore original sort (most posts first, then alphabetical)
+  const sorted = MAP_DATA.locations.map((_, i) => i);
+  sorted.sort((a, b) => {
+    const d = locData[b].posts.length - locData[a].posts.length;
+    return d !== 0 ? d : locData[a].address.localeCompare(locData[b].address);
+  });
+
+  for (const idx of sorted) {
+    locationList.appendChild(cardMap[idx]);
+    const meta = cardMap[idx].querySelector('.loc-meta');
+    const distEl = meta.querySelector('.loc-distance');
+    const sepEl = meta.querySelector('.loc-dist-sep');
+    if (distEl) distEl.remove();
+    if (sepEl) sepEl.remove();
   }
+
+  searchHint.textContent = `Showing all ${MAP_DATA.locations.length} stalls`;
+  searchHint.className = 'search-hint';
+}
+
+function sortByDistance() {
+  if (!userLatLng) return;
+
+  const indices = MAP_DATA.locations.map((_, i) => i);
+  const dists = {};
+  for (const i of indices) {
+    dists[i] = distanceKm(userLatLng.lat, userLatLng.lng, locData[i].lat, locData[i].lng);
+  }
+  indices.sort((a, b) => dists[a] - dists[b]);
+
+  for (const idx of indices) {
+    locationList.appendChild(cardMap[idx]);
+    const meta = cardMap[idx].querySelector('.loc-meta');
+    let distEl = meta.querySelector('.loc-distance');
+    if (!distEl) {
+      distEl = document.createElement('span');
+      distEl.className = 'loc-distance';
+      meta.prepend(distEl);
+      const sep = document.createElement('span');
+      sep.textContent = '·';
+      sep.className = 'loc-dist-sep';
+      meta.insertBefore(sep, meta.children[1]);
+    }
+    distEl.textContent = formatDist(dists[idx]);
+  }
+
+  searchHint.textContent = 'Sorted by distance from you';
+  searchHint.className = 'search-hint located';
+}
+
+// ── Sidebar toggle (mobile) ────────────────────────────────────
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+map.on('click', () => {
+  if (window.innerWidth <= 768)
+    document.getElementById('sidebar').classList.remove('open');
 });
 
 // ── Lightbox ────────────────────────────────────────────────────
@@ -801,9 +981,7 @@ if (MAP_DATA.locations.length > 0) {
 
 // ── Hide loader ─────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-  }, 400);
+  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 400);
 });
 </script>
 </body>
