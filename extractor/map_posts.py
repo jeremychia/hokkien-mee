@@ -24,6 +24,7 @@ import sys
 import time
 
 import folium
+import folium.plugins
 import requests
 
 # ---------------------------------------------------------------------------
@@ -527,6 +528,24 @@ def build_map(geocoded_posts):
         max_zoom=19,
     ).add_to(m)
 
+    # Add fullscreen control
+    folium.plugins.Fullscreen(
+        position="topright",
+        title="Fullscreen",
+        title_cancel="Exit Fullscreen",
+    ).add_to(m)
+
+    # Marker cluster for better UX with many markers
+    cluster = folium.plugins.MarkerCluster(
+        name="Hokkien Mee Spots",
+        options={
+            "maxClusterRadius": 40,
+            "spiderfyOnMaxZoom": True,
+            "showCoverageOnHover": False,
+            "zoomToBoundsOnClick": True,
+        },
+    ).add_to(m)
+
     # Group markers by location to handle multiple posts at same spot
     location_groups = {}
     for item in geocoded_posts:
@@ -535,52 +554,144 @@ def build_map(geocoded_posts):
             location_groups[key] = []
         location_groups[key].append(item)
 
+    total_locations = len(location_groups)
+
     for key, items in location_groups.items():
         lat = items[0]["lat"]
         lng = items[0]["lng"]
+        post_count = len(items)
 
-        # Build popup HTML
+        # Build popup HTML with improved styling
         popup_parts = []
         for item in items:
             post = item["post"]
-            text_preview = post.get("text", "")[:150].replace("\n", "<br>")
+            text = post.get("text", "")
+            # Smarter preview: first 200 chars, break at word boundary
+            if len(text) > 200:
+                text_preview = text[:200].rsplit(" ", 1)[0] + "..."
+            else:
+                text_preview = text
+            text_preview = text_preview.replace("\n", "<br>")
+            # Escape HTML special chars in text
+            text_preview = (
+                text_preview
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+            )
+
             author = post.get("author", "Unknown")
             post_link = post.get("post_link", "")
+            date = post.get("date", "")
+            comments = post.get("comments", [])
+            comment_count = len(comments)
 
-            # Show images if available
+            # Image gallery (show up to 2 images)
             img_html = ""
             images = post.get("images", [])
             if images:
+                imgs = []
+                for img_url in images[:2]:
+                    imgs.append(
+                        f'<img src="{img_url}" '
+                        f'style="max-width:130px;max-height:100px;border-radius:6px;'
+                        f'object-fit:cover;margin:2px;" '
+                        f'onerror="this.style.display=\'none\'">'
+                    )
                 img_html = (
-                    f'<img src="{images[0]}" '
-                    f'style="max-width:200px;max-height:150px;margin-top:5px;" '
-                    f'onerror="this.style.display=\'none\'">'
+                    f'<div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;">'
+                    f'{"".join(imgs)}'
+                    f'</div>'
                 )
 
+            # Meta info line
+            meta_parts = []
+            if date:
+                meta_parts.append(f'🗓 {date}')
+            if comment_count:
+                meta_parts.append(f'💬 {comment_count}')
+            meta_html = (
+                f'<div style="color:#888;font-size:11px;margin-top:4px;">'
+                f'{" &nbsp;·&nbsp; ".join(meta_parts)}'
+                f'</div>'
+            ) if meta_parts else ""
+
             popup_parts.append(
-                f'<div style="margin-bottom:10px;border-bottom:1px solid #ccc;padding-bottom:8px;">'
-                f'<b>{author}</b><br>'
-                f'<small>{text_preview}</small><br>'
+                f'<div style="margin-bottom:12px;padding-bottom:10px;'
+                f'border-bottom:1px solid #eee;">'
+                f'<div style="font-weight:600;font-size:13px;color:#333;">{author}</div>'
+                f'{meta_html}'
+                f'<div style="margin-top:6px;font-size:12px;color:#555;'
+                f'line-height:1.4;">{text_preview}</div>'
                 f'{img_html}'
-                f'<br><a href="{post_link}" target="_blank">View post →</a>'
+                f'<div style="margin-top:8px;">'
+                f'<a href="{post_link}" target="_blank" '
+                f'style="color:#e25822;text-decoration:none;font-size:12px;'
+                f'font-weight:500;">View on Facebook →</a>'
+                f'</div>'
                 f'</div>'
             )
 
+        # Header with location name and post count
+        address = items[0]["address"]
+        count_badge = (
+            f'<span style="background:#e25822;color:white;border-radius:10px;'
+            f'padding:1px 8px;font-size:11px;margin-left:6px;">{post_count}</span>'
+        ) if post_count > 1 else ""
+
         popup_html = (
-            f'<div style="max-width:300px;max-height:400px;overflow-y:auto;">'
-            f'<b style="font-size:14px;">📍 {items[0]["address"]}</b><br>'
-            f'<small style="color:gray;">{len(items)} post(s) at this location</small>'
-            f'<hr style="margin:5px 0;">'
+            f'<div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\','
+            f'Roboto,sans-serif;max-width:320px;max-height:420px;overflow-y:auto;'
+            f'padding:4px;">'
+            f'<div style="font-size:15px;font-weight:700;color:#222;margin-bottom:2px;">'
+            f'🍜 {address}{count_badge}</div>'
+            f'<hr style="border:none;border-top:1px solid #ddd;margin:8px 0;">'
             f'{"".join(popup_parts)}'
             f'</div>'
         )
 
+        # Marker icon: red for single post, darkred for multiple
+        icon_color = "darkred" if post_count > 1 else "red"
+
         folium.Marker(
             location=[lat, lng],
-            popup=folium.Popup(popup_html, max_width=350),
-            tooltip=f'{items[0]["address"]} ({len(items)} post{"s" if len(items) > 1 else ""})',
-            icon=folium.Icon(color="red", icon="cutlery", prefix="fa"),
-        ).add_to(m)
+            popup=folium.Popup(popup_html, max_width=360),
+            tooltip=(
+                f'<b>{address}</b><br>'
+                f'{post_count} post{"s" if post_count > 1 else ""}'
+            ),
+            icon=folium.Icon(color=icon_color, icon="cutlery", prefix="fa"),
+        ).add_to(cluster)
+
+    # Add a floating stats panel
+    stats_html = f"""
+    <div style="
+        position: fixed;
+        bottom: 20px; left: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        padding: 14px 18px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 13px;
+        z-index: 9999;
+        max-width: 240px;
+        line-height: 1.5;
+    ">
+        <div style="font-size:16px;font-weight:700;margin-bottom:6px;">
+            🍜 Hokkien Mee Map
+        </div>
+        <div style="color:#555;">
+            <b>{len(geocoded_posts)}</b> posts mapped<br>
+            <b>{total_locations}</b> unique locations
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#999;">
+            Data from <a href="https://www.facebook.com/groups/227074250721100/"
+            target="_blank" style="color:#e25822;">Hokkien Mee Hunting</a>
+        </div>
+    </div>
+    """
+    m.get_root().html.add_child(folium.Element(stats_html))
 
     return m
 
