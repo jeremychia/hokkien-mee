@@ -60,7 +60,7 @@ step_images() {
 step_map() {
     info "Geocoding locations and building map..."
     uv run python extractor/map_posts.py
-    ok "Map generated → output/hokkien_mee_map.html"
+    ok "Map generated → docs/index.html"
 }
 
 # ---------- main ----------

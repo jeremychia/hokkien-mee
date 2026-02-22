@@ -1,5 +1,6 @@
 output/images/
 output/geocode_cache.json
+output/hokkien_mee_map.html
 facebook_cookies.txt
 secrets/
 .venv/

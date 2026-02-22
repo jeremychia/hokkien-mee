@@ -114,7 +114,7 @@ uv run python extractor/map_posts.py
 This will:
 1. Extract location info from post text (postal codes, addresses, stall names, check-in locations)
 2. Geocode each location using the OneMap API
-3. Generate an interactive HTML map at `output/hokkien_mee_map.html`
+3. Generate an interactive HTML map at `docs/index.html`
 
 Geocoding results are cached in `output/geocode_cache.json` so subsequent runs are faster.
 
@@ -160,6 +160,23 @@ Geocoding results are cached in `output/geocode_cache.json` so subsequent runs a
 
 ---
 
+## GitHub Pages deployment
+
+The map is designed to be hosted on GitHub Pages directly from the `docs/` folder.
+
+### Enable GitHub Pages
+
+1. Go to your repo **Settings → Pages**
+2. Under **Source**, select **Deploy from a branch**
+3. Set branch to **main** and folder to **/ docs**
+4. Click **Save**
+
+The map will be live at `https://<username>.github.io/hokkien-mee/` within a few minutes.
+
+Every time you push an updated `docs/index.html`, the site is automatically redeployed.
+
+---
+
 ## Project structure
 
 ```
@@ -174,10 +191,12 @@ hokkien-mee/
 ├── extractor/
 │   ├── extract_group.py    ← extracts posts + comments to JSON
 │   ├── download_images.py  ← downloads images locally
-│   └── map_posts.py        ← geocodes locations and builds HTML map
+│   ├── map_posts.py        ← geocodes locations and builds map
+│   └── map_template.html   ← HTML/CSS/JS template for the map
+├── docs/
+│   └── index.html          ← interactive map (deployed to GitHub Pages)
 └── output/                 ← created automatically
     ├── group_posts.json    ← extracted data (version controlled)
     ├── geocode_cache.json  ← cached geocoding results (git-ignored)
-    ├── hokkien_mee_map.html ← interactive map (version controlled)
     └── images/             ← downloaded images (git-ignored)
 ```

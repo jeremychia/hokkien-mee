@@ -1,9 +1,8 @@
-"""
-Geocode extracted posts and plot them on an interactive map.
+"""Geocode extracted posts and generate an interactive map.
 
 Extracts location information from post text and the `location` field,
 geocodes via OneMap API (with Nominatim/OpenStreetMap fallback),
-and renders an HTML map with Folium (Leaflet).
+and renders an interactive Leaflet map from a custom HTML template.
 
 Usage:
     python extractor/map_posts.py
@@ -13,8 +12,8 @@ Requires:
     - Register free at https://www.onemap.gov.sg/apidocs/register
 
 Output:
-    output/hokkien_mee_map.html   — interactive map
-    output/geocode_cache.json     — cached geocoding results (reused across runs)
+    docs/index.html               - interactive map (GitHub Pages)
+    output/geocode_cache.json     - cached geocoding results (reused across runs)
 """
 
 import json
@@ -22,17 +21,19 @@ import os
 import re
 import sys
 import time
+from datetime import datetime, timezone
 
-import folium
-import folium.plugins
 import requests
 
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
 INPUT_FILE = "output/group_posts.json"
-OUTPUT_MAP = "output/hokkien_mee_map.html"
+OUTPUT_MAP = "docs/index.html"
 GEOCODE_CACHE = "output/geocode_cache.json"
+TEMPLATE_FILE = os.path.join(os.path.dirname(__file__), "map_template.html")
+
+GROUP_URL = "https://www.facebook.com/groups/227074250721100/"
 
 ONEMAP_AUTH_URL = "https://www.onemap.gov.sg/api/auth/post/getToken"
 ONEMAP_SEARCH_URL = "https://www.onemap.gov.sg/api/common/elastic/search"
@@ -592,191 +593,63 @@ def geocode_post(post, token, cache):
 # ---------------------------------------------------------------------------
 # Map generation
 # ---------------------------------------------------------------------------
-def build_map(geocoded_posts):
-    """Build a Folium map with markers for geocoded posts."""
-    m = folium.Map(
-        location=SG_CENTRE,
-        zoom_start=12,
-        tiles=None,
-    )
-
-    # Add OneMap tile layer
-    folium.TileLayer(
-        tiles="https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png",
-        attr='<img src="https://www.onemap.gov.sg/web-assets/images/logo/om_logo.png" '
-             'style="height:20px;width:20px;"/> OneMap | '
-             'Map data &copy; contributors, '
-             '<a href="https://www.sla.gov.sg/">Singapore Land Authority</a>',
-        name="OneMap Default",
-        max_zoom=19,
-    ).add_to(m)
-
-    # Add fullscreen control
-    folium.plugins.Fullscreen(
-        position="topright",
-        title="Fullscreen",
-        title_cancel="Exit Fullscreen",
-    ).add_to(m)
-
-    # Marker cluster for better UX with many markers
-    cluster = folium.plugins.MarkerCluster(
-        name="Hokkien Mee Spots",
-        options={
-            "maxClusterRadius": 40,
-            "spiderfyOnMaxZoom": True,
-            "showCoverageOnHover": False,
-            "zoomToBoundsOnClick": True,
-        },
-    ).add_to(m)
-
-    # Group markers by location to handle multiple posts at same spot
+def build_site(geocoded_posts, total_posts):
+    """Generate an interactive HTML map from the template and geocoded data."""
+    # Group posts by location
     location_groups = {}
     for item in geocoded_posts:
         key = f"{item['lat']:.6f},{item['lng']:.6f}"
         if key not in location_groups:
-            location_groups[key] = []
-        location_groups[key].append(item)
+            location_groups[key] = {
+                "lat": item["lat"],
+                "lng": item["lng"],
+                "address": item["address"],
+                "posts": [],
+            }
+        post = item["post"]
+        # Extract a clean reaction count
+        reactions_raw = post.get("reactions", "")
+        reactions = ""
+        if reactions_raw:
+            m = re.match(r'(\d+)', reactions_raw)
+            if m:
+                reactions = m.group(1)
 
-    total_locations = len(location_groups)
+        location_groups[key]["posts"].append({
+            "author": post.get("author", "Unknown"),
+            "text": post.get("text", ""),
+            "images": post.get("images", []),
+            "post_link": post.get("post_link", ""),
+            "timestamp": post.get("timestamp", ""),
+            "comment_count": len(post.get("comments", [])),
+            "reactions": reactions,
+        })
 
-    for key, items in location_groups.items():
-        lat = items[0]["lat"]
-        lng = items[0]["lng"]
-        post_count = len(items)
+    # Sort locations: most posts first, then alphabetically
+    locations = sorted(
+        location_groups.values(),
+        key=lambda loc: (-len(loc["posts"]), loc["address"].lower()),
+    )
 
-        # Build popup HTML with improved styling
-        popup_parts = []
-        for item in items:
-            post = item["post"]
-            text = post.get("text", "")
-            # Smarter preview: first 200 chars, break at word boundary
-            if len(text) > 200:
-                text_preview = text[:200].rsplit(" ", 1)[0] + "..."
-            else:
-                text_preview = text
-            text_preview = text_preview.replace("\n", "<br>")
-            # Escape HTML special chars in text
-            text_preview = (
-                text_preview
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-            )
+    # Build the data payload for the template
+    map_data = {
+        "meta": {
+            "total_posts": total_posts,
+            "geocoded_count": len(geocoded_posts),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+        },
+        "locations": locations,
+    }
 
-            author = post.get("author", "Unknown")
-            post_link = post.get("post_link", "")
-            date = post.get("date", "")
-            comments = post.get("comments", [])
-            comment_count = len(comments)
+    # Read template
+    with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
+        html = f.read()
 
-            # Image gallery (show up to 2 images)
-            img_html = ""
-            images = post.get("images", [])
-            if images:
-                imgs = []
-                for img_url in images[:2]:
-                    imgs.append(
-                        f'<img src="{img_url}" '
-                        f'style="max-width:130px;max-height:100px;border-radius:6px;'
-                        f'object-fit:cover;margin:2px;" '
-                        f'onerror="this.style.display=\'none\'">'
-                    )
-                img_html = (
-                    f'<div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;">'
-                    f'{"".join(imgs)}'
-                    f'</div>'
-                )
+    # Inject data
+    html = html.replace("__MAP_DATA__", json.dumps(map_data, ensure_ascii=False))
+    html = html.replace("__GROUP_URL__", GROUP_URL)
 
-            # Meta info line
-            meta_parts = []
-            if date:
-                meta_parts.append(f'🗓 {date}')
-            if comment_count:
-                meta_parts.append(f'💬 {comment_count}')
-            meta_html = (
-                f'<div style="color:#888;font-size:11px;margin-top:4px;">'
-                f'{" &nbsp;·&nbsp; ".join(meta_parts)}'
-                f'</div>'
-            ) if meta_parts else ""
-
-            popup_parts.append(
-                f'<div style="margin-bottom:12px;padding-bottom:10px;'
-                f'border-bottom:1px solid #eee;">'
-                f'<div style="font-weight:600;font-size:13px;color:#333;">{author}</div>'
-                f'{meta_html}'
-                f'<div style="margin-top:6px;font-size:12px;color:#555;'
-                f'line-height:1.4;">{text_preview}</div>'
-                f'{img_html}'
-                f'<div style="margin-top:8px;">'
-                f'<a href="{post_link}" target="_blank" '
-                f'style="color:#e25822;text-decoration:none;font-size:12px;'
-                f'font-weight:500;">View on Facebook →</a>'
-                f'</div>'
-                f'</div>'
-            )
-
-        # Header with location name and post count
-        address = items[0]["address"]
-        count_badge = (
-            f'<span style="background:#e25822;color:white;border-radius:10px;'
-            f'padding:1px 8px;font-size:11px;margin-left:6px;">{post_count}</span>'
-        ) if post_count > 1 else ""
-
-        popup_html = (
-            f'<div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\','
-            f'Roboto,sans-serif;max-width:320px;max-height:420px;overflow-y:auto;'
-            f'padding:4px;">'
-            f'<div style="font-size:15px;font-weight:700;color:#222;margin-bottom:2px;">'
-            f'🍜 {address}{count_badge}</div>'
-            f'<hr style="border:none;border-top:1px solid #ddd;margin:8px 0;">'
-            f'{"".join(popup_parts)}'
-            f'</div>'
-        )
-
-        # Marker icon: red for single post, darkred for multiple
-        icon_color = "darkred" if post_count > 1 else "red"
-
-        folium.Marker(
-            location=[lat, lng],
-            popup=folium.Popup(popup_html, max_width=360),
-            tooltip=(
-                f'<b>{address}</b><br>'
-                f'{post_count} post{"s" if post_count > 1 else ""}'
-            ),
-            icon=folium.Icon(color=icon_color, icon="cutlery", prefix="fa"),
-        ).add_to(cluster)
-
-    # Add a floating stats panel
-    stats_html = f"""
-    <div style="
-        position: fixed;
-        bottom: 20px; left: 20px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-        padding: 14px 18px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        font-size: 13px;
-        z-index: 9999;
-        max-width: 240px;
-        line-height: 1.5;
-    ">
-        <div style="font-size:16px;font-weight:700;margin-bottom:6px;">
-            🍜 Hokkien Mee Map
-        </div>
-        <div style="color:#555;">
-            <b>{len(geocoded_posts)}</b> posts mapped<br>
-            <b>{total_locations}</b> unique locations
-        </div>
-        <div style="margin-top:8px;font-size:11px;color:#999;">
-            Data from <a href="https://www.facebook.com/groups/227074250721100/"
-            target="_blank" style="color:#e25822;">Hokkien Mee Hunting</a>
-        </div>
-    </div>
-    """
-    m.get_root().html.add_child(folium.Element(stats_html))
-
-    return m
+    return html
 
 
 # ---------------------------------------------------------------------------
@@ -837,10 +710,14 @@ def main():
         print("No posts could be geocoded. Nothing to map.")
         sys.exit(0)
 
-    # Build and save map
-    print(f"\nBuilding map...")
-    m = build_map(geocoded)
-    m.save(OUTPUT_MAP)
+    # Build and save site
+    print("\nBuilding map...")
+    html = build_site(geocoded, len(posts))
+
+    os.makedirs(os.path.dirname(OUTPUT_MAP), exist_ok=True)
+    with open(OUTPUT_MAP, "w", encoding="utf-8") as f:
+        f.write(html)
+
     print(f"Map saved to {OUTPUT_MAP}")
     print(f"Open in browser: file://{os.path.abspath(OUTPUT_MAP)}")
 
