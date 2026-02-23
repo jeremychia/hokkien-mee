@@ -86,11 +86,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add output/group_posts.json docs/index.html docs/images
+          git add output/group_posts.json docs/index.html docs/images output/geocode_cache.json
           # Only commit if there are changes
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: daily map update $(date -u +%Y-%m-%d)"
+            # Pull with rebase in case remote has new commits, then push
+            git pull --rebase origin main
             git push
           fi
