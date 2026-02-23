@@ -492,5 +492,18 @@
     "lat": 1.349657291307473,
     "lng": 103.71844367782505,
     "address": "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505"
-  }
+  },
+  "onemap:2026 first street": null,
+  "onemap:2026 first street singapore": null,
+  "onemap:first street fried prawn noodles": null,
+  "onemap:first street fried prawn noodles singapore": null,
+  "nominatim:2026 first street": {
+    "lat": 1.3135327,
+    "lng": 103.9237082,
+    "address": "First Street, Frankel, Bedok"
+  },
+  "onemap:hainanese village centre (lorong ah soo market)": null,
+  "onemap:hainanese village centre (lorong ah soo market) singapore": null,
+  "nominatim:hainanese village centre (lorong ah soo market)": null,
+  "nominatim:hainanese village centre (lorong ah soo market) singapore": null
 }
