@@ -793,10 +793,20 @@ def build_site(geocoded_posts, total_posts):
             if m:
                 reactions = m.group(1)
 
+        post_id = post.get("post_id", "unknown")
+        images = []
+        for j, url in enumerate(post.get("images", [])[:MAX_IMAGES_PER_POST]):
+            if not url:
+                continue
+            images.append({
+                "url": url,
+                "local": f"images/{post_id}_{j}.jpg",
+            })
+
         location_groups[key]["posts"].append({
             "author": post.get("author", "Unknown"),
             "text": _clean_post_text(post.get("text", "")),
-            "images": post.get("images", [])[:MAX_IMAGES_PER_POST],
+            "images": images,
             "post_link": post.get("post_link", ""),
             "timestamp": post.get("timestamp", ""),
             "comment_count": len(post.get("comments", [])),

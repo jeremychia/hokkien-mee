@@ -14,11 +14,13 @@ Output:
 import json
 import os
 import sys
+import shutil
 
 import requests
 
 OUTPUT_DIR = "output"
 IMAGE_DIR = os.path.join(OUTPUT_DIR, "images")
+DOCS_IMAGE_DIR = os.path.join("docs", "images")
 INPUT_FILE = os.path.join(OUTPUT_DIR, "group_posts.json")
 
 
@@ -31,6 +33,7 @@ def download_images():
         sys.exit(1)
 
     os.makedirs(IMAGE_DIR, exist_ok=True)
+    os.makedirs(DOCS_IMAGE_DIR, exist_ok=True)
 
     with open(INPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -54,11 +57,17 @@ def download_images():
             if not img_url:
                 continue
 
-            filepath = os.path.join(IMAGE_DIR, f"{post_id}_{j}.jpg")
+            filename = f"{post_id}_{j}.jpg"
+            filepath = os.path.join(IMAGE_DIR, filename)
+            docs_filepath = os.path.join(DOCS_IMAGE_DIR, filename)
 
-            # skip if already downloaded
-            if os.path.exists(filepath):
-                print(f"  Skipped (exists): {filepath}")
+            # skip if already downloaded (ensure both copies exist)
+            if os.path.exists(filepath) or os.path.exists(docs_filepath):
+                if os.path.exists(filepath) and not os.path.exists(docs_filepath):
+                    shutil.copyfile(filepath, docs_filepath)
+                elif os.path.exists(docs_filepath) and not os.path.exists(filepath):
+                    shutil.copyfile(docs_filepath, filepath)
+                print(f"  Skipped (exists): {filename}")
                 continue
 
             try:
@@ -66,6 +75,7 @@ def download_images():
                 resp.raise_for_status()
                 with open(filepath, "wb") as img_file:
                     img_file.write(resp.content)
+                shutil.copyfile(filepath, docs_filepath)
                 print(f"  Saved: {filepath}")
                 total += 1
             except Exception as e:

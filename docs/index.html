@@ -798,6 +798,34 @@ function truncate(str, len) {
   return str.slice(0, len).replace(/\s+\S*$/, '') + '…';
 }
 
+function resolveImageSources(img) {
+  if (typeof img === 'string') {
+    return { primary: img, fallback: '' };
+  }
+  if (!img || typeof img !== 'object') {
+    return { primary: '', fallback: '' };
+  }
+  return {
+    primary: img.url || img.local || '',
+    fallback: img.local || '',
+  };
+}
+
+function handleImgError(el) {
+  const fallback = el.getAttribute('data-fallback');
+  if (fallback && el.src !== fallback) {
+    el.src = fallback;
+    return;
+  }
+  el.style.display = 'none';
+}
+
+function openLightboxFromImg(el) {
+  if (el && el.src) {
+    openLightbox(el.src);
+  }
+}
+
 /** Haversine distance in km. */
 function distanceKm(lat1, lng1, lat2, lng2) {
   const R = 6371;
@@ -860,11 +888,16 @@ function buildPopupHtml(loc) {
 
     let imgHtml = '';
     if (p.images && p.images.length > 0) {
-      const imgs = p.images.slice(0, 3).map(url =>
-        `<img src="${escapeHtml(url)}" alt="Photo" loading="lazy"
-              onerror="this.style.display='none'"
-              onclick="openLightbox('${escapeHtml(url)}')">`
-      ).join('');
+      const imgs = p.images.slice(0, 3).map(img => {
+        const srcs = resolveImageSources(img);
+        if (!srcs.primary) return '';
+        const primary = escapeHtml(srcs.primary);
+        const fallback = escapeHtml(srcs.fallback || '');
+        return `<img src="${primary}" alt="Photo" loading="lazy"
+              data-fallback="${fallback}"
+              onerror="handleImgError(this)"
+              onclick="openLightboxFromImg(this)">`;
+      }).join('');
       imgHtml = `<div class="popup-images">${imgs}</div>`;
     }
 

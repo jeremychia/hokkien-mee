@@ -62,7 +62,9 @@ jobs:
       - name: Restore image cache
         uses: actions/cache@v4
         with:
-          path: output/images
+          path: |
+            output/images
+            docs/images
           key: image-cache-${{ github.run_id }}
           restore-keys: image-cache-
 
@@ -84,7 +86,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add output/group_posts.json docs/index.html
+          git add output/group_posts.json docs/index.html docs/images
           # Only commit if there are changes
           if git diff --cached --quiet; then
             echo "No changes to commit"
