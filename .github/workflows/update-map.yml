@@ -65,7 +65,7 @@ jobs:
           path: |
             output/images
             docs/images
-          key: image-cache-${{ github.run_id }}
+          key: image-cache-${{ hashFiles('output/group_posts.json') }}
           restore-keys: image-cache-
 
       # ── Run pipeline ────────────────────────────────────────
