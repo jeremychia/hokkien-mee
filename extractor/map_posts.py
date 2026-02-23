@@ -87,6 +87,22 @@ LOCATION_ALIASES = {
     "ah hak fish soup": "69 Bedok South Avenue 3",
     "sheng cheng char kway teow": "665 Buffalo Road",
     "yong heng hokkien mee": "155 Bukit Batok Street 11",
+    # Stalls added from backfill geocoding failures
+    "tian tian lai fried hokkien mee": "127 Lorong 1 Toa Payoh",
+    "hong heng fried sotong prawn mee": "Tiong Bahru Market",
+    "tian seng fried hokkien mee": "79A Circuit Road",
+    "chuan hokkien mee": "84 Marine Parade Central",
+    "hup seng hokkien mee": "505 Jurong West Street 52",
+    "com hokkien mee": "44 Owen Road",
+    "enjoy eating house and bar": "462 Crawford Lane",
+    "enjoy eating house": "462 Crawford Lane",
+    # Venue aliases
+    "tampines st 82 blk 844 kopitiam": "844 Tampines Street 82",
+    "clementi mall food court": "3155 Commonwealth Avenue West",
+    "mayflower market and hawker centre": "Mayflower food Center",
+    "mayflower market & hawker centre": "Mayflower food Center",
+    "mayflower market and food centre": "Mayflower food Center",
+    "mayflower market & food centre": "Mayflower food Center",
 }
 
 # Common Singapore abbreviations used in posts
@@ -421,7 +437,7 @@ def _extract_from_text(text, candidates):
 
     # 3. Named hawker centres / food courts / markets / coffeeshops
     hawker_patterns = [
-        r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court|food\s*house|market(?:\s*(?:&|and)\s*(?:food\s*cent(?:re|er)|hawker))?|coffee\s*shop|coffeeshop))',
+        r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court|food\s*house|eating\s*house|market(?:\s*(?:&|and)\s*(?:food\s*cent(?:re|er)|hawker(?:\s*cent(?:re|er))?))?|coffee\s*shop|coffeeshop|kopitiam))',
         r'((?:hawker\s*cent(?:re|er)|food\s*cent(?:re|er)|food\s*court)\s+[A-Z][\w\s\'\-]+)',
         # "hawker Ctr" abbreviation
         r'([A-Z][\w\s\'\-]{2,30}(?:hawker\s*ctr))',
@@ -456,6 +472,9 @@ def _extract_from_text(text, candidates):
             'hokkien mee', 'fried hokkien mee', 'hkm', 'hokkien mie',
             'the hokkien mee', 'a hokkien mee', 'my hokkien mee',
             'this hokkien mee', 'good hokkien mee', 'nice hokkien mee',
+            'best hokkien mee', 'great hokkien mee', 'their hokkien mee',
+            'your hokkien mee', 'our hokkien mee', 'any hokkien mee',
+            'some hokkien mee', 'one hokkien mee', 'every hokkien mee',
         }
         if name.lower() in generic:
             continue
