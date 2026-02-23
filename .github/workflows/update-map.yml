@@ -68,7 +68,7 @@ jobs:
 
       # ── Run pipeline ────────────────────────────────────────
       - name: Scrape Facebook group
-        run: uv run python extractor/extract_group.py --pages 3
+        run: uv run python extractor/extract_group.py --pages 10
         env:
           # Playwright runs headless by default in CI
           CI: true
