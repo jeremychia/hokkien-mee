@@ -5,7 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hokkien Mee Map — Singapore</title>
 <meta name="description" content="Find the best Hokkien Mee near you in Singapore. Interactive map curated from the Hokkien Mee Hunting Facebook group.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23FEF3E2'/><ellipse cx='32' cy='42' rx='26' ry='9' fill='%23D4B088'/><ellipse cx='32' cy='35' rx='21' ry='7' fill='%23A07020'/><path d='M13 34c5-5 10 4 18-1s10 5 15 0' stroke='%23E8B830' stroke-width='4.5' fill='none' stroke-linecap='round'/><path d='M15 29c5-4 9 4 15-1s9 4 13 1' stroke='%23D49A18' stroke-width='3.5' fill='none' stroke-linecap='round'/><ellipse cx='42' cy='22' rx='7' ry='4.5' fill='%23E04A20' transform='rotate(-20 42 22)'/><circle cx='19' cy='27' r='2.2' fill='%23CC1100' opacity='0.7'/><circle cx='47' cy='30' r='2' fill='%236DB33F' opacity='0.7'/></svg>">
+
+<!-- Open Graph (WhatsApp, Telegram, Facebook, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hokkien Mee Map — Singapore">
+<meta property="og:description" content="Find the best Hokkien Mee near you in Singapore. Interactive map with reviews curated from the Hokkien Mee Hunting Facebook group.">
+<meta property="og:image" content="https://jeremychia.github.io/hokkien-mee/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://jeremychia.github.io/hokkien-mee/">
+<meta property="og:site_name" content="Hokkien Mee Map">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><ellipse cx='32' cy='50' rx='22' ry='4' fill='%2300000010'/><ellipse cx='32' cy='38' rx='28' ry='16' fill='%23E8E2DA'/><ellipse cx='32' cy='37' rx='28' ry='16' fill='%23FAF6F1'/><ellipse cx='32' cy='35' rx='24' ry='13' fill='%23F0EBE4'/><ellipse cx='32' cy='34' rx='23' ry='12' fill='%23FFF9F2'/><ellipse cx='32' cy='32' rx='21' ry='10' fill='%23B8892A'/><path d='M13 33c5-5 10 4 17-1s10 4 15 1' stroke='%23E8C840' stroke-width='3.5' fill='none' stroke-linecap='round'/><path d='M15 28c4-3 8 4 14-1s8 4 12 0' stroke='%23DBAD22' stroke-width='3' fill='none' stroke-linecap='round'/><path d='M17 36c4-3 9 2 13-1s7 3 10 0' stroke='%23E8C840' stroke-width='2.8' fill='none' stroke-linecap='round'/><path d='M20 24c3-2 6 3 10-1s6 3 8 1' stroke='%23D4A520' stroke-width='2.5' fill='none' stroke-linecap='round'/><path d='M19 31c3-2 6 2 9-1s5 2 8 0' stroke='%23FFF5E0' stroke-width='1.8' fill='none' stroke-linecap='round' opacity='0.85'/><path d='M37 21c2.5-1.5 6-1 8 1s2.5 5 .5 6.5c-2 1.5-5.5 0-7.5-2s-3-4-1-5.5z' fill='%23F07050'/><path d='M46 23c1-2.5 1.5-5 1.2-7' stroke='%23E86850' stroke-width='1.2' fill='none' stroke-linecap='round'/><circle cx='39' cy='23' r='.7' fill='%231a1a1a'/><path d='M26 23c2-1.2 5-.8 6.5.5s1.5 4 0 5c-1.5 1-4.5 0-6-1.5s-2-3-.5-4z' fill='%23F08868'/><circle cx='27.5' cy='24.5' r='.6' fill='%231a1a1a'/><circle cx='22' cy='19' r='3.2' fill='%234A9020'/><circle cx='22' cy='18.8' r='2.6' fill='%235EAA30'/><circle cx='17' cy='22' r='2.6' fill='%234A9020'/><circle cx='17' cy='21.8' r='2.1' fill='%235EAA30'/><ellipse cx='48' cy='36' rx='3.5' ry='2' fill='%23B01000' opacity='.65' transform='rotate(10 48 36)'/></svg>">
 
 <!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -649,32 +660,58 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 <!-- Hokkien Mee SVG symbols (hidden, referenced via <use>) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="hkm-bowl" viewBox="0 0 64 64">
-    <!-- warm background -->
-    <circle cx="32" cy="32" r="30" fill="#FEF3E2"/>
-    <!-- plate -->
-    <ellipse cx="32" cy="42" rx="26" ry="9" fill="#D4B088"/>
-    <ellipse cx="32" cy="40" rx="26" ry="9" fill="#F0DFC0"/>
-    <!-- noodle bed (wok hei base) -->
-    <ellipse cx="32" cy="35" rx="21" ry="7" fill="#A07020"/>
-    <!-- thick yellow egg noodles -->
-    <path d="M13 34c5-5 10 4 18-1s10 5 15 0" stroke="#E8B830" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-    <path d="M15 29c5-4 9 4 15-1s9 4 13 1" stroke="#D49A18" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <path d="M18 25c4-3 7 3 11-1s7 4 10 1" stroke="#E8B830" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- plate shadow -->
+    <ellipse cx="32" cy="50" rx="22" ry="4" fill="#00000010"/>
+    <!-- white plate -->
+    <ellipse cx="32" cy="38" rx="28" ry="16" fill="#E8E2DA"/>
+    <ellipse cx="32" cy="37" rx="28" ry="16" fill="#FAF6F1"/>
+    <ellipse cx="32" cy="35" rx="24" ry="13" fill="#F0EBE4"/>
+    <ellipse cx="32" cy="34" rx="23" ry="12" fill="#FFF9F2"/>
+    <!-- noodle bed -->
+    <ellipse cx="32" cy="32" rx="21" ry="10" fill="#B8892A"/>
+    <!-- yellow egg noodles -->
+    <path d="M13 33c5-5 10 4 17-1s10 4 15 1" stroke="#E8C840" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M15 28c4-3 8 4 14-1s8 4 12 0" stroke="#DBAD22" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M17 36c4-3 9 2 13-1s7 3 10 0" stroke="#E8C840" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <path d="M20 24c3-2 6 3 10-1s6 3 8 1" stroke="#D4A520" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     <!-- white bee hoon -->
-    <path d="M20 32c3-2 6 2 10-1s5 2 8 0" stroke="#FFF5D8" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <!-- prawn (bold) -->
-    <ellipse cx="42" cy="22" rx="7" ry="4.5" fill="#E04A20" transform="rotate(-20 42 22)"/>
-    <path d="M46 19c1.5-3 2.5-5.5 2.5-7" stroke="#E04A20" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-    <circle cx="44" cy="21" r="1" fill="#1a1a1a"/>
-    <!-- dark sauce -->
-    <ellipse cx="24" cy="31" rx="4" ry="2" fill="#4A2508" opacity="0.35"/>
-    <!-- sambal (red chili) -->
-    <circle cx="19" cy="27" r="2.2" fill="#CC1100" opacity="0.7"/>
-    <!-- calamansi lime -->
-    <circle cx="47" cy="30" r="2" fill="#6DB33F" opacity="0.7"/>
-    <!-- spring onion -->
-    <circle cx="30" cy="27" r="1.5" fill="#2D6A10" opacity="0.8"/>
-    <circle cx="36" cy="30" r="1.2" fill="#2D6A10" opacity="0.7"/>
+    <path d="M19 31c3-2 6 2 9-1s5 2 8 0" stroke="#FFF5E0" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <path d="M22 35c3-1 5 1 8 0s4 1 6 0" stroke="#FFFAE8" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M14 35c2-1 5 2 8 0" stroke="#FFF5E0" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <!-- scrambled egg -->
+    <ellipse cx="22" cy="29" rx="2" ry="1.2" fill="#F0C030" opacity="0.75" transform="rotate(-15 22 29)"/>
+    <circle cx="36" cy="34" r="1.4" fill="#EDBA28" opacity="0.65"/>
+    <circle cx="28" cy="35" r="1.1" fill="#F0C030" opacity="0.55"/>
+    <ellipse cx="42" cy="31" rx="1.5" ry="1" fill="#EDBA28" opacity="0.6" transform="rotate(20 42 31)"/>
+    <!-- pork lard -->
+    <rect x="16" y="32" width="4.5" height="3" rx="1" fill="#8B5E3C" opacity="0.75" transform="rotate(-12 18 33.5)"/>
+    <rect x="38" y="34" width="4" height="2.5" rx="1" fill="#9B6E4C" opacity="0.65" transform="rotate(15 40 35.25)"/>
+    <rect x="25" y="26" width="3.5" height="2.2" rx="0.8" fill="#A0704E" opacity="0.55" transform="rotate(5 27 27)"/>
+    <rect x="44" y="28" width="3" height="2" rx="0.8" fill="#8B5E3C" opacity="0.5" transform="rotate(-8 45.5 29)"/>
+    <!-- prawn 1 -->
+    <path d="M37 21c2.5-1.5 6-1 8 1s2.5 5 0.5 6.5c-2 1.5-5.5 0-7.5-2s-3-4-1-5.5z" fill="#F07050"/>
+    <path d="M37 21c2-0.8 4.5-0.3 6 1" stroke="#D85030" stroke-width="0.6" fill="none"/>
+    <path d="M39 22c1.5-0.5 3.5-0.2 5 0.8" stroke="#D85030" stroke-width="0.5" fill="none"/>
+    <path d="M46 23c1-2.5 1.5-5 1.2-7" stroke="#E86850" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M44.5 22c1.2-2 2-4 1.8-6" stroke="#E86850" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="39" cy="23" r="0.7" fill="#1a1a1a"/>
+    <path d="M37.5 27.5c-1.5 1-3 1.5-4.5 1.2" stroke="#F08868" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- prawn 2 -->
+    <path d="M26 23c2-1.2 5-0.8 6.5 0.5s1.5 4 0 5c-1.5 1-4.5 0-6-1.5s-2-3-0.5-4z" fill="#F08868"/>
+    <path d="M26 23c1.5-0.6 3.5-0.3 5 0.5" stroke="#D86040" stroke-width="0.5" fill="none"/>
+    <path d="M33 24c0.8-2 1-3.5 0.8-5" stroke="#F08060" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="27.5" cy="24.5" r="0.6" fill="#1a1a1a"/>
+    <path d="M26.5 28c-1 0.8-2.5 1.2-3.5 1" stroke="#F09878" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <!-- calamansi limes -->
+    <circle cx="22" cy="19" r="3.2" fill="#4A9020"/>
+    <circle cx="22" cy="18.8" r="2.6" fill="#5EAA30"/>
+    <ellipse cx="22.3" cy="18" rx="1" ry="0.7" fill="#78C048" opacity="0.6"/>
+    <circle cx="17" cy="22" r="2.6" fill="#4A9020"/>
+    <circle cx="17" cy="21.8" r="2.1" fill="#5EAA30"/>
+    <ellipse cx="17.2" cy="21.2" rx="0.8" ry="0.6" fill="#78C048" opacity="0.6"/>
+    <!-- chili sauce -->
+    <ellipse cx="48" cy="36" rx="3.5" ry="2" fill="#B01000" opacity="0.65" transform="rotate(10 48 36)"/>
+    <ellipse cx="48" cy="35.5" rx="2.5" ry="1.3" fill="#D02010" opacity="0.5" transform="rotate(10 48 35.5)"/>
   </symbol>
 
   <symbol id="icon-locate" viewBox="0 0 24 24">
