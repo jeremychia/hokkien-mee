@@ -519,6 +519,47 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   box-shadow: var(--shadow) !important;
 }
 
+/* ── Popup Actions ───────────────────────────────────────────── */
+.popup-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.popup-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.popup-btn:hover {
+  background: var(--bg);
+  border-color: var(--text-tertiary);
+  color: var(--text);
+}
+.share-btn {
+  background: none;
+  font-family: inherit;
+}
+.popup-id {
+  display: block;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  letter-spacing: 0.3px;
+  user-select: all;
+}
+
 /* ── Image Lightbox ──────────────────────────────────────────── */
 .lightbox {
   display: none;
@@ -882,6 +923,12 @@ function buildPopupHtml(loc) {
   // Google Maps directions link
   const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
 
+  // Suggest Edit (Google Form)
+  const formUrl = `https://docs.google.com/forms/d/e/1FAIpQLSeIuOm0serxmrkzNygEaXiIDy3plD4DBIg_AcJBsprd97o0Uw/viewform?usp=pp_url&entry.1007330317=${encodeURIComponent(loc.address)}&entry.1388685291=${loc.id}`;
+  
+  // Deep Link (stable location ID)
+  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${loc.id}`;
+
   let postsHtml = '';
   for (const p of loc.posts) {
     const text = escapeHtml(truncate(p.text || '', 200)).replace(/\n/g, '<br>');
@@ -924,12 +971,23 @@ function buildPopupHtml(loc) {
         <span>${escapeHtml(loc.address)}</span>
         ${badge}
         ${ratingHtml}
-        <a class="popup-directions" href="${gmapsUrl}" target="_blank" rel="noopener">📍 Directions</a>
+        <div class="popup-actions">
+          <a class="popup-btn" href="${gmapsUrl}" target="_blank" rel="noopener">📍 Directions</a>
+          <a class="popup-btn" href="${formUrl}" target="_blank" rel="noopener">📝 Suggest Edit</a>
+          <button class="popup-btn share-btn" onclick="copyDeepLink('${shareUrl}')">🔗 Share</button>
+        </div>
+        <span class="popup-id">ID: ${loc.id}</span>
       </div>
       <hr class="popup-divider">
       ${postsHtml}
       <div class="popup-scroll-fade">↓ scroll for more</div>
     </div>`;
+}
+
+function copyDeepLink(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link copied to clipboard!');
+  });
 }
 
 // ── Build markers & sidebar cards ───────────────────────────────
@@ -1298,6 +1356,28 @@ if (MAP_DATA.locations.length > 0) {
   // On mobile, ensure Singapore is not too zoomed out
   if (isMobile && map.getZoom() < 11) map.setZoom(11);
 }
+
+// ── Deep Linking ────────────────────────────────────────────────
+// Build a stable-id → array-index lookup
+const idToIndex = {};
+MAP_DATA.locations.forEach((loc, i) => { if (loc.id) idToIndex[loc.id] = i; });
+
+const urlParams = new URL(window.location.href).searchParams;
+const initialId = urlParams.get('id');
+
+map.whenReady(() => {
+  if (initialId && initialId in idToIndex) {
+    const idx = idToIndex[initialId];
+    setTimeout(() => {
+      const marker = markerMap[idx];
+      cluster.zoomToShowLayer(marker, () => {
+        marker.openPopup();
+        setActiveLocation(idx);
+        scrollCardIntoView(idx);
+      });
+    }, 500);
+  }
+});
 
 // ── Hide loader ─────────────────────────────────────────────────
 window.addEventListener('load', () => {

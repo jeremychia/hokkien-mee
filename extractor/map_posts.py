@@ -16,6 +16,7 @@ Output:
     output/geocode_cache.json     - cached geocoding results (reused across runs)
 """
 
+import hashlib
 import json
 import os
 import re
@@ -823,6 +824,12 @@ def build_site(geocoded_posts, total_posts):
             "rated_comments": sentiment["rated_comments"],
         }
         del loc["_raw_posts"]  # don't include raw posts in output
+
+    # Assign a stable ID to each location (short hash of address)
+    for loc in location_groups.values():
+        loc["id"] = hashlib.sha256(
+            loc["address"].lower().encode("utf-8")
+        ).hexdigest()[:8]
 
     # Sort locations: most posts first, then alphabetically
     locations = sorted(
