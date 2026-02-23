@@ -55,7 +55,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: output/geocode_cache.json
-          key: geocode-cache-${{ github.run_id }}
+          key: geocode-cache-${{ hashFiles('output/geocode_cache.json') }}
           restore-keys: geocode-cache-
 
       # ── Image cache (avoid re-downloading) ────────────────

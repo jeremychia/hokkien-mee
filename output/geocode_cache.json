@@ -1,0 +1,496 @@
+{
+  "onemap:216 bedok north street 1": {
+    "lat": 1.327062742057474,
+    "lng": 103.93321797074566,
+    "address": "216 BEDOK NORTH STREET 1 MARKET & HAWKER CENTRE (BLK 216 BEDOK NORTH STREET 1) SINGAPORE 460216"
+  },
+  "onemap:155 bukit batok street 11": {
+    "lat": 1.34802620956271,
+    "lng": 103.7435950349998,
+    "address": "155 BUKIT BATOK STREET 11 SINGAPORE 650155"
+  },
+  "onemap:old airport road food centre": {
+    "lat": 1.308251847128713,
+    "lng": 103.88580870608926,
+    "address": "51 OLD AIRPORT ROAD 51 OLD AIRPORT ROAD FOOD CENTRE AND SHOPPING MALL SINGAPORE 390051"
+  },
+  "onemap:berseh food center": {
+    "lat": 1.307344109463725,
+    "lng": 103.85688878376834,
+    "address": "166 JALAN BESAR BERSEH FOOD CENTRE SINGAPORE 208877"
+  },
+  "onemap:540338": {
+    "lat": 1.399227725389123,
+    "lng": 103.88965593060921,
+    "address": "338 ANCHORVALE CRESCENT ANCHORVALE PARKVIEW SINGAPORE 540338"
+  },
+  "onemap:84 marine parade central": {
+    "lat": 1.302285209688433,
+    "lng": 103.906288669909,
+    "address": "84 MARINE PARADE CENTRAL MARINE PARADE CENTRAL MARKET AND FOOD CENTRE SINGAPORE 440084"
+  },
+  "onemap:310092": {
+    "lat": 1.338070816461294,
+    "lng": 103.84945717881038,
+    "address": "92 LORONG 4 TOA PAYOH TOA PAYOH PALM SPRING SINGAPORE 310092"
+  },
+  "onemap:760618": {
+    "lat": 1.4187353006021,
+    "lng": 103.83570328066855,
+    "address": "618 YISHUN RING ROAD SINGAPORE 760618"
+  },
+  "onemap:68 geylang": {
+    "lat": 1.321953854888838,
+    "lng": 103.86984339181228,
+    "address": "68 GEYLANG BAHRU GEYLANG BAHRU VILLE SINGAPORE 330068"
+  },
+  "onemap:4 toa payoh": {
+    "lat": 1.339044797832278,
+    "lng": 103.85554106336,
+    "address": "4 LORONG 7 TOA PAYOH KIM KEAT COURT SINGAPORE 310004"
+  },
+  "onemap:7 lorong 8 toa payoh": {
+    "lat": 1.34032299499939,
+    "lng": 103.85552990618159,
+    "address": "7 LORONG 8 TOA PAYOH FIRST TOA PAYOH PRIMARY SCHOOL SINGAPORE 319252"
+  },
+  "nominatim:blk 435 hougang ave 8": {
+    "lat": 1.3769861,
+    "lng": 103.893657,
+    "address": "Blk 436, Hougang Avenue 8, Hougang East"
+  },
+  "onemap:568226": {
+    "lat": 1.367178740946947,
+    "lng": 103.84015774197732,
+    "address": "226H ANG MO KIO STREET 22 KEBUN BARU FOOD CENTRE SINGAPORE 568226"
+  },
+  "onemap:chinatown complex": {
+    "lat": 1.28227496052711,
+    "lng": 103.84323851807116,
+    "address": "335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335"
+  },
+  "onemap:beauty world": {
+    "lat": 1.342412641886426,
+    "lng": 103.77653938540612,
+    "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
+  },
+  "onemap:730304": {
+    "lat": 1.429892559808654,
+    "lng": 103.77385392757743,
+    "address": "304 WOODLANDS STREET 31 FUCHUN NEIGHBOURHOOD CENTRE SINGAPORE 730304"
+  },
+  "onemap:370080": {
+    "lat": 1.327834146159377,
+    "lng": 103.88710266923555,
+    "address": "80 CIRCUIT ROAD CIRCUIT ROAD MARKET AND FOOD CENTRE SINGAPORE 370080"
+  },
+  "onemap:570504": {
+    "lat": 1.349300045848388,
+    "lng": 103.8484847323989,
+    "address": "504 BISHAN STREET 11 SINGAPORE 570504"
+  },
+  "onemap:adam food centre": {
+    "lat": 1.324159852595583,
+    "lng": 103.81416592413566,
+    "address": "2 ADAM ROAD ADAM FOOD CENTRE SINGAPORE 289876"
+  },
+  "onemap:520844": {
+    "lat": 1.352105835324201,
+    "lng": 103.93653087332234,
+    "address": "844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844"
+  },
+  "nominatim:503 food court": {
+    "lat": 1.3502317,
+    "lng": 103.717609,
+    "address": "503 Food Court, 503, Jurong West Avenue 1"
+  },
+  "onemap:511 bishan street 13": {
+    "lat": 1.349231393964351,
+    "lng": 103.84989661339502,
+    "address": "511 BISHAN STREET 13 SINGAPORE 570511"
+  },
+  "onemap:389624": {
+    "lat": 1.314845007609258,
+    "lng": 103.88980544295312,
+    "address": "709 GEYLANG ROAD SINGAPORE 389624"
+  },
+  "onemap:golden mile food centre": {
+    "lat": 1.303141753203337,
+    "lng": 103.86387761533359,
+    "address": "505 BEACH ROAD GOLDEN MILE FOOD CENTRE SINGAPORE 199583"
+  },
+  "onemap:177 bukit": {
+    "lat": 1.346344074514813,
+    "lng": 103.741742087315,
+    "address": "177 BUKIT BATOK WEST AVENUE 8 SINGAPORE 650177"
+  },
+  "onemap:chinatown": {
+    "lat": 1.28227496052711,
+    "lng": 103.84323851807116,
+    "address": "335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335"
+  },
+  "onemap:chomp chomp food centre": {
+    "lat": 1.364232524768871,
+    "lng": 103.86652701737994,
+    "address": "20 KENSINGTON PARK ROAD CHOMP CHOMP FOOD CENTRE SINGAPORE 557269"
+  },
+  "onemap:old airport market": {
+    "lat": 1.307343983704754,
+    "lng": 103.88401769931855,
+    "address": "17 OLD AIRPORT ROAD KALLANG ESTATE FRESH MARKET AND FOOD CENTRE SINGAPORE 397972"
+  },
+  "onemap:330068": {
+    "lat": 1.321953854888838,
+    "lng": 103.86984339181228,
+    "address": "68 GEYLANG BAHRU GEYLANG BAHRU VILLE SINGAPORE 330068"
+  },
+  "onemap:352 clementi avenue 2": {
+    "lat": 1.314278602273389,
+    "lng": 103.77135055789378,
+    "address": "352 CLEMENTI AVENUE 2 CLEMENTI AVENUE 2 SHOPPING CENTRE SINGAPORE 120352"
+  },
+  "onemap:628 ang mo kio": {
+    "lat": 1.380987616654542,
+    "lng": 103.84062808748412,
+    "address": "628 ANG MO KIO AVENUE 4 ANG MO KIO 628 MARKET SINGAPORE 560628"
+  },
+  "onemap:tiong bahru market": {
+    "lat": 1.284785598103721,
+    "lng": 103.83218154688441,
+    "address": "30 SENG POH ROAD TIONG BAHRU MARKET SINGAPORE 168898"
+  },
+  "onemap:844 tampines": {
+    "lat": 1.352105835324201,
+    "lng": 103.93653087332234,
+    "address": "844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844"
+  },
+  "onemap:550237": {
+    "lat": 1.353811983424735,
+    "lng": 103.87013457464967,
+    "address": "237 SERANGOON AVENUE 3 SINGAPORE 550237"
+  },
+  "onemap:4 lorong 7 toa payoh": {
+    "lat": 1.339044797832278,
+    "lng": 103.85554106336,
+    "address": "4 LORONG 7 TOA PAYOH KIM KEAT COURT SINGAPORE 310004"
+  },
+  "onemap:mayflower food center": {
+    "lat": 1.374107570201603,
+    "lng": 103.83886392112157,
+    "address": "162 ANG MO KIO AVENUE 4 MAYFLOWER MARKET AND FOOD CENTRE SINGAPORE 560162"
+  },
+  "onemap:80 circuit road": {
+    "lat": 1.327834146159377,
+    "lng": 103.88710266923555,
+    "address": "80 CIRCUIT ROAD CIRCUIT ROAD MARKET AND FOOD CENTRE SINGAPORE 370080"
+  },
+  "onemap:650155": {
+    "lat": 1.34802620956271,
+    "lng": 103.7435950349998,
+    "address": "155 BUKIT BATOK STREET 11 SINGAPORE 650155"
+  },
+  "onemap:560409": {
+    "lat": 1.36265410749322,
+    "lng": 103.85528829763116,
+    "address": "409 ANG MO KIO AVENUE 10 MARKET & HAWKER CENTRE (BLK 409 ANG MO KIO AVE 10) SINGAPORE 560409"
+  },
+  "onemap:618 yishun": {
+    "lat": 1.4187353006021,
+    "lng": 103.83570328066855,
+    "address": "618 YISHUN RING ROAD SINGAPORE 760618"
+  },
+  "onemap:seah im food center": {
+    "lat": 1.26656813225079,
+    "lng": 103.81924803576496,
+    "address": "2 SEAH IM ROAD SEAH IM FOOD CENTRE SINGAPORE 099114"
+  },
+  "onemap:69 bedok south avenue 3": {
+    "lat": 1.319350263605241,
+    "lng": 103.94363236019423,
+    "address": "69 BEDOK SOUTH AVENUE 3 SIGLAP LUCKY VALLEY SINGAPORE 460069"
+  },
+  "onemap:golden mile": {
+    "lat": 1.302011306768332,
+    "lng": 103.86432251794324,
+    "address": "6001 BEACH ROAD CARNIVAL CINEMAS GOLDEN MILE SINGAPORE 199589"
+  },
+  "onemap:37 geylang": {
+    "lat": 1.315515531254514,
+    "lng": 103.8896496481294,
+    "address": "LORONG 37 GEYLANG"
+  },
+  "onemap:209001": {
+    "lat": 1.313224325033954,
+    "lng": 103.85969950435451,
+    "address": "383 JALAN BESAR KAM LENG HOTEL SINGAPORE 209001"
+  },
+  "onemap:31 kelantan lane": {
+    "lat": 1.306303685309716,
+    "lng": 103.85682678401646,
+    "address": "31 KELANTAN LANE SINGAPORE 200031"
+  },
+  "onemap:802 tampines": {
+    "lat": 1.346084423982096,
+    "lng": 103.93803402313183,
+    "address": "802 TAMPINES AVENUE 4 TAMPINES POLYVIEW SINGAPORE 520802"
+  },
+  "onemap:844 tampines st 82": {
+    "lat": 1.352105835324201,
+    "lng": 103.93653087332234,
+    "address": "844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844"
+  },
+  "onemap:505 jurong west": {
+    "lat": 1.349657291307473,
+    "lng": 103.71844367782505,
+    "address": "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505"
+  },
+  "nominatim:bishan 504 food court": {
+    "lat": 1.3500858,
+    "lng": 103.8431488,
+    "address": "KOPI+ (Food Court), Clover Avenue, Marymount"
+  },
+  "onemap:665 buffalo road": {
+    "lat": 1.306177053256229,
+    "lng": 103.85061131324932,
+    "address": "665 BUFFALO ROAD TEKKA MARKET SINGAPORE 210665"
+  },
+  "nominatim:828 tampines ave 3": {
+    "lat": 1.3517202,
+    "lng": 103.9300493,
+    "address": "Tampines Avenue 3, Tampines West, Tampines"
+  },
+  "onemap:820 tampines st 81": {
+    "lat": 1.34792965256801,
+    "lng": 103.9361199339763,
+    "address": "820 TAMPINES STREET 81 TAMPINES POLYVIEW SINGAPORE 520820"
+  },
+  "onemap:44 owen road": {
+    "lat": 1.315511629762019,
+    "lng": 103.85037787906386,
+    "address": "44 OWEN ROAD SINGAPORE 210044"
+  },
+  "onemap:43 north canal rd": {
+    "lat": 1.287214712923806,
+    "lng": 103.84685439577774,
+    "address": "43 NORTH CANAL ROAD SINGAPORE 059299"
+  },
+  "onemap:460128": {
+    "lat": 1.327740236451,
+    "lng": 103.93900569696281,
+    "address": "128 BEDOK NORTH STREET 2 SINGAPORE 460128"
+  },
+  "onemap:berseh food centre": {
+    "lat": 1.307344109463725,
+    "lng": 103.85688878376834,
+    "address": "166 JALAN BESAR BERSEH FOOD CENTRE SINGAPORE 208877"
+  },
+  "onemap:308c punggol walk": {
+    "lat": 1.408006949440278,
+    "lng": 103.89907435799803,
+    "address": "308C PUNGGOL WALK WATERWAY TERRACES I SINGAPORE 823308"
+  },
+  "onemap:560162": {
+    "lat": 1.374107570201603,
+    "lng": 103.83886392112157,
+    "address": "162 ANG MO KIO AVENUE 4 MAYFLOWER MARKET AND FOOD CENTRE SINGAPORE 560162"
+  },
+  "nominatim:618 hokkien mee": {
+    "lat": 1.3217464,
+    "lng": 103.9054817,
+    "address": "Mim’s Fried Hokkien Prawn Mee, Jalan Kechot, Kembangan"
+  },
+  "onemap:29 bendemeer": {
+    "lat": 1.319216678901136,
+    "lng": 103.8630209225932,
+    "address": "29 BENDEMEER ROAD BENDEMEER MARKET AND FOOD CENTRE SINGAPORE 330029"
+  },
+  "nominatim:toa payoh 75 market": {
+    "lat": 1.3360396,
+    "lng": 103.8529143,
+    "address": "Toa Payoh Market and Hawker Centre, 75, Lorong 5 Toa Payoh"
+  },
+  "onemap:557269": {
+    "lat": 1.364232524768871,
+    "lng": 103.86652701737994,
+    "address": "20 KENSINGTON PARK ROAD CHOMP CHOMP FOOD CENTRE SINGAPORE 557269"
+  },
+  "onemap:152 serangoon north": {
+    "lat": 1.369347267978119,
+    "lng": 103.87261399769623,
+    "address": "152 SERANGOON NORTH AVENUE 1 SINGAPORE 550152"
+  },
+  "onemap:650177": {
+    "lat": 1.346344074514813,
+    "lng": 103.741742087315,
+    "address": "177 BUKIT BATOK WEST AVENUE 8 SINGAPORE 650177"
+  },
+  "onemap:221 mount vernon road": {
+    "lat": 1.341728886035727,
+    "lng": 103.88057762297645,
+    "address": "221 MOUNT VERNON ROAD BARTLEY BEACON SINGAPORE 360221"
+  },
+  "onemap:529 ang mo kio ave 10": {
+    "lat": 1.37234358233884,
+    "lng": 103.85545542807232,
+    "address": "529 ANG MO KIO AVENUE 10 CHENG SAN CENTRE SINGAPORE 560529"
+  },
+  "onemap:059299": {
+    "lat": 1.287214712923806,
+    "lng": 103.84685439577774,
+    "address": "43 NORTH CANAL ROAD SINGAPORE 059299"
+  },
+  "onemap:531435": {
+    "lat": 1.377687195807693,
+    "lng": 103.89399760076458,
+    "address": "435A HOUGANG AVENUE 8 FOOD CENTRE SINGAPORE 531435"
+  },
+  "nominatim:kebun baru market & food centre": {
+    "lat": 1.3668126,
+    "lng": 103.8391876,
+    "address": "Kebun Baru Market and Food Centre, 226D, Ang Mo Kio Avenue 1"
+  },
+  "onemap:market and hawker centre": {
+    "lat": 1.345312532841388,
+    "lng": 103.73157976533865,
+    "address": "347 JURONG EAST AVENUE 1 YUHUA MARKET AND HAWKER CENTRE SINGAPORE 600347"
+  },
+  "onemap:390051": {
+    "lat": 1.308251847128713,
+    "lng": 103.88580870608926,
+    "address": "51 OLD AIRPORT ROAD 51 OLD AIRPORT ROAD FOOD CENTRE AND SHOPPING MALL SINGAPORE 390051"
+  },
+  "onemap:453 hougang ave 10": {
+    "lat": 1.3784780458325,
+    "lng": 103.89589171335881,
+    "address": "453 HOUGANG AVENUE 10 SINGAPORE 530453"
+  },
+  "onemap:328 clementi": {
+    "lat": 1.313991614765364,
+    "lng": 103.7670890039764,
+    "address": "328 CLEMENTI AVENUE 2 SINGAPORE 120328"
+  },
+  "onemap:160132": {
+    "lat": 1.278738081279337,
+    "lng": 103.82830428838457,
+    "address": "132 JALAN BUKIT MERAH SINGAPORE 160132"
+  },
+  "onemap:199583": {
+    "lat": 1.303141753203337,
+    "lng": 103.86387761533359,
+    "address": "505 BEACH ROAD GOLDEN MILE FOOD CENTRE SINGAPORE 199583"
+  },
+  "onemap:530209": {
+    "lat": 1.359083840910492,
+    "lng": 103.88605536806394,
+    "address": "209 HOUGANG STREET 21 KOVAN HOUGANG MARKET AND FOOD CENTRE SINGAPORE 530209"
+  },
+  "nominatim:rainbow rice house": {
+    "lat": 1.2871225,
+    "lng": 103.8468031,
+    "address": "Rainbow Rice House, 43, North Canal Road"
+  },
+  "nominatim:geylang east hawker center": {
+    "lat": 1.3255115,
+    "lng": 103.8849124,
+    "address": "Circuit Road Hawker Center, 79A, Circuit Road"
+  },
+  "onemap:a2 food court": null,
+  "onemap:a2 food court singapore": null,
+  "nominatim:a2 food court": null,
+  "nominatim:a2 food court singapore": null,
+  "onemap:sg hokkien mie": null,
+  "onemap:sg hokkien mie singapore": null,
+  "nominatim:sg hokkien mie": null,
+  "nominatim:sg hokkien mie singapore": null,
+  "onemap:exploring singapore coffeeshop": null,
+  "onemap:exploring singapore": null,
+  "onemap:old airport hawker ctr": null,
+  "onemap:blk 435 hougang ave 8 coffee shop": null,
+  "onemap:blk 435 hougang ave 8": null,
+  "onemap:435 hougang ave 8 coffee shop": null,
+  "onemap:blk 435 hougang ave 8 coffee shop singapore": null,
+  "nominatim:blk 435 hougang ave 8 coffee shop": null,
+  "onemap:hokkien mee at enjoy eating house": null,
+  "onemap:enjoy eating house": null,
+  "onemap:462 crawford lane": {
+    "lat": 1.304586180299429,
+    "lng": 103.86084075082579,
+    "address": "462 CRAWFORD LANE CRAWFORD COURT SINGAPORE 190462"
+  },
+  "onemap:503 food court": null,
+  "onemap:503 food court singapore": null,
+  "onemap:chia keng hokkien mee": null,
+  "onemap:chia keng hokkien mee singapore": null,
+  "onemap:80 circuit road 26": null,
+  "onemap:618 hokkien mee": null,
+  "onemap:618 hokkien mee singapore": null,
+  "onemap:s-11 bishan 504 food court": null,
+  "onemap:bishan 504 food court": null,
+  "onemap:s-11 bishan 504 food court singapore": null,
+  "nominatim:s-11 bishan 504 food court": null,
+  "onemap:828 tampines ave 3": null,
+  "onemap:828 tampines ave": null,
+  "onemap:828 tampines ave 3 singapore": null,
+  "onemap:828 tampines ave singapore": null,
+  "onemap:kopi soh coffeeshop": null,
+  "onemap:kopi soh": null,
+  "onemap:kopi soh coffeeshop singapore": null,
+  "onemap:blk 44 owen road": null,
+  "onemap:hkm at amk ave 4 mayflower hawker centre": null,
+  "onemap:amk ave 4 mayflower hawker centre": null,
+  "onemap:ang mo kio ave 4 mayflower hawker centre": null,
+  "onemap:hkm at ang mo kio ave 4 mayflower hawker centre": null,
+  "onemap:hkm at amk ave 4 mayflower hawker centre singapore": null,
+  "onemap:famous hkmee at mayflower hawker ctr": null,
+  "onemap:mayflower hawker ctr": null,
+  "onemap:then open to eat at the hawker center": null,
+  "onemap:the hawker center": null,
+  "onemap:then open to eat at the hawker center singapore": null,
+  "nominatim:then open to eat at the hawker center": null,
+  "nominatim:the hawker center": null,
+  "nominatim:then open to eat at the hawker center singapore": null,
+  "onemap:844 tampines street 82": {
+    "lat": 1.352105835324201,
+    "lng": 103.93653087332234,
+    "address": "844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844"
+  },
+  "onemap:block 29 boon keng hawker centre": null,
+  "onemap:29 boon keng hawker centre": null,
+  "onemap:block 29 boon keng hawker centre singapore": null,
+  "onemap:hawker centre jeremy": null,
+  "onemap:hawker centre jeremy singapore": null,
+  "onemap:you don't even know which hawker centre": null,
+  "onemap:you don't even know which hawker centre singapore": null,
+  "onemap:toa payoh 75 market": null,
+  "onemap:toa payoh 75 market singapore": null,
+  "onemap:127 lorong 1 toa payoh": {
+    "lat": 1.338103514521133,
+    "lng": 103.84473272672606,
+    "address": "127 LORONG 1 TOA PAYOH TOA PAYOH WEST MARKET AND FOOD COURT SINGAPORE 310127"
+  },
+  "onemap:3155 commonwealth avenue west": {
+    "lat": 1.314966522855597,
+    "lng": 103.7642704675928,
+    "address": "3155 COMMONWEALTH AVENUE WEST CLEMENTI BUS INTERCHANGE SINGAPORE 129588"
+  },
+  "onemap:79a circuit road": {
+    "lat": 1.325506874368143,
+    "lng": 103.88491977037975,
+    "address": "79A CIRCUIT ROAD HAWKER CENTRE (BLKS 79/79A CIRCUIT ROAD) SINGAPORE 371079"
+  },
+  "onemap:kebun baru market & food centre": null,
+  "onemap:kebun baru market & food centre singapore": null,
+  "onemap:rainbow rice house": null,
+  "onemap:rainbow rice house singapore": null,
+  "onemap:geylang east hawker center": null,
+  "onemap:geylang east hawker center singapore": null,
+  "onemap:10 minutes walk": null,
+  "onemap:10 minutes walk singapore": null,
+  "nominatim:10 minutes walk": null,
+  "nominatim:10 minutes walk singapore": null,
+  "onemap:505 jurong west street 52": {
+    "lat": 1.349657291307473,
+    "lng": 103.71844367782505,
+    "address": "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505"
+  }
+}
