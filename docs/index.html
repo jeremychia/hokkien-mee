@@ -229,7 +229,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   flex-wrap: wrap;
 }
 .sort-pill {
-  padding: 4px 10px;
+  padding: 6px 12px;
   border: 1px solid var(--border);
   border-radius: 20px;
   background: var(--card);
@@ -240,6 +240,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   transition: all 0.15s;
   white-space: nowrap;
   line-height: 1.4;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
 }
 .sort-pill:hover {
   border-color: var(--primary);
@@ -596,7 +599,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   backdrop-filter: blur(4px);
   padding: 3px 8px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-tertiary);
   z-index: 1000;
 }
@@ -652,14 +655,74 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   color: var(--text-secondary);
   font-weight: 500;
 }
+
+/* ── Skip Link (keyboard a11y) ───────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 0 0 8px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Lightbox Close Button ───────────────────────────────────── */
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 2001;
+}
+.lightbox-close:hover,
+.lightbox-close:focus { background: rgba(255,255,255,0.3); outline: 2px solid white; }
+
+/* ── Search Suggestions ──────────────────────────────────────── */
+.no-results-suggest {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: var(--font);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.no-results-suggest:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
 </style>
 </head>
 
 <body>
 
+<!-- Skip link for keyboard navigation -->
+<a href="#map" class="skip-link">Skip to map</a>
+
 <!-- Hokkien Mee SVG symbols (hidden, referenced via <use>) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="hkm-bowl" viewBox="0 0 64 64">
+    <title>Bowl of Hokkien mee with prawns, noodles, and calamansi limes</title>
     <!-- plate shadow -->
     <ellipse cx="32" cy="50" rx="22" ry="4" fill="#00000010"/>
     <!-- white plate -->
@@ -796,7 +859,8 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 </main>
 
 <!-- Image lightbox -->
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image viewer" aria-hidden="true">
+  <button class="lightbox-close" aria-label="Close image">×</button>
   <img id="lightboxImg" src="" alt="Enlarged photo">
 </div>
 
@@ -1201,7 +1265,15 @@ function filterLocations() {
   if (visible === 0 && q) {
     const msg = document.createElement('div');
     msg.className = 'no-results';
-    msg.innerHTML = '<span class="no-results-emoji">🔍</span>No stalls found';
+    const areas = MAP_DATA.locations.map(l => l.address).slice(0, 50);
+    const suggestions = [...new Set(areas.map(a => {
+      const parts = a.split(/,|\s-\s/);
+      return parts.length > 1 ? parts[parts.length - 1].trim() : parts[0].trim();
+    }))].filter(s => s.length > 2).slice(0, 3);
+    const suggestHtml = suggestions.length
+      ? `<div style="margin-top:10px;font-size:11px;color:var(--text-secondary);display:flex;gap:4px;justify-content:center;flex-wrap:wrap">Try: ${suggestions.map(s => `<button class="no-results-suggest" onclick="document.getElementById('searchInput').value='${s}';filterLocations();">${s}</button>`).join('')}</div>`
+      : '';
+    msg.innerHTML = `<span class="no-results-emoji">🔍</span>No stalls found${suggestHtml}`;
     locationList.appendChild(msg);
   }
 }
@@ -1218,13 +1290,17 @@ locateBtn.addEventListener('click', () => {
   }
 
   locateBtn.classList.add('loading');
+  locateBtn.setAttribute('aria-busy', 'true');
   locateBtn.querySelector('.btn-label').textContent = 'Locating…';
+  searchHint.textContent = '📍 Requesting your location to find nearby stalls…';
+  searchHint.className = 'search-hint located';
 
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
 
       locateBtn.classList.remove('loading');
+      locateBtn.removeAttribute('aria-busy');
       locateBtn.classList.add('active');
       locateBtn.querySelector('.btn-label').textContent = 'Near me ✓';
 
@@ -1245,7 +1321,10 @@ locateBtn.addEventListener('click', () => {
     },
     () => {
       locateBtn.classList.remove('loading');
+      locateBtn.removeAttribute('aria-busy');
       locateBtn.querySelector('.btn-label').textContent = 'Near me';
+      searchHint.textContent = `Showing all ${MAP_DATA.locations.length} stalls`;
+      searchHint.className = 'search-hint';
       alert('Could not get your location. Please ensure location access is allowed.');
     },
     { enableHighAccuracy: true, timeout: 10000 }
@@ -1368,16 +1447,22 @@ const lightboxImg = document.getElementById('lightboxImg');
 function openLightbox(url) {
   lightboxImg.src = url;
   lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  const closeBtn = lightbox.querySelector('.lightbox-close');
+  if (closeBtn) closeBtn.focus();
 }
 
-lightbox.addEventListener('click', () => {
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightboxImg) return;
   lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
   lightboxImg.src = '';
 });
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
     lightboxImg.src = '';
   }
 });
