@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="high-contrast">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,6 +42,16 @@
   --sidebar-width: 350px;
   --header-height: 50px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+:root.high-contrast {
+  --primary: #B23A00;
+  --primary-light: #FCE5D6;
+  --primary-hover: #8F2E00;
+  --text: #1F2D3D;
+  --text-secondary: #4B5A63;
+  --text-tertiary: #6C7A83;
+  --border: #D0D7DE;
 }
 
 html, body { height: 100%; overflow: hidden; }
@@ -121,6 +131,40 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   white-space: nowrap;
 }
 .header-link:hover { background: var(--primary-light); }
+
+.header-badge,
+.contrast-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1.3;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: var(--card);
+  white-space: nowrap;
+}
+.header-badge strong { color: var(--primary); font-weight: 600; }
+.contrast-badge { display: none; }
+.contrast-badge.show { display: inline-flex; }
+.contrast-badge.warning { border-color: #E67E22; color: #B75E12; background: #FFF4E5; }
+.contrast-badge {
+  white-space: normal;
+  max-width: 360px;
+}
+.contrast-action {
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 10px;
+  border-radius: 999px;
+  padding: 2px 6px;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.contrast-action:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
 .sidebar-toggle {
   display: none;
   background: none;
@@ -221,6 +265,47 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .search-hint.located { color: var(--primary); }
 
+.privacy-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding-left: 2px;
+}
+.privacy-trigger {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-secondary);
+  font-size: 11px;
+  border-radius: 999px;
+  padding: 2px 6px;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.privacy-trigger:hover { color: var(--text); border-color: var(--primary); }
+.privacy-tooltip {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  box-shadow: var(--shadow-lg);
+  font-size: 11px;
+  color: var(--text);
+  width: 360px;
+  max-width: 600px;
+  line-height: 1.4;
+  z-index: 1200;
+}
+.privacy-wrap:hover .privacy-tooltip,
+.privacy-wrap:focus-within .privacy-tooltip {
+  display: block;
+}
+
 /* Sort pills */
 .sort-row {
   display: flex;
@@ -283,6 +368,10 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .loc-card.active {
   border-color: var(--primary);
   background: var(--primary-light);
+}
+.loc-card:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 .loc-card-icon { flex-shrink: 0; width: 34px; height: 34px; }
 .loc-thumb {
@@ -652,6 +741,86 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   color: var(--text-secondary);
   font-weight: 500;
 }
+
+/* ── Skip Link (keyboard a11y) ───────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 0 0 8px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Lightbox Close Button ───────────────────────────────────── */
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 2001;
+}
+.lightbox-close:hover,
+.lightbox-close:focus { background: rgba(255,255,255,0.3); outline: 2px solid white; }
+
+/* ── Search Suggestions ──────────────────────────────────────── */
+.no-results-suggest {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: var(--font);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.no-results-suggest:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
+/* Focus styles (keyboard-first) */
+.search-input:focus-visible,
+.locate-btn:focus-visible,
+.sort-pill:focus-visible,
+.header-link:focus-visible,
+.sidebar-toggle:focus-visible,
+.popup-btn:focus-visible,
+.rating-info-btn:focus-visible,
+.no-results-suggest:focus-visible,
+.lightbox-close:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
 
@@ -744,6 +913,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
     <strong id="statStalls">—</strong> stalls across Singapore
     <div class="stat-tooltip" id="statTooltip"></div>
   </span>
+  <span class="header-badge" id="dataBadge" aria-live="polite">Data: —</span>
   <a class="header-link" href="https://www.facebook.com/groups/227074250721100/" target="_blank" rel="noopener">FB Group ↗</a>
 </header>
 
@@ -765,6 +935,10 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
         </button>
       </div>
       <div class="search-hint" id="searchHint">Showing all stalls</div>
+      <div class="privacy-wrap">
+        <button class="privacy-trigger" id="privacyTrigger" aria-describedby="privacyTooltip" aria-label="Location privacy info">Privacy ⓘ</button>
+        <div class="privacy-tooltip" id="privacyTooltip" role="tooltip">When you tap “Near me”, your location is used on this device only to sort stalls by distance. It is not stored.</div>
+      </div>
     </div>
 
     <!-- Sort pills -->
@@ -821,6 +995,7 @@ let userMarker = null;
 const markerMap = {};
 const cardMap = {};
 const locData = {};
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // ── Hokkien Mee marker SVG (inline for each marker) ────────────
 const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="28" height="28">
@@ -870,6 +1045,78 @@ function escapeHtml(str) {
   d.textContent = str;
   return d.innerHTML;
 }
+
+function setAria(el, attrs) {
+  if (!el) return;
+  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+}
+
+function setupAccessibility() {
+  const list = document.getElementById('locationList');
+  setAria(list, { role: 'list', 'aria-label': 'Hokkien Mee stalls' });
+
+  const mapEl = document.getElementById('map');
+  setAria(mapEl, { role: 'region', 'aria-label': 'Map of Hokkien Mee stalls' });
+
+  const locate = document.getElementById('locateBtn');
+  setAria(locate, { 'aria-label': 'Find stalls near you', 'aria-pressed': 'false' });
+
+  const sortRow = document.getElementById('sortRow');
+  setAria(sortRow, { role: 'toolbar', 'aria-label': 'Sort stalls' });
+
+  const ratingInfo = document.getElementById('ratingInfoBtn');
+  setAria(ratingInfo, { 'aria-label': 'How ratings are calculated' });
+
+  const privacyTrigger = document.getElementById('privacyTrigger');
+  setAria(privacyTrigger, { 'aria-haspopup': 'true' });
+
+  document.querySelectorAll('.sort-pill').forEach(btn => {
+    setAria(btn, { role: 'button', 'aria-pressed': btn.classList.contains('active') ? 'true' : 'false' });
+  });
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const dt = new Date(dateStr);
+  return dt.toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function renderDataBadge() {
+  const badge = document.getElementById('dataBadge');
+  if (!badge) return;
+  const updated = MAP_DATA?.meta?.generated_at ? formatDate(MAP_DATA.meta.generated_at) : '—';
+  badge.innerHTML = `Data: <strong>Hokkien Mee Hunting</strong> · Updated ${updated}`;
+  badge.setAttribute('title', 'Data source and last updated date');
+}
+
+function hexToRgb(hex) {
+  const clean = hex.replace('#', '');
+  if (clean.length !== 6) return null;
+  const num = parseInt(clean, 16);
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255,
+  };
+}
+
+function relativeLuminance({ r, g, b }) {
+  const srgb = [r, g, b].map(v => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+}
+
+function contrastRatio(hex1, hex2) {
+  const c1 = hexToRgb(hex1);
+  const c2 = hexToRgb(hex2);
+  if (!c1 || !c2) return null;
+  const l1 = relativeLuminance(c1) + 0.05;
+  const l2 = relativeLuminance(c2) + 0.05;
+  return l1 > l2 ? l1 / l2 : l2 / l1;
+}
+
 
 function truncate(str, len) {
   if (str.length <= len) return str;
@@ -1070,6 +1317,10 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.className = 'loc-card';
   card.dataset.idx = i;
   card.dataset.search = loc.address.toLowerCase();
+  card.setAttribute('role', 'listitem');
+  card.setAttribute('tabindex', '0');
+  card.setAttribute('aria-label', `${loc.address}. ${postCountLabel(postCount)}.`);
+  card.setAttribute('aria-selected', 'false');
 
   // Get first image and total reactions for the card
   const firstImg = loc.posts.flatMap(p => p.images || []).find(Boolean);
@@ -1101,14 +1352,31 @@ MAP_DATA.locations.forEach((loc, i) => {
       </div>
     </div>`;
 
-  card.addEventListener('click', () => {
-    map.setView([loc.lat, loc.lng], 17, { animate: true });
+  const focusCard = () => {
+    map.setView([loc.lat, loc.lng], 17, { animate: !prefersReducedMotion.matches });
+    const delay = prefersReducedMotion.matches ? 0 : 350;
     setTimeout(() => {
       marker.openPopup();
       setActiveLocation(i);
-    }, 350);
+    }, delay);
     if (window.innerWidth <= 768) {
       document.getElementById('sidebar').classList.remove('open');
+    }
+  };
+
+  card.addEventListener('click', focusCard);
+  card.addEventListener('keydown', (event) => {
+    const currentIdx = Number(card.dataset.idx);
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      focusCard();
+      return;
+    }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const direction = event.key === 'ArrowDown' ? 1 : -1;
+      const next = findNextVisibleCard(currentIdx, direction);
+      if (next) next.focus();
     }
   });
 
@@ -1154,14 +1422,34 @@ if (statTooltip && MAP_DATA.meta) {
 
 // ── Active location ─────────────────────────────────────────────
 function setActiveLocation(idx) {
-  if (activeLocationIdx !== null && cardMap[activeLocationIdx])
+  if (activeLocationIdx !== null && cardMap[activeLocationIdx]) {
     cardMap[activeLocationIdx].classList.remove('active');
+    cardMap[activeLocationIdx].setAttribute('aria-selected', 'false');
+  }
   activeLocationIdx = idx;
-  if (cardMap[idx]) cardMap[idx].classList.add('active');
+  if (cardMap[idx]) {
+    cardMap[idx].classList.add('active');
+    cardMap[idx].setAttribute('aria-selected', 'true');
+  }
 }
 
 function scrollCardIntoView(idx) {
-  if (cardMap[idx]) cardMap[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (cardMap[idx]) {
+    const behavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
+    cardMap[idx].scrollIntoView({ behavior, block: 'nearest' });
+  }
+}
+
+function findNextVisibleCard(fromIdx, direction) {
+  const total = Object.keys(cardMap).length;
+  for (let step = 1; step <= total; step++) {
+    const idx = (fromIdx + direction * step + total) % total;
+    const card = cardMap[idx];
+    if (card && card.style.display !== 'none') {
+      return card;
+    }
+  }
+  return null;
 }
 
 // ── Search by location name ─────────────────────────────────────
@@ -1218,6 +1506,8 @@ locateBtn.addEventListener('click', () => {
   }
 
   locateBtn.classList.add('loading');
+  locateBtn.setAttribute('aria-busy', 'true');
+  locateBtn.setAttribute('aria-pressed', 'true');
   locateBtn.querySelector('.btn-label').textContent = 'Locating…';
 
   navigator.geolocation.getCurrentPosition(
@@ -1225,6 +1515,8 @@ locateBtn.addEventListener('click', () => {
       userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
 
       locateBtn.classList.remove('loading');
+      locateBtn.removeAttribute('aria-busy');
+      locateBtn.setAttribute('aria-pressed', 'true');
       locateBtn.classList.add('active');
       locateBtn.querySelector('.btn-label').textContent = 'Near me ✓';
 
@@ -1241,10 +1533,12 @@ locateBtn.addEventListener('click', () => {
       userMarker.bindTooltip('You are here', { direction: 'top', offset: [0, -8] });
 
       sortByDistance();
-      map.setView([userLatLng.lat, userLatLng.lng], 14, { animate: true });
+      map.setView([userLatLng.lat, userLatLng.lng], 14, { animate: !prefersReducedMotion.matches });
     },
     () => {
       locateBtn.classList.remove('loading');
+      locateBtn.removeAttribute('aria-busy');
+      locateBtn.setAttribute('aria-pressed', 'false');
       locateBtn.querySelector('.btn-label').textContent = 'Near me';
       alert('Could not get your location. Please ensure location access is allowed.');
     },
@@ -1283,6 +1577,7 @@ document.querySelectorAll('#sortRow .sort-pill').forEach(pill => {
   pill.addEventListener('click', () => {
     document.querySelectorAll('#sortRow .sort-pill').forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
+    document.querySelectorAll('#sortRow .sort-pill').forEach(p => p.setAttribute('aria-pressed', p.classList.contains('active') ? 'true' : 'false'));
     currentSort = pill.dataset.sort;
     if (userLatLng) {
       sortByDistance(); // distance sort takes precedence when located
@@ -1305,6 +1600,7 @@ function clearUserLocation() {
   userLatLng = null;
   if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
   locateBtn.classList.remove('active');
+  locateBtn.setAttribute('aria-pressed', 'false');
   locateBtn.querySelector('.btn-label').textContent = 'Near me';
 
   // Restore current sort, removing distance labels
@@ -1420,6 +1716,10 @@ map.whenReady(() => {
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loader').classList.add('hidden'), 400);
 });
+
+// ── Initialize a11y + trust badges ─────────────────────────────
+setupAccessibility();
+renderDataBadge();
 </script>
 </body>
 </html>
