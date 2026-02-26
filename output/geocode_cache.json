@@ -542,5 +542,10 @@
     "lat": 1.32815498828204,
     "lng": 103.93522082327,
     "address": "136 BEDOK NORTH AVENUE 3 SINGAPORE 460136"
+  },
+  "onemap:bugis": {
+    "lat": 1.29960368990297,
+    "lng": 103.854242347489,
+    "address": "201 VICTORIA STREET BUGIS+ SINGAPORE 188067"
   }
 }
