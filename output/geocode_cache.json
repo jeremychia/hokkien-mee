@@ -547,5 +547,10 @@
     "lat": 1.29960368990297,
     "lng": 103.854242347489,
     "address": "201 VICTORIA STREET BUGIS+ SINGAPORE 188067"
+  },
+  "onemap:40 beo cres": {
+    "lat": 1.2890578915448,
+    "lng": 103.827513018252,
+    "address": "40 BEO CRESCENT THE BEO CRESCENT SINGAPORE 160040"
   }
 }
