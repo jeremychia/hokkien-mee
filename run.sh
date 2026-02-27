@@ -46,7 +46,6 @@ preflight() {
 # ---------- steps ----------
 step_extract() {
     info "Extracting posts from Facebook group..."
-    shift 2>/dev/null || true
     uv run python extractor/extract_group.py "$@"
     ok "Extraction complete → output/group_posts.json"
 }
@@ -66,6 +65,13 @@ step_map() {
 # ---------- main ----------
 main() {
     local cmd="${1:-all}"
+    
+    # If first arg starts with -, treat it as "all" with options
+    if [[ "$cmd" == -* ]]; then
+        cmd="all"
+    else
+        shift 2>/dev/null || true  # Remove the command from args
+    fi
 
     case "$cmd" in
         extract)
