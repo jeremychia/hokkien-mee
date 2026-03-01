@@ -552,5 +552,48 @@
     "lat": 1.2890578915448,
     "lng": 103.827513018252,
     "address": "40 BEO CRESCENT THE BEO CRESCENT SINGAPORE 160040"
+  },
+  "onemap:737304": null,
+  "onemap:737304 singapore": null,
+  "onemap:304 woodlands street 31": {
+    "lat": 1.42989255980863,
+    "lng": 103.773853927578,
+    "address": "304 WOODLANDS STREET 31 FUCHUN NEIGHBOURHOOD CENTRE SINGAPORE 730304"
+  },
+  "onemap:first chuan fried hokkien prawn mee": null,
+  "onemap:first chuan fried hokkien prawn mee singapore": null,
+  "nominatim:first chuan fried hokkien prawn mee": null,
+  "nominatim:first chuan fried hokkien prawn mee singapore": null,
+  "onemap:5 min walk": null,
+  "onemap:5 min walk singapore": null,
+  "onemap:red a nice rojak from the same coffeeshop": null,
+  "onemap:red a nice rojak from the same": null,
+  "onemap:red a nice rojak from the same coffeeshop singapore": null,
+  "onemap:820 tampines street 81": {
+    "lat": 1.347929652568,
+    "lng": 103.936119933977,
+    "address": "820 TAMPINES STREET 81 TAMPINES POLYVIEW SINGAPORE 520820"
+  },
+  "onemap:915 tampines st 91": {
+    "lat": 1.3486056231626,
+    "lng": 103.939564083361,
+    "address": "915 TAMPINES STREET 91 TAMPINES PALMSVILLE SINGAPORE 520915"
+  },
+  "onemap:tiong bahru": {
+    "lat": 1.2883742531214,
+    "lng": 103.81951732881,
+    "address": "603 TIONG BAHRU ROAD SHELL TIONG BAHRU SINGAPORE 158788"
+  },
+  "onemap:ah huat hokkien mee": null,
+  "onemap:ah huat hokkien mee singapore": null,
+  "nominatim:ah huat hokkien mee": null,
+  "nominatim:ah huat hokkien mee singapore": null,
+  "onemap:44 cambridge rd": null,
+  "onemap:44 cambridge rd singapore": null,
+  "onemap:cambridge rd coffeeshop": null,
+  "onemap:cambridge rd": {
+    "lat": 1.31483389413517,
+    "lng": 103.848446660151,
+    "address": "CAMBRIDGE ROAD"
   }
 }
