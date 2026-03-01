@@ -595,5 +595,10 @@
     "lat": 1.31483389413517,
     "lng": 103.848446660151,
     "address": "CAMBRIDGE ROAD"
+  },
+  "onemap:beauty world centre": {
+    "lat": 1.34241264188642,
+    "lng": 103.776539385406,
+    "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
   }
 }
