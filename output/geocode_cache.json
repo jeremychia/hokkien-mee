@@ -600,5 +600,37 @@
     "lat": 1.34241264188642,
     "lng": 103.776539385406,
     "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
-  }
+  },
+  "onemap:204 bedok north": {
+    "lat": 1.32635909520616,
+    "lng": 103.929995919076,
+    "address": "204 BEDOK NORTH STREET 1 BEDOK TOWN CENTRE SINGAPORE 460204"
+  },
+  "onemap:680307": {
+    "lat": 1.38523428420139,
+    "lng": 103.74270487573,
+    "address": "307 CHOA CHU KANG AVENUE 4 SINGAPORE 680307"
+  },
+  "onemap:e stalls at toa payoh lorong 8 hawker centre": null,
+  "onemap:toa payoh lorong 8 hawker centre": {
+    "lat": 1.34025208908831,
+    "lng": 103.854333833433,
+    "address": "210 LORONG 8 TOA PAYOH MARKET & HAWKER CENTRE (BLK 210 TOA PAYOH LORONG 8 ) SINGAPORE 310210"
+  },
+  "onemap:550152": {
+    "lat": 1.36934726797811,
+    "lng": 103.872613997697,
+    "address": "152 SERANGOON NORTH AVENUE 1 SINGAPORE 550152"
+  },
+  "onemap:69 bedok south": {
+    "lat": 1.31935026360524,
+    "lng": 103.943632360195,
+    "address": "69 BEDOK SOUTH AVENUE 3 SIGLAP LUCKY VALLEY SINGAPORE 460069"
+  },
+  "onemap:tian tian dao hokkien fried noodles 天天到福建炒虾面": null,
+  "onemap:tian tian dao hokkien fried noodles": null,
+  "onemap:tian tian dao hokkien fried noodles 天天到福建炒虾面 singapore": null,
+  "nominatim:tian tian dao hokkien fried noodles 天天到福建炒虾面": null,
+  "nominatim:tian tian dao hokkien fried noodles": null,
+  "nominatim:tian tian dao hokkien fried noodles 天天到福建炒虾面 singapore": null
 }
