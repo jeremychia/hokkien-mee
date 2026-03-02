@@ -169,7 +169,9 @@ Results outside Singapore's bounding box (lat 1.15–1.47, lng 103.60–104.05) 
 1. **Groups** posts by geocoded lat/lng into unique stall locations
 2. **Sorts** locations by post count (most discussed first), then alphabetically
 3. **Builds** a JSON data payload with metadata and all locations/posts
-4. **Injects** the data into `extractor/map_template.html` (a self-contained Leaflet + MarkerCluster template)
+4. **Injects** the data into `extractor/map_template.html` by replacing placeholders:
+   - `__MAP_DATA__` → JSON payload with all locations and posts
+   - `__GROUP_URL__` → Facebook group URL for attribution links
 5. **Outputs** the final `docs/index.html` — a single HTML file with embedded CSS, JS, and data
 
 ### Map features
@@ -178,13 +180,15 @@ The generated map (`docs/index.html`) includes:
 
 - 🗺️ **Interactive map** — Leaflet 1.9.4 with OneMap Singapore tiles and MarkerCluster
 - 📍 **Custom markers** — Hokkien Mee bowl icon for each stall location
+- ⭐ **Sentiment ratings** — star ratings (1-5) based on comment sentiment analysis
 - 🔍 **Location search** — filter sidebar by location name
 - 📡 **"Near me" geolocation** — uses browser Geolocation API with haversine distance calculation, sorts stalls by proximity
 - 🖼️ **Photo thumbnails** — sidebar cards show actual food photos from posts
 - 💬 **Rich popups** — click a marker to see all posts for that location with images, reactions, and Facebook links
 - 🔗 **Image lightbox** — click any photo to enlarge
-- 📊 **Metadata tooltip** — hover over the stall count to see total posts, geocoded count, and last updated date
+- 📊 **Metadata badge** — shows total posts, locations, and average rating with privacy tooltip
 - 📱 **Responsive** — works on mobile with collapsible sidebar
+- ♿ **Accessibility** — high-contrast mode, keyboard navigation, reduced motion support, ARIA labels
 
 ---
 

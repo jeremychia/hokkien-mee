@@ -1683,11 +1683,12 @@ if (MAP_DATA.locations.length > 0) {
   const bounds = L.latLngBounds(MAP_DATA.locations.map(l => [l.lat, l.lng]));
   const isMobile = window.innerWidth <= 768;
   map.fitBounds(bounds, {
-    padding: isMobile ? [10, 10] : [40, 40],
+    padding: isMobile ? [10, 10] : [60, 60],
     maxZoom: 15,
   });
-  // On mobile, ensure Singapore is not too zoomed out
+  // Ensure minimum zoom level for better visibility
   if (isMobile && map.getZoom() < 11) map.setZoom(11);
+  if (!isMobile && map.getZoom() < 12) map.setZoom(12);
 }
 
 // ── Deep Linking ────────────────────────────────────────────────

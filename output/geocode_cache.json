@@ -632,5 +632,10 @@
   "onemap:tian tian dao hokkien fried noodles 天天到福建炒虾面 singapore": null,
   "nominatim:tian tian dao hokkien fried noodles 天天到福建炒虾面": null,
   "nominatim:tian tian dao hokkien fried noodles": null,
-  "nominatim:tian tian dao hokkien fried noodles 天天到福建炒虾面 singapore": null
+  "nominatim:tian tian dao hokkien fried noodles 天天到福建炒虾面 singapore": null,
+  "onemap:588177": {
+    "lat": 1.34241264188642,
+    "lng": 103.776539385406,
+    "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
+  }
 }
