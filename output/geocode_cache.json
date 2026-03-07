@@ -649,5 +649,151 @@
   "nominatim:mehr anzeigen came down to the hawker centre": null,
   "nominatim:mehr anzeigen came down to the hawker centre singapore": null,
   "nominatim:hawker centre to try this for fun": null,
-  "nominatim:hawker centre to try this for fun singapore": null
+  "nominatim:hawker centre to try this for fun singapore": null,
+  "onemap:369977": {
+    "lat": 1.335786186426504,
+    "lng": 103.8855102724281,
+    "address": "8 BURN ROAD TRIVEX SINGAPORE 369977"
+  },
+  "onemap:lot of foodcourt": null,
+  "onemap:lot of foodcourt singapore": null,
+  "onemap:foodcourt stalls are salaried workers": null,
+  "onemap:foodcourt stalls are salaried workers singapore": null,
+  "nominatim:lot of foodcourt": null,
+  "nominatim:lot of foodcourt singapore": null,
+  "nominatim:foodcourt stalls are salaried workers": null,
+  "nominatim:foodcourt stalls are salaried workers singapore": null,
+  "onemap:79 circuit road 21": null,
+  "onemap:79 circuit road": {
+    "lat": 1.326597067296303,
+    "lng": 103.8850522857353,
+    "address": "79 CIRCUIT ROAD HAWKER CENTRE (BLKS 79/79A CIRCUIT ROAD) SINGAPORE 370079"
+  },
+  "onemap:400301": {
+    "lat": 1.33068802490987,
+    "lng": 103.9019530407028,
+    "address": "301 UBI AVENUE 1 SINGAPORE 400301"
+  },
+  "onemap:550153": {
+    "lat": 1.369950996858087,
+    "lng": 103.872312298412,
+    "address": "153 SERANGOON NORTH AVENUE 1 SINGAPORE 550153"
+  },
+  "onemap:holland village": {
+    "lat": 1.311148061738307,
+    "lng": 103.7950034275418,
+    "address": "HOLLAND VILLAGE"
+  },
+  "onemap:51 old airport rd": {
+    "lat": 1.308251847128713,
+    "lng": 103.8858087060893,
+    "address": "51 OLD AIRPORT ROAD 51 OLD AIRPORT ROAD FOOD CENTRE AND SHOPPING MALL SINGAPORE 390051"
+  },
+  "onemap:last time yishun coffee shop": null,
+  "onemap:last time yishun": null,
+  "onemap:last time yishun coffee shop singapore": null,
+  "nominatim:last time yishun coffee shop": null,
+  "nominatim:last time yishun": null,
+  "nominatim:last time yishun coffee shop singapore": null,
+  "onemap:11 woodlands": {
+    "lat": 1.434758410911524,
+    "lng": 103.8027210555322,
+    "address": "11 WOODLANDS CLOSE WOODLANDS 11 SINGAPORE 737853"
+  },
+  "onemap:fried hokkien prawn mee": null,
+  "onemap:fried hokkien prawn mee singapore": null,
+  "onemap:添成炒虾面 tian seng prawn mee": null,
+  "onemap:tian seng prawn mee": null,
+  "onemap:添成炒虾面 tian seng prawn mee singapore": null,
+  "onemap:circuit road hawker centre": {
+    "lat": 1.326597067296303,
+    "lng": 103.8850522857353,
+    "address": "79 CIRCUIT ROAD HAWKER CENTRE (BLKS 79/79A CIRCUIT ROAD) SINGAPORE 370079"
+  },
+  "onemap:309 hougang ave": {
+    "lat": 1.36620554681346,
+    "lng": 103.8951524246652,
+    "address": "309 HOUGANG AVENUE 5 SINGAPORE 530309"
+  },
+  "onemap:205 bedok north": {
+    "lat": 1.325926754346681,
+    "lng": 103.9308080826345,
+    "address": "205 BEDOK NORTH STREET 1 BEDOK TOWN CENTRE SINGAPORE 460205"
+  },
+  "onemap:hoe hokkien mee": null,
+  "onemap:hoe hokkien mee singapore": null,
+  "nominatim:hoe hokkien mee": null,
+  "nominatim:hoe hokkien mee singapore": null,
+  "onemap:570022": {
+    "lat": 1.357284441082401,
+    "lng": 103.8393966799518,
+    "address": "22 SIN MING ROAD SINGAPORE 570022"
+  },
+  "onemap:1 min walk": null,
+  "onemap:1 min walk singapore": null,
+  "onemap:jackson hokkien mee": null,
+  "onemap:jackson hokkien mee singapore": null,
+  "onemap:serangoon north ave 1": {
+    "lat": 1.366471682164077,
+    "lng": 103.8732518851821,
+    "address": "SERANGOON NORTH AVENUE 1"
+  },
+  "onemap:504 bishan st": {
+    "lat": 1.349300045848388,
+    "lng": 103.8484847323989,
+    "address": "504 BISHAN STREET 11 SINGAPORE 570504"
+  },
+  "onemap:north bridge road food centre": {
+    "lat": 1.306140807465193,
+    "lng": 103.8640992812755,
+    "address": "861 NORTH BRIDGE ROAD NORTH BRIDGE ROAD MARKET AND FOOD CENTRE SINGAPORE 198783"
+  },
+  "onemap:urwok have an outlet at blk 44 coffee shop": null,
+  "onemap:blk 44 coffee shop": null,
+  "onemap:urwok have an outlet at blk 44": null,
+  "onemap:urwok have an outlet at blk 44 coffee shop singapore": null,
+  "onemap:next to pek kio hawker centre": null,
+  "onemap:next to pek kio hawker centre singapore": null,
+  "onemap:fhkm at peiple's park compkex food center": null,
+  "onemap:peiple's park compkex food center": null,
+  "onemap:fhkm at peiple's park compkex food center singapore": null,
+  "nominatim:urwok have an outlet at blk 44 coffee shop": null,
+  "nominatim:blk 44 coffee shop": null,
+  "nominatim:urwok have an outlet at blk 44": null,
+  "nominatim:urwok have an outlet at blk 44 coffee shop singapore": null,
+  "nominatim:next to pek kio hawker centre": null,
+  "nominatim:next to pek kio hawker centre singapore": null,
+  "nominatim:fhkm at peiple's park compkex food center": null,
+  "nominatim:peiple's park compkex food center": null,
+  "nominatim:fhkm at peiple's park compkex food center singapore": null,
+  "onemap:309 hougang ave 5": {
+    "lat": 1.36620554681346,
+    "lng": 103.8951524246652,
+    "address": "309 HOUGANG AVENUE 5 SINGAPORE 530309"
+  },
+  "onemap:844 crowd alway": null,
+  "onemap:844 crowd alway singapore": null,
+  "onemap:ng contributor from before the coffee shop": null,
+  "onemap:ng contributor from before the": null,
+  "onemap:ng contributor from before the coffee shop singapore": null,
+  "nominatim:844 crowd alway": null,
+  "nominatim:844 crowd alway singapore": null,
+  "nominatim:ng contributor from before the coffee shop": null,
+  "nominatim:ng contributor from before the": null,
+  "nominatim:ng contributor from before the coffee shop singapore": null,
+  "onemap:tuck in the coffee shop": null,
+  "onemap:tuck in the": null,
+  "onemap:tuck in the coffee shop singapore": null,
+  "onemap:sheng ji fish ball noodle": null,
+  "onemap:sheng ji fish ball noodle singapore": null,
+  "nominatim:tuck in the coffee shop": null,
+  "nominatim:tuck in the": null,
+  "nominatim:tuck in the coffee shop singapore": null,
+  "nominatim:sheng ji fish ball noodle": null,
+  "nominatim:sheng ji fish ball noodle singapore": null,
+  "onemap:69 geylang": {
+    "lat": 1.321463110467801,
+    "lng": 103.8700050145467,
+    "address": "69 GEYLANG BAHRU GEYLANG BAHRU MARKET AND FOOD CENTRE SINGAPORE 330069"
+  }
 }
