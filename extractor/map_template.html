@@ -1019,7 +1019,7 @@ const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 
 // ── Map setup ───────────────────────────────────────────────────
 const map = L.map('map', {
   center: [1.3521, 103.8198],
-  zoom: 12,
+  zoom: 14,
   zoomControl: false,
   attributionControl: false,
 });
@@ -1687,8 +1687,8 @@ if (MAP_DATA.locations.length > 0) {
     maxZoom: 15,
   });
   // Ensure minimum zoom level for better visibility
-  if (isMobile && map.getZoom() < 11) map.setZoom(11);
-  if (!isMobile && map.getZoom() < 12) map.setZoom(12);
+  if (isMobile && map.getZoom() < 13) map.setZoom(13);
+  if (!isMobile && map.getZoom() < 14) map.setZoom(14);
 }
 
 // ── Deep Linking ────────────────────────────────────────────────
