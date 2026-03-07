@@ -99,11 +99,6 @@
     "lng": 103.93653087332234,
     "address": "844 TAMPINES STREET 82 TAMPINES VILLE SINGAPORE 520844"
   },
-  "nominatim:503 food court": {
-    "lat": 1.3502317,
-    "lng": 103.717609,
-    "address": "503 Food Court, 503, Jurong West Avenue 1"
-  },
   "onemap:511 bishan street 13": {
     "lat": 1.349231393964351,
     "lng": 103.84989661339502,
@@ -384,11 +379,6 @@
     "lng": 103.88605536806394,
     "address": "209 HOUGANG STREET 21 KOVAN HOUGANG MARKET AND FOOD CENTRE SINGAPORE 530209"
   },
-  "nominatim:rainbow rice house": {
-    "lat": 1.2871225,
-    "lng": 103.8468031,
-    "address": "Rainbow Rice House, 43, North Canal Road"
-  },
   "nominatim:geylang east hawker center": {
     "lat": 1.3255115,
     "lng": 103.8849124,
@@ -417,8 +407,6 @@
     "lng": 103.86084075082579,
     "address": "462 CRAWFORD LANE CRAWFORD COURT SINGAPORE 190462"
   },
-  "onemap:503 food court": null,
-  "onemap:503 food court singapore": null,
   "onemap:chia keng hokkien mee": null,
   "onemap:chia keng hokkien mee singapore": null,
   "onemap:80 circuit road 26": null,
@@ -480,7 +468,6 @@
   },
   "onemap:kebun baru market & food centre": null,
   "onemap:kebun baru market & food centre singapore": null,
-  "onemap:rainbow rice house": null,
   "onemap:rainbow rice house singapore": null,
   "onemap:geylang east hawker center": null,
   "onemap:geylang east hawker center singapore": null,
@@ -488,11 +475,6 @@
   "onemap:10 minutes walk singapore": null,
   "nominatim:10 minutes walk": null,
   "nominatim:10 minutes walk singapore": null,
-  "onemap:505 jurong west street 52": {
-    "lat": 1.349657291307473,
-    "lng": 103.71844367782505,
-    "address": "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505"
-  },
   "onemap:2026 first street": null,
   "onemap:2026 first street singapore": null,
   "onemap:first street fried prawn noodles": null,
@@ -795,5 +777,48 @@
     "lat": 1.321463110467801,
     "lng": 103.8700050145467,
     "address": "69 GEYLANG BAHRU GEYLANG BAHRU MARKET AND FOOD CENTRE SINGAPORE 330069"
-  }
+  },
+  "onemap:rainbow rice house": null,
+  "nominatim:rainbow rice house": {
+    "lat": 1.2871225,
+    "lng": 103.8468031,
+    "address": "Rainbow Rice House, 43, North Canal Road"
+  },
+  "onemap:43 north canal road singapore 059299": {
+    "lat": 1.287214712923806,
+    "lng": 103.8468543957777,
+    "address": "43 NORTH CANAL ROAD SINGAPORE 059299"
+  },
+  "onemap:503 food court": null,
+  "onemap:503 food court singapore": null,
+  "nominatim:503 food court": {
+    "lat": 1.3502317,
+    "lng": 103.717609,
+    "address": "503 Food Court, Jurong West Street 52, Hong Kah"
+  },
+  "onemap:505 jurong west street 52": {
+    "lat": 1.349657291307473,
+    "lng": 103.7184436778251,
+    "address": "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505"
+  },
+  "onemap:blk 503 jurong west street 52": {
+    "lat": 1.3495,
+    "lng": 103.7183,
+    "address": "BLK 503 JURONG WEST STREET 52 SINGAPORE 640503"
+  },
+  "nominatim:blk 503 jurong west street 52": {
+    "lat": 1.3495,
+    "lng": 103.7183,
+    "address": "BLK 503 JURONG WEST STREET 52 SINGAPORE 640503"
+  },
+  "onemap:blk 503 jurong west street 52 singapore 640503": null,
+  "onemap:503 jurong west street 52 singapore 640503": null,
+  "nominatim:blk 503 jurong west street 52 singapore 640503": null,
+  "nominatim:503 jurong west street 52 singapore 640503": {
+    "lat": 1.3498521,
+    "lng": 103.7174712,
+    "address": "Jurong West Street 52, Hong Kah, Jurong West"
+  },
+  "onemap:jeremy feng hokkien mee": null,
+  "onemap:jeremy feng hokkien mee singapore": null
 }

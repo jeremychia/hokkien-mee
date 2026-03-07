@@ -27,6 +27,49 @@ from datetime import datetime, timezone
 import requests
 
 # ---------------------------------------------------------------------------
+# Location Override System
+# ---------------------------------------------------------------------------
+def load_location_overrides():
+    """Load manual location overrides from JSON file."""
+    override_file = os.path.join(os.path.dirname(__file__), "location_overrides.json")
+    try:
+        with open(override_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        # Create default override file if it doesn't exist
+        default_overrides = {
+            "merges": {},
+            "renames": {},
+            "excludes": []
+        }
+        with open(override_file, 'w', encoding='utf-8') as f:
+            json.dump(default_overrides, f, indent=2)
+        print(f"Created default location override file: {override_file}")
+        return default_overrides
+    except json.JSONDecodeError as e:
+        print(f"Error parsing location overrides: {e}")
+        return {"merges": {}, "renames": {}, "excludes": []}
+
+def apply_location_overrides(location, overrides):
+    """Apply manual location overrides."""
+    if not location:
+        return location
+    
+    # Skip excluded locations
+    if location in overrides.get('excludes', []):
+        return None
+    
+    # Apply renames first
+    if location in overrides.get('renames', {}):
+        location = overrides['renames'][location]
+    
+    # Apply merges (redirect to canonical location)
+    if location in overrides.get('merges', {}):
+        location = overrides['merges'][location]
+    
+    return location
+
+# ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
 INPUT_FILE = "output/group_posts.json"
@@ -54,8 +97,13 @@ SG_LNG_MIN, SG_LNG_MAX = 103.60, 104.05
 # Centre of Singapore for default map view
 SG_CENTRE = [1.3521, 103.8198]
 
+# Load manual overrides and merge with existing aliases
+_OVERRIDES = load_location_overrides()
+
 # Known location aliases — map colloquial/variant names to canonical geocodable names
 LOCATION_ALIASES = {
+    # Manual merges from override file (highest priority)
+    **_OVERRIDES.get('merges', {}),
     # Hawker centres / markets — colloquial → canonical
     "tiong bahru food market": "Tiong Bahru Market",
     "old airport market": "Old Airport Road Food Centre",
@@ -508,6 +556,12 @@ def extract_location_candidates(post):
     location = post.get("location", "")
     candidates = []
 
+    # Apply location overrides to Facebook check-in location field
+    if location:
+        processed_location = apply_location_overrides(location, _OVERRIDES)
+        if processed_location:  # None means excluded
+            location = processed_location
+
     # Extract from post text (highest priority)
     _extract_from_text(text, candidates)
 
@@ -528,10 +582,13 @@ def extract_location_candidates(post):
     seen = set()
     unique = []
     for c in candidates:
-        key = c.lower().strip()
-        if key not in seen:
-            seen.add(key)
-            unique.append(c)
+        # Apply overrides to all candidates
+        processed_candidate = apply_location_overrides(c, _OVERRIDES)
+        if processed_candidate:  # None means excluded
+            key = processed_candidate.lower().strip()
+            if key not in seen:
+                seen.add(key)
+                unique.append(processed_candidate)
 
     return unique
 
