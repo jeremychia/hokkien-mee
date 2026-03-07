@@ -98,14 +98,83 @@ def parse_netscape_cookies(cookies_file):
     return cookies
 
 
-def scroll_page(page, times, pause_min, pause_max):
+def scroll_page(page, times, pause_min, pause_max, debug=False):
     """Scroll down the page with randomised delays to avoid rate limiting."""
+    initial_height = page.evaluate("document.body.scrollHeight")
+    if debug:
+        print(f"    Initial page height: {initial_height}px")
+    
     for i in range(times):
         # Scroll by a random portion of the viewport to look more human
         scroll_amount = random.randint(600, 1200)
         page.evaluate(f"window.scrollBy(0, {scroll_amount})")
+        
+        # Wait a bit for the initial scroll
+        time.sleep(random.uniform(1, 2))
+        
+        # Check if we're near the bottom and wait for Facebook to load more content
+        distance_from_bottom = page.evaluate("""
+        () => {
+            const scrollPos = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            return docHeight - (scrollPos + windowHeight);
+        }
+        """)
+        
+        if debug:
+            current_scroll = page.evaluate("window.pageYOffset")
+            page_height = page.evaluate("document.body.scrollHeight")
+            print(f"    Scroll {i+1}/{times}: scrolled {scroll_amount}px, now at {current_scroll}px, page height {page_height}px, distance from bottom: {distance_from_bottom}px")
+        
+        # If we're close to the bottom, wait longer for Facebook to load more content
+        if distance_from_bottom < 2000:  # Within 2000px of bottom
+            if debug:
+                print(f"    Near bottom, waiting for Facebook to load more content...")
+            
+            # Wait for loading indicators to appear and disappear
+            max_wait_time = 15  # seconds
+            wait_start = time.time()
+            
+            while time.time() - wait_start < max_wait_time:
+                # Check for loading indicators
+                has_loading = page.evaluate("""
+                () => {
+                    const loadingEls = document.querySelectorAll(
+                        '[role="progressbar"], [aria-label*="Loading"], [aria-label*="loading"], ' +
+                        '.loading, [data-testid*="loading"], [aria-busy="true"]'
+                    );
+                    return loadingEls.length > 0;
+                }
+                """)
+                
+                if has_loading:
+                    if debug:
+                        print(f"    Loading indicator found, waiting...")
+                    time.sleep(2)
+                else:
+                    # No loading indicator, wait a bit more then check if height changed
+                    time.sleep(1)
+                    new_height = page.evaluate("document.body.scrollHeight")
+                    if new_height > page_height:
+                        if debug:
+                            print(f"    Page height increased to {new_height}px, content loaded")
+                        break
+                    elif time.time() - wait_start > 5:  # Waited at least 5 seconds without loading
+                        if debug:
+                            print(f"    No new content loaded after {time.time() - wait_start:.1f}s")
+                        break
+        
+        # Regular pause between scrolls
         pause = random.uniform(pause_min, pause_max)
         time.sleep(pause)
+    
+    final_height = page.evaluate("document.body.scrollHeight")
+    height_change = final_height - initial_height
+    if debug:
+        print(f"    Page height changed by {height_change}px (was {initial_height}, now {final_height})")
+    
+    return height_change > 0
 
 
 def _is_on_feed(page):
@@ -147,33 +216,55 @@ def _dismiss_dialog(page):
     return False
 
 
-def _return_to_feed(page):
+def _return_to_feed(page, debug=False):
     """Navigate back to the group feed if we've left it."""
-    if _is_on_feed(page):
-        # Still on feed URL but might have a dialog overlay
-        _dismiss_dialog(page)
-        return True
-
-    # First try: close any dialog/modal overlay
-    if _dismiss_dialog(page):
+    try:
         if _is_on_feed(page):
+            # Still on feed URL but might have a dialog overlay
+            _dismiss_dialog(page)
             return True
 
-    # Second try: go back
-    try:
-        page.go_back(wait_until="domcontentloaded", timeout=10000)
-        time.sleep(2)
-        if _is_on_feed(page):
-            return True
-    except Exception:
-        pass
+        if debug:
+            print(f"  Debug: Not on feed (current URL: {page.url[:100]}...)")
 
-    # Last resort: navigate directly to the group URL
-    try:
-        page.goto(GROUP_URL, wait_until="domcontentloaded", timeout=30000)
-        time.sleep(3)
-        return True
-    except Exception:
+        # First try: close any dialog/modal overlay
+        if _dismiss_dialog(page):
+            if _is_on_feed(page):
+                if debug:
+                    print("  Debug: Returned to feed after dismissing dialog")
+                return True
+
+        # Second try: go back
+        try:
+            if debug:
+                print("  Debug: Trying to go back...")
+            page.go_back(wait_until="domcontentloaded", timeout=10000)
+            time.sleep(2)
+            if _is_on_feed(page):
+                if debug:
+                    print("  Debug: Successfully went back to feed")
+                return True
+        except Exception as e:
+            if debug:
+                print(f"  Debug: Go back failed: {e}")
+            pass
+
+        # Last resort: navigate directly to the group URL
+        try:
+            if debug:
+                print(f"  Debug: Navigating directly to {GROUP_URL}...")
+            page.goto(GROUP_URL, wait_until="domcontentloaded", timeout=30000)
+            time.sleep(3)
+            if debug:
+                print("  Debug: Successfully navigated to group URL")
+            return True
+        except Exception as e:
+            if debug:
+                print(f"  Debug: Direct navigation failed: {e}")
+            return False
+    except Exception as e:
+        if debug:
+            print(f"  Debug: _return_to_feed caught exception: {e}")
         return False
 
 
@@ -794,6 +885,11 @@ def extract_posts_from_page(page, debug=False):
             else:
                 print(f"  {key}: {val}")
         print("---\n")
+        
+        # Debug: Check for duplicate post IDs in this batch
+        post_ids = [p.get('post_id') for p in posts if p.get('post_id')]
+        if len(post_ids) != len(set(post_ids)):
+            print(f"  WARNING: Found duplicate post IDs in this batch: {post_ids}")
 
     return posts
 
@@ -904,7 +1000,27 @@ def main():
             batch += 1
             print(f"Scroll batch {batch}/{args.pages if args.pages else '∞'}...")
 
-            scroll_page(page, SCROLLS_PER_PAGE, SCROLL_PAUSE_MIN, SCROLL_PAUSE_MAX)
+            # Check current scroll position before scrolling
+            scroll_before = page.evaluate("window.pageYOffset")
+            height_before = page.evaluate("document.body.scrollHeight")
+            
+            # If we got very few posts in previous batches, try scrolling more aggressively
+            if batch > 1 and len(posts) <= 3:
+                print(f"  Few posts detected, scrolling more aggressively...")
+                scroll_times = SCROLLS_PER_PAGE * 2  # Double the scrolling
+                min_pause = SCROLL_PAUSE_MIN * 0.5   # Reduce pause time
+                max_pause = SCROLL_PAUSE_MAX * 0.8
+            else:
+                scroll_times = SCROLLS_PER_PAGE
+                min_pause = SCROLL_PAUSE_MIN
+                max_pause = SCROLL_PAUSE_MAX
+            
+            height_changed = scroll_page(page, scroll_times, min_pause, max_pause, debug=args.debug)
+            
+            if args.debug:
+                scroll_after = page.evaluate("window.pageYOffset")
+                height_after = page.evaluate("document.body.scrollHeight")
+                print(f"  Scrolled from {scroll_before} to {scroll_after}, height change: {height_after - height_before}")
 
             # Expand truncated posts
             expanded = click_see_more(page)
@@ -915,10 +1031,114 @@ def main():
             _dismiss_dialog(page)
             if not _is_on_feed(page):
                 print("  Not on feed page, returning to feed...")
-                _return_to_feed(page)
+                success = _return_to_feed(page, debug=args.debug)
+                if not success:
+                    print("  ERROR: Failed to return to feed, stopping extraction")
+                    break
                 time.sleep(2)
 
-            posts = extract_posts_from_page(page, debug=args.debug)
+            try:
+                posts = extract_posts_from_page(page, debug=args.debug)
+            except Exception as e:
+                print(f"  ERROR: Failed to extract posts: {e}")
+                if args.debug:
+                    import traceback
+                    traceback.print_exc()
+                break
+            
+            if args.debug:
+                # Check DOM state for debugging
+                feed_stats = page.evaluate("""
+                () => {
+                    const feed = document.querySelector('[role="feed"]');
+                    if (!feed) return {error: "No feed found"};
+                    
+                    const containers = [...feed.children];
+                    let withPostLinks = 0;
+                    let postIds = [];
+                    let containerTypes = {};
+                    
+                    for (const c of containers) {
+                        const postLink = c.querySelector('a[href*="/posts/"], a[href*="/permalink/"], a[href*="story_fbid"]');
+                        if (postLink) {
+                            withPostLinks++;
+                            const href = postLink.href;
+                            const idMatch = href.match(/posts\\/(\\d+)/) || href.match(/permalink\\/(\\d+)/) || href.match(/story_fbid=(\\d+)/);
+                            if (idMatch) postIds.push(idMatch[1]);
+                        } else {
+                            // Analyze what type of non-post content this is
+                            const text = c.innerText.toLowerCase();
+                            const hasImages = c.querySelectorAll('img').length;
+                            const hasLinks = c.querySelectorAll('a').length;
+                            
+                            let contentType = 'unknown';
+                            if (text.includes('suggested for you') || text.includes('suggested post')) {
+                                contentType = 'suggested_post';
+                            } else if (text.includes('sponsored') || text.includes('ad')) {
+                                contentType = 'ad';
+                            } else if (text.includes('join group') || text.includes('invite')) {
+                                contentType = 'invite_prompt';
+                            } else if (text.includes('see more posts') || text.includes('load more')) {
+                                contentType = 'load_more_prompt';
+                            } else if (text.includes('people you may know') || text.includes('friend request')) {
+                                contentType = 'people_suggestion';
+                            } else if (hasImages > 0 && hasLinks > 2) {
+                                contentType = 'media_content';
+                            } else if (text.length < 50) {
+                                contentType = 'ui_element';
+                            } else {
+                                contentType = 'other_content';
+                            }
+                            
+                            containerTypes[contentType] = (containerTypes[contentType] || 0) + 1;
+                        }
+                    }
+                    
+                    // Check for "loading" indicators or infinite scroll triggers
+                    const loadingEls = document.querySelectorAll('[role="progressbar"], [aria-label*="Loading"], [aria-label*="loading"]');
+                    const hasLoadingIndicator = loadingEls.length > 0;
+                    
+                    // Check if we're at the bottom of loaded content
+                    const scrollPosition = window.pageYOffset;
+                    const windowHeight = window.innerHeight;
+                    const documentHeight = document.documentElement.scrollHeight;
+                    const distanceFromBottom = documentHeight - (scrollPosition + windowHeight);
+                    
+                    return {
+                        totalContainers: containers.length,
+                        withPostLinks: withPostLinks,
+                        postIds: postIds,
+                        containerTypes: containerTypes,
+                        hasLoadingIndicator: hasLoadingIndicator,
+                        scrollInfo: {
+                            scrollPosition,
+                            windowHeight,
+                            documentHeight,
+                            distanceFromBottom
+                        }
+                    };
+                }
+                """)
+                print(f"  Debug: DOM analysis:")
+                print(f"    - {feed_stats.get('totalContainers', 0)} containers in feed")
+                print(f"    - {feed_stats.get('withPostLinks', 0)} with post links") 
+                print(f"    - Posts extracted: {len(posts)}")
+                print(f"    - Loading indicator present: {feed_stats.get('hasLoadingIndicator', False)}")
+                print(f"    - Distance from bottom: {feed_stats.get('scrollInfo', {}).get('distanceFromBottom', 'unknown')}px")
+                
+                # Show what types of non-post content Facebook is showing
+                container_types = feed_stats.get('containerTypes', {})
+                if container_types:
+                    print(f"    - Non-post container types: {dict(container_types)}")
+                
+                if feed_stats.get('postIds'):
+                    print(f"    - Post IDs found: {feed_stats['postIds'][:5]}{'...' if len(feed_stats['postIds']) > 5 else ''}")
+                    
+                # Check if Facebook is limiting us due to rate limiting or bot detection
+                if len(posts) < feed_stats.get('withPostLinks', 0):
+                    print(f"    - WARNING: Found {feed_stats.get('withPostLinks', 0)} post containers but only extracted {len(posts)} posts")
+                    print(f"    - This could indicate content restrictions or bot detection")
+                
 
             # Merge with existing: add new posts, update existing ones if they changed
             new_count = 0
@@ -959,19 +1179,32 @@ def main():
             print(f"  Found {len(posts)} posts on page, {new_count} new, {updated_count} updated, {len(all_posts)} total")
 
             # Extract full comments for new and updated posts
-            if posts_needing_comments:
-                n = len(posts_needing_comments)
-                print(f"  Extracting comments for {n} posts...")
-                for i, post in enumerate(posts_needing_comments):
-                    extract_comments_for_post(context, post, debug=args.debug)
-                    nc = len(post.get('comments', []))
-                    if nc > 0:
-                        print(f"    [{i+1}/{n}] {post.get('post_id', '?')}: {nc} comments")
+            # DISABLED: Opening new tabs for comment extraction interferes with main feed scrolling
+            # if posts_needing_comments:
+            #     n = len(posts_needing_comments)
+            #     print(f"  Extracting comments for {n} posts...")
+            #     for i, post in enumerate(posts_needing_comments):
+            #         extract_comments_for_post(context, post, debug=args.debug)
+            #         nc = len(post.get('comments', []))
+            #         if nc > 0:
+            #             print(f"    [{i+1}/{n}] {post.get('post_id', '?')}: {nc} comments")
+            
+            if posts_needing_comments and args.debug:
+                print(f"  Skipping detailed comment extraction for {len(posts_needing_comments)} posts")
+                print(f"  (Using inline comments only - to avoid tab switching that disrupts scrolling)")
 
-            if new_count == 0 and updated_count == 0:
+            # Be more lenient about stopping - only stop if we found 0 posts total, or if height isn't changing
+            if len(posts) == 0:  # Truly no posts found on page
                 consecutive_empty += 1
-                if not args.backfill and consecutive_empty >= 3:
-                    print("  No new posts for 3 consecutive batches — stopping.")
+                print(f"  No posts found on page (consecutive empty: {consecutive_empty})")
+                if consecutive_empty >= 5:  # More lenient
+                    print("  No posts found for 5 consecutive batches — stopping.")
+                    break
+            elif new_count == 0 and updated_count == 0:  # Found posts but all were duplicates
+                consecutive_empty += 1
+                print(f"  All posts were duplicates (consecutive stale: {consecutive_empty})")
+                if not args.backfill and consecutive_empty >= 8:  # Much more lenient for duplicates
+                    print("  No new posts for 8 consecutive batches — stopping.")
                     print("  (Use --backfill to keep scrolling past already-extracted posts)")
                     break
             else:
