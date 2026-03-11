@@ -820,5 +820,45 @@
     "address": "Jurong West Street 52, Hong Kah, Jurong West"
   },
   "onemap:jeremy feng hokkien mee": null,
-  "onemap:jeremy feng hokkien mee singapore": null
+  "onemap:jeremy feng hokkien mee singapore": null,
+  "onemap:1 hawkers street": null,
+  "onemap:1 hawkers street singapore": null,
+  "onemap:jeremy hokkien mee": null,
+  "onemap:jeremy hokkien mee singapore": null,
+  "onemap:public hokkien mee": null,
+  "onemap:public hokkien mee singapore": null,
+  "nominatim:1 hawkers street": null,
+  "nominatim:1 hawkers street singapore": null,
+  "nominatim:jeremy hokkien mee": null,
+  "nominatim:jeremy hokkien mee singapore": null,
+  "nominatim:public hokkien mee": null,
+  "nominatim:public hokkien mee singapore": null,
+  "onemap:150127": {
+    "lat": 1.28532858968794,
+    "lng": 103.8033967740728,
+    "address": "127 BUKIT MERAH LANE 1 SINGAPORE 150127"
+  },
+  "onemap:388060": {
+    "lat": 1.31422099244307,
+    "lng": 103.8854438620999,
+    "address": "5 LORONG 29 GEYLANG SINGAPORE 388060"
+  },
+  "onemap:so easy parking and nice quiet coffeeshop": null,
+  "onemap:so easy parking and nice quiet": null,
+  "onemap:so easy parking and nice quiet coffeeshop singapore": null,
+  "nominatim:so easy parking and nice quiet coffeeshop": null,
+  "nominatim:so easy parking and nice quiet": null,
+  "nominatim:so easy parking and nice quiet coffeeshop singapore": null,
+  "onemap:jeremy ah huat hokkien mee": null,
+  "onemap:jeremy ah huat hokkien mee singapore": null,
+  "nominatim:jeremy ah huat hokkien mee": null,
+  "nominatim:jeremy ah huat hokkien mee singapore": null,
+  "onemap:ho huat hokkien mee": null,
+  "onemap:ho huat hokkien mee singapore": null,
+  "nominatim:ho huat hokkien mee": null,
+  "nominatim:ho huat hokkien mee singapore": null,
+  "onemap:chuan fried hokkien mee": null,
+  "onemap:chuan fried hokkien mee singapore": null,
+  "onemap:jeremy chuan fried hokkien mee": null,
+  "onemap:jeremy chuan fried hokkien mee singapore": null
 }
