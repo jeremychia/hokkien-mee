@@ -1083,5 +1083,44 @@
   "nominatim:it's located at geylang bahru coffeeshop": null,
   "nominatim:geylang bahru coffeeshop": null,
   "nominatim:it's located at geylang bahru": null,
-  "nominatim:it's located at geylang bahru coffeeshop singapore": null
+  "nominatim:it's located at geylang bahru coffeeshop singapore": null,
+  "onemap:? going mid of this year,thanks": null,
+  "onemap:? going mid of this year,thanks singapore": null,
+  "nominatim:? going mid of this year,thanks": null,
+  "nominatim:? going mid of this year,thanks singapore": null,
+  "onemap:320090": {
+    "lat": 1.32306493801159,
+    "lng": 103.854996183556,
+    "address": "90 WHAMPOA DRIVE WHAMPOA DRIVE MAKAN PLACE SINGAPORE 320090"
+  },
+  "onemap:punggol coast hawker centre": {
+    "lat": 1.41455331350836,
+    "lng": 103.908235308668,
+    "address": "84 PUNGGOL WAY PUNGGOL COAST HAWKER CENTRE SINGAPORE 829911"
+  },
+  "onemap:jeremy hoe hokkien mee": null,
+  "onemap:jeremy hoe hokkien mee singapore": null,
+  "nominatim:jeremy hoe hokkien mee": null,
+  "nominatim:jeremy hoe hokkien mee singapore": null,
+  "onemap:3 young st": null,
+  "onemap:3 young st singapore": null,
+  "onemap:north bridge road hawker centre": null,
+  "onemap:north bridge road hawker centre singapore": null,
+  "nominatim:north bridge road hawker centre": null,
+  "nominatim:north bridge road hawker centre singapore": null,
+  "onemap:503 jurong west": {
+    "lat": 1.34995541462242,
+    "lng": 103.71770480961,
+    "address": "503 JURONG WEST AVENUE 1 HONG KAH POINT SINGAPORE 640503"
+  },
+  "onemap:jeremy sg hokkien mie": null,
+  "onemap:jeremy sg hokkien mie singapore": null,
+  "nominatim:jeremy sg hokkien mie": null,
+  "nominatim:jeremy sg hokkien mie singapore": null,
+  "onemap:boardway coffee shop": null,
+  "onemap:boardway": null,
+  "onemap:boardway coffee shop singapore": null,
+  "nominatim:boardway coffee shop": null,
+  "nominatim:boardway": null,
+  "nominatim:boardway coffee shop singapore": null
 }

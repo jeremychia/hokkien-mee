@@ -6,6 +6,7 @@
 #   ./run.sh extract      Extract posts only
 #   ./run.sh images       Download images only
 #   ./run.sh map          Generate map only
+#   ./run.sh publish      Commit and push changes to GitHub 
 #   ./run.sh all          Run all steps (same as no argument)
 #
 # Options are passed through to the underlying scripts.
@@ -62,6 +63,18 @@ step_map() {
     ok "Map generated → docs/index.html"
 }
 
+step_publish() {
+    info "Publishing changes (commit + push)..."
+    git add -A
+    if git diff --cached --quiet; then
+        info "No changes to commit"
+    else
+        git commit -m "chore: update for $(date +%F)"
+    fi
+    git push
+    ok "Publish complete"
+}
+
 # ---------- main ----------
 main() {
     local cmd="${1:-all}"
@@ -85,6 +98,10 @@ main() {
         map)
             preflight
             step_map
+            ;;
+        publish)
+            preflight
+            step_publish
             ;;
         all)
             preflight
