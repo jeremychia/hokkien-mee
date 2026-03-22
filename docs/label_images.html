@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Labeler - Hokkien Mee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .file-input {
+            margin: 20px 0;
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+            min-height: 400px;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .label-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .label-btn.noodles { background-color: #4CAF50; color: white; }
+        .label-btn.storefront { background-color: #2196F3; color: white; }
+        .label-btn.other { background-color: #FF9800; color: white; }
+        .label-btn:hover { opacity: 0.8; }
+        .label-btn.active { box-shadow: 0 0 0 3px rgba(0,0,0,0.2); }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .progress {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .info {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .download-btn:hover { background: #45a049; }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Hokkien Mee Image Labeler</h1>
+
+        <div class="file-input">
+            <label for="csvFile">Select image_labels.csv file:</label>
+            <input type="file" id="csvFile" accept=".csv">
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalImages">0</div>
+                <div>Total Images</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="labeledImages">0</div>
+                <div>Labeled</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="currentIndex">0</div>
+                <div>Current</div>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div id="imageDisplay">
+                <p>Select a CSV file to start labeling</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="label-btn noodles" data-label="noodles">🍜 Noodles</button>
+            <button class="label-btn storefront" data-label="storefront">🏪 Storefront</button>
+            <button class="label-btn other" data-label="other">❓ Other</button>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" disabled>⬅️ Previous</button>
+            <button class="nav-btn" id="nextBtn" disabled>Next ➡️</button>
+        </div>
+
+        <div class="progress">
+            <div id="progressText">Load a CSV file to begin</div>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                <strong>Keyboard shortcuts:</strong><br>
+                <strong>n</strong> = Noodles (auto-advance) | 
+                <strong>s</strong> = Storefront (auto-advance) | 
+                <strong>o</strong> = Other (auto-advance)<br>
+                <strong>1/2/3</strong> = Label without advancing | 
+                <strong>← →</strong> = Navigate
+            </p>
+        </div>
+
+        <button class="download-btn" id="downloadBtn" style="display: none;">💾 Download Updated CSV</button>
+    </div>
+
+    <script>
+        let csvData = [];
+        let currentIndex = 0;
+        let csvHeaders = [];
+        let useServerAPI = false;
+
+        // Load CSV from server on page load
+        window.addEventListener('load', function() {
+            loadCSVFromServer();
+        });
+
+        // Try to load CSV from server API
+        function loadCSVFromServer() {
+            fetch('/api/load-csv')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data.length > 0) {
+                        csvData = data.data;
+                        csvHeaders = Object.keys(data.data[0]);
+                        currentIndex = 0;
+                        useServerAPI = true;
+                        updateDisplay();
+                        updateStats();
+                        document.getElementById('downloadBtn').textContent = '💾 Save to Server';
+                        document.getElementById('downloadBtn').style.display = 'block';
+                        document.getElementById('csvFile').style.display = 'none';
+                        console.log('Loaded CSV from server');
+                    }
+                })
+                .catch(err => {
+                    console.log('Server API not available, using file upload mode');
+                    document.getElementById('csvFile').style.display = 'block';
+                });
+        }
+
+        // File input handler (fallback if server not available)
+        document.getElementById('csvFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    parseCSV(e.target.result);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Parse CSV data
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            csvHeaders = lines[0].split(',').map(h => h.trim());
+
+            csvData = lines.slice(1).map((line, index) => {
+                const values = line.split(',');
+                const row = {};
+                csvHeaders.forEach((header, i) => {
+                    row[header] = values[i] ? values[i].trim() : '';
+                });
+                row._originalIndex = index;
+                return row;
+            });
+
+            currentIndex = 0;
+            updateDisplay();
+            updateStats();
+            document.getElementById('downloadBtn').style.display = 'block';
+        }
+
+        // Update display
+        function updateDisplay() {
+            const imageDisplay = document.getElementById('imageDisplay');
+            const currentItem = csvData[currentIndex];
+
+            if (!currentItem) {
+                imageDisplay.innerHTML = '<p>No images to label</p>';
+                return;
+            }
+
+            const localPath = currentItem.local_path;
+            const imageType = currentItem.image_type || 'unlabeled';
+            const isManual = currentItem.is_manual === 'true';
+
+            // Convert local path to relative path from docs/ folder
+            const imageSrc = '../' + localPath;
+
+            imageDisplay.innerHTML = `
+                <img src="${imageSrc}" alt="Image ${currentIndex + 1}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjOTk5Ij5JbWFnZSBub3QgZm91bmQ8L3RleHQ+PC9zdmc+'; this.alt='Image not found'">
+                <div class="info">
+                    <strong>Image ${currentIndex + 1} of ${csvData.length}</strong><br>
+                    Post ID: ${currentItem.post_id}<br>
+                    Current Label: ${imageType} ${isManual ? '(manual)' : '(auto)'}<br>
+                    Path: ${localPath}
+                </div>
+            `;
+
+            // Update button states
+            document.querySelectorAll('.label-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.label === imageType) {
+                    btn.classList.add('active');
+                }
+            });
+
+            updateNavButtons();
+        }
+
+        // Update navigation buttons
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === csvData.length - 1;
+        }
+
+        // Update stats
+        function updateStats() {
+            const total = csvData.length;
+            const labeled = csvData.filter(item => item.image_type && item.image_type !== 'other' && item.is_manual === 'true').length;
+
+            document.getElementById('totalImages').textContent = total;
+            document.getElementById('labeledImages').textContent = labeled;
+            document.getElementById('currentIndex').textContent = currentIndex + 1;
+        }
+
+        // Label button handlers
+        document.querySelectorAll('.label-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const label = this.dataset.label;
+                csvData[currentIndex].image_type = label;
+                csvData[currentIndex].is_manual = 'true';
+                csvData[currentIndex].confidence = '1.0';
+                csvData[currentIndex].model_source = 'manual';
+                csvData[currentIndex].reason = 'manual labeling';
+
+                updateDisplay();
+                updateStats();
+            });
+        });
+
+        // Navigation handlers
+        document.getElementById('prevBtn').addEventListener('click', function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateDisplay();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            if (currentIndex < csvData.length - 1) {
+                currentIndex++;
+                updateDisplay();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (csvData.length === 0) return;
+
+            // Letter shortcuts (n=noodles, s=storefront, o=other) - auto-advance
+            if (e.key.toLowerCase() === 'n') {
+                csvData[currentIndex].image_type = 'noodles';
+                csvData[currentIndex].is_manual = 'true';
+                csvData[currentIndex].confidence = '1.0';
+                csvData[currentIndex].model_source = 'manual';
+                csvData[currentIndex].reason = 'manual labeling';
+                updateStats();
+                if (currentIndex < csvData.length - 1) {
+                    currentIndex++;
+                    updateDisplay();
+                }
+                return;
+            }
+            if (e.key.toLowerCase() === 's') {
+                csvData[currentIndex].image_type = 'storefront';
+                csvData[currentIndex].is_manual = 'true';
+                csvData[currentIndex].confidence = '1.0';
+                csvData[currentIndex].model_source = 'manual';
+                csvData[currentIndex].reason = 'manual labeling';
+                updateStats();
+                if (currentIndex < csvData.length - 1) {
+                    currentIndex++;
+                    updateDisplay();
+                }
+                return;
+            }
+            if (e.key.toLowerCase() === 'o') {
+                csvData[currentIndex].image_type = 'other';
+                csvData[currentIndex].is_manual = 'true';
+                csvData[currentIndex].confidence = '1.0';
+                csvData[currentIndex].model_source = 'manual';
+                csvData[currentIndex].reason = 'manual labeling';
+                updateStats();
+                if (currentIndex < csvData.length - 1) {
+                    currentIndex++;
+                    updateDisplay();
+                }
+                return;
+            }
+
+            // Number shortcuts (1=noodles, 2=storefront, 3=other) - don't auto-advance
+            switch(e.key) {
+                case 'ArrowLeft':
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateDisplay();
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (currentIndex < csvData.length - 1) {
+                        currentIndex++;
+                        updateDisplay();
+                    }
+                    break;
+                case '1':
+                    document.querySelector('.label-btn.noodles').click();
+                    break;
+                case '2':
+                    document.querySelector('.label-btn.storefront').click();
+                    break;
+                case '3':
+                    document.querySelector('.label-btn.other').click();
+                    break;
+            }
+        });
+
+        // Download/Save updated CSV
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            if (useServerAPI) {
+                // Save directly to server
+                const payload = {
+                    headers: csvHeaders,
+                    data: csvData
+                };
+                
+                fetch('/api/save-csv', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('✅ CSV saved to server!');
+                    } else {
+                        alert('❌ Error saving CSV: ' + data.message);
+                    }
+                })
+                .catch(err => alert('❌ Error: ' + err));
+            } else {
+                // Download as file
+                const csvContent = [csvHeaders.join(',')];
+
+                csvData.forEach(row => {
+                    const values = csvHeaders.map(header => {
+                        const value = row[header] || '';
+                        if (value.includes(',') || value.includes('"')) {
+                            return '"' + value.replace(/"/g, '""') + '"';
+                        }
+                        return value;
+                    });
+                    csvContent.push(values.join(','));
+                });
+
+                const blob = new Blob([csvContent.join('\n')], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'image_labels_updated.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                alert('CSV downloaded! Replace your original image_labels.csv with this file.');
+            }
+        });
+    </script>
+</body>
+</html>

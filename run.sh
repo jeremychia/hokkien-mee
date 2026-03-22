@@ -5,6 +5,7 @@
 #   ./run.sh              Run all steps (extract, download images, map)
 #   ./run.sh extract      Extract posts only
 #   ./run.sh images       Download images only
+#   ./run.sh classify     Classify images only
 #   ./run.sh map          Generate map only
 #   ./run.sh publish      Commit and push changes to GitHub 
 #   ./run.sh all          Run all steps (same as no argument)
@@ -51,10 +52,16 @@ step_extract() {
     ok "Extraction complete → output/group_posts.json"
 }
 
-step_images() {
+step_download_images() {
     info "Downloading images..."
     uv run python extractor/download_images.py
     ok "Images downloaded → output/images/"
+}
+
+step_classify_images() {
+    info "Classifying images..."
+    uv run python extractor/classify_images.py --input output/group_posts.json --output output/image_labels.json --csv output/image_labels.csv --report output/image_classification_report.md --preview 10 --merge-existing
+    ok "Images classified → output/image_labels.json"
 }
 
 step_map() {
@@ -93,7 +100,11 @@ main() {
             ;;
         images)
             preflight
-            step_images
+            step_download_images
+            ;;
+        classify)
+            preflight
+            step_classify_images
             ;;
         map)
             preflight
@@ -108,6 +119,8 @@ main() {
             step_extract "$@"
             echo
             step_images
+            echo
+            step_classify_images
             echo
             step_map
             ;;

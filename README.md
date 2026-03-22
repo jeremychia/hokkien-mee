@@ -103,6 +103,60 @@ uv run python extractor/download_images.py
 
 Images are saved to `output/images/`.
 
+### Manual image tagging (optional)
+
+If you want to label images manually before/after automation, use the normalized `output/image_labels.*` artifacts:
+
+1. Run the classifier pipeline (with CLIP model support if installed):
+
+```bash
+./run.sh classify
+```
+
+This will classify all images and write to `output/image_labels.csv` and `output/image_labels.json`.
+
+2. Open `output/image_labels.csv` in a spreadsheet editor (Excel, Numbers, LibreOffice Calc) and add/edit the `image_type` values:
+   - `noodles`
+   - `storefront`
+   - `other`
+
+   Also, set `is_manual` to `true` for any rows you manually correct. This tells the classifier to preserve your labels on future runs.
+
+3. Save your changes in CSV.
+
+4. To re-run classification on the remaining images (preserving your manual edits), use:
+
+```bash
+./run.sh classify  # will use --merge-existing automatically
+```
+
+Or manually:
+
+```bash
+uv run python extractor/classify_images.py --input output/group_posts.json --output output/image_labels.json --csv output/image_labels.csv --report output/image_classification_report.md --merge-existing
+```
+
+This loads existing labels from `output/image_labels.csv` and only classifies images where `is_manual` is not `true`.
+
+5. Option A (simple): keep `output/image_labels.csv` as your source of truth.
+
+6. Option B (preferred for seamless pipeline): re-generate `output/image_labels.json` from your edited CSV using the helper script:
+
+```bash
+python - <<'PY'
+import csv, json, pathlib
+rows = []
+for r in csv.DictReader(open('output/image_labels.csv', newline='', encoding='utf-8')):
+    # preserve all existing fields, and normalize numeric
+    r['confidence'] = float(r.get('confidence', 0) or 0)
+    rows.append(r)
+with open('output/image_labels.json', 'w', encoding='utf-8') as f:
+    json.dump(rows, f, indent=2, ensure_ascii=False)
+PY
+```
+
+6. Make sure `output/image_labels.csv` and `output/image_labels.json` stay in sync. If you want to re-run the classifier, do it after manual tagging to keep your labels (use a separate `..._baseline.json` to avoid overwrite).
+
 ### Plot on a map
 
 After extracting posts, geocode locations and generate an interactive map:
