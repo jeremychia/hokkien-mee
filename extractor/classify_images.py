@@ -169,6 +169,78 @@ def fine_tune_resnet(model, manual_labels):
     return model
 
 
+def cross_validate_resnet(manual_labels, k=5):
+    """Run k-fold CV on manual labels and print per-fold accuracy."""
+    import torch
+    from torch.utils.data import Dataset, Subset
+    from torchvision import transforms
+    from torchvision.models import resnet50
+    from PIL import Image
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    transform = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+
+    class ImageDataset(Dataset):
+        def __init__(self, data, transform):
+            self.data = data
+            self.transform = transform
+        def __len__(self):
+            return len(self.data)
+        def __getitem__(self, idx):
+            path, label = self.data[idx]
+            image = Image.open(path).convert('RGB')
+            return self.transform(image), {'noodles': 0, 'storefront': 1, 'other': 2}[label]
+
+    dataset = ImageDataset(manual_labels, transform)
+    fold_size = math.ceil(len(manual_labels) / k)
+    indices = list(range(len(manual_labels)))
+    fold_accuracies = []
+
+    for fold in range(k):
+        val_indices = indices[fold * fold_size: (fold + 1) * fold_size]
+        train_indices = [i for i in indices if i not in val_indices]
+        if not train_indices or not val_indices:
+            continue
+
+        train_loader = torch.utils.data.DataLoader(Subset(dataset, train_indices), batch_size=4, shuffle=True)
+        val_loader = torch.utils.data.DataLoader(Subset(dataset, val_indices), batch_size=4)
+
+        model = resnet50(weights="IMAGENET1K_V2")
+        model.fc = torch.nn.Linear(model.fc.in_features, 3)
+        model = model.to(device)
+        optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+        criterion = torch.nn.CrossEntropyLoss()
+
+        model.train()
+        for _ in range(5):
+            for images, labels in train_loader:
+                images, labels = images.to(device), labels.to(device)
+                optimizer.zero_grad()
+                criterion(model(images), labels).backward()
+                optimizer.step()
+
+        model.eval()
+        correct, total = 0, 0
+        with torch.no_grad():
+            for images, labels in val_loader:
+                images, labels = images.to(device), labels.to(device)
+                correct += (model(images).argmax(dim=1) == labels).sum().item()
+                total += labels.size(0)
+
+        acc = correct / total if total > 0 else 0
+        fold_accuracies.append(acc)
+        print(f"  CV fold {fold+1}/{k}: accuracy = {acc:.2%}")
+
+    mean_acc = sum(fold_accuracies) / len(fold_accuracies) if fold_accuracies else 0
+    print(f"  CV mean accuracy: {mean_acc:.2%}")
+    return mean_acc
+
+
 def get_model(manual_labels=None):
     """
     Return a classifier pipeline.
@@ -216,6 +288,9 @@ def get_model(manual_labels=None):
             model = resnet50(pretrained=True)
         model.eval()
         print(f"Fine-tuning ResNet on {len(manual_labels)} manual labels...")
+        if len(manual_labels) >= 10:
+            print(f"Running {min(5, len(manual_labels))}-fold cross-validation...")
+            cross_validate_resnet(manual_labels, k=min(5, len(manual_labels)))
         model = fine_tune_resnet(model, manual_labels)
         return {"model": model, "preprocess": preprocess, "torch": torch, "type": "resnet_finetuned"}
 
