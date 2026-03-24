@@ -559,6 +559,18 @@ def write_report(output_path, rows):
             else:
                 f.write("No auto-classified images.\n\n")
 
+    needs_review = sorted(
+        [r for r in rows if not r.get("is_manual") and r.get("confidence", 1.0) < 0.65],
+        key=lambda r: r.get("confidence", 0),
+    )
+    f.write(f"## Needs Manual Review (confidence < 0.65, count={len(needs_review)})\n\n")
+    if needs_review:
+        for r in needs_review[:30]:
+            f.write(f"- {r['image_id']} ({r['confidence']:.4f}) {r['local_path']} → `{r['image_type']}`\n")
+    else:
+        f.write("No images need review.\n")
+    f.write("\n")
+
 
 def print_preview(rows, n):
     n = min(n, len(rows))
