@@ -1,5 +1,6 @@
 output/images/
 output/hokkien_mee_map.html
+output/finetuned_resnet.pth
 facebook_cookies.txt
 secrets/
 .venv/
