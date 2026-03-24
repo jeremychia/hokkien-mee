@@ -50,6 +50,25 @@ def load_location_overrides():
         print(f"Error parsing location overrides: {e}")
         return {"merges": {}, "renames": {}, "excludes": []}
 
+def load_image_labels():
+    """Load image classification labels and return a dict keyed by image_id.
+
+    Returns:
+        dict mapping image_id (e.g. '25620157537652755_4') to image_type
+        ('noodles', 'storefront', or 'other').
+    """
+    try:
+        with open(IMAGE_LABELS_FILE, 'r', encoding='utf-8') as f:
+            labels = json.load(f)
+        return {entry['image_id']: entry['image_type'] for entry in labels if 'image_id' in entry and 'image_type' in entry}
+    except FileNotFoundError:
+        print(f"Warning: {IMAGE_LABELS_FILE} not found — images will have no type tags.")
+        return {}
+    except Exception as e:
+        print(f"Warning: Could not load image labels: {e}")
+        return {}
+
+
 def apply_location_overrides(location, overrides):
     """Apply manual location overrides."""
     if not location:
@@ -80,7 +99,9 @@ TEMPLATE_FILE = os.path.join(os.path.dirname(__file__), "map_template.html")
 GROUP_URL = "https://www.facebook.com/groups/227074250721100/"
 
 # Maximum number of images to include per post in the output (saves bandwidth)
-MAX_IMAGES_PER_POST = 3
+MAX_IMAGES_PER_POST = 10
+
+IMAGE_LABELS_FILE = "output/image_labels.json"
 
 # Logged-in user name that may have leaked into scraped text.
 # The scraper's "comment as <user>" UI element sometimes gets captured.
@@ -99,6 +120,9 @@ SG_CENTRE = [1.3521, 103.8198]
 
 # Load manual overrides and merge with existing aliases
 _OVERRIDES = load_location_overrides()
+
+# Load image classification labels (image_id → image_type)
+_image_labels = load_image_labels()
 
 # Known location aliases — map colloquial/variant names to canonical geocodable names
 LOCATION_ALIASES = {
@@ -856,9 +880,11 @@ def build_site(geocoded_posts, total_posts):
         for j, url in enumerate(post.get("images", [])[:MAX_IMAGES_PER_POST]):
             if not url:
                 continue
+            image_id = f"{post_id}_{j}"
             images.append({
                 "url": url,
-                "local": f"images/{post_id}_{j}.jpg",
+                "local": f"images/{image_id}.jpg",
+                "type": _image_labels.get(image_id, "other"),
             })
 
         location_groups[key]["posts"].append({

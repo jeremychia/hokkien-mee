@@ -549,6 +549,43 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   transition: opacity 0.2s;
 }
 .popup-images img:hover { opacity: 0.85; }
+
+/* ── Image category tabs ─────────────────────────────────────── */
+.img-tabs { margin-top: 6px; }
+.img-tab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.img-tab-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.img-tab-btn:hover { border-color: var(--primary); color: var(--primary); }
+.img-tab-btn.active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.img-tab-panel { display: none; }
+.img-tab-panel.active { display: flex; gap: 4px; flex-wrap: wrap; }
+.img-tab-panel img {
+  width: 80px; height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.img-tab-panel img:hover { opacity: 0.85; }
 .popup-meta {
   display: flex;
   align-items: center;
@@ -1187,6 +1224,68 @@ function totalReactions(loc) {
 // Current sort mode
 let currentSort = 'posts';
 
+// ── Image tabs ──────────────────────────────────────────────────
+const IMG_TABS = [
+  { key: 'noodles',   label: '🍜 Noodles'    },
+  { key: 'storefront', label: '🏪 Storefront' },
+  { key: 'other',     label: '📷 Other'       },
+];
+
+function buildImageTabsHtml(images) {
+  if (!images || images.length === 0) return '';
+
+  // Group images by type
+  const buckets = { noodles: [], storefront: [], other: [] };
+  for (const img of images) {
+    const type = img.type || 'other';
+    (buckets[type] || buckets.other).push(img);
+  }
+
+  // Determine which tabs have images; pick default (prefer noodles → storefront → other)
+  const activeTabs = IMG_TABS.filter(t => buckets[t.key].length > 0);
+  if (activeTabs.length === 0) return '';
+
+  // If only one tab has images, skip the tab bar entirely
+  if (activeTabs.length === 1) {
+    const imgs = activeTabs[0].key;
+    const imgsHtml = buckets[imgs].map(img => imgTag(img)).join('');
+    return `<div class="popup-images">${imgsHtml}</div>`;
+  }
+
+  const defaultTab = activeTabs[0].key;
+
+  const tabBar = activeTabs.map(t =>
+    `<button class="img-tab-btn${t.key === defaultTab ? ' active' : ''}"
+             onclick="switchImgTab(this)"
+             data-tab="${t.key}">${t.label} <span style="opacity:.65">${buckets[t.key].length}</span></button>`
+  ).join('');
+
+  const panels = activeTabs.map(t => {
+    const imgsHtml = buckets[t.key].map(img => imgTag(img)).join('');
+    return `<div class="img-tab-panel${t.key === defaultTab ? ' active' : ''}" data-tab="${t.key}">${imgsHtml}</div>`;
+  }).join('');
+
+  return `<div class="img-tabs"><div class="img-tab-bar">${tabBar}</div>${panels}</div>`;
+}
+
+function imgTag(img) {
+  const srcs = resolveImageSources(img);
+  if (!srcs.primary) return '';
+  const primary = escapeHtml(srcs.primary);
+  const fallback = escapeHtml(srcs.fallback || '');
+  return `<img src="${primary}" alt="Photo" loading="lazy"
+        data-fallback="${fallback}"
+        onerror="handleImgError(this)"
+        onclick="openLightboxFromImg(this)">`;
+}
+
+function switchImgTab(btn) {
+  const tabKey = btn.dataset.tab;
+  const tabs = btn.closest('.img-tabs');
+  tabs.querySelectorAll('.img-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabKey));
+  tabs.querySelectorAll('.img-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === tabKey));
+}
+
 // ── Popup HTML ──────────────────────────────────────────────────
 function buildPopupHtml(loc) {
   const count = loc.posts.length;
@@ -1217,20 +1316,7 @@ function buildPopupHtml(loc) {
   for (const p of loc.posts) {
     const text = escapeHtml(truncate(p.text || '', 200)).replace(/\n/g, '<br>');
 
-    let imgHtml = '';
-    if (p.images && p.images.length > 0) {
-      const imgs = p.images.slice(0, 3).map(img => {
-        const srcs = resolveImageSources(img);
-        if (!srcs.primary) return '';
-        const primary = escapeHtml(srcs.primary);
-        const fallback = escapeHtml(srcs.fallback || '');
-        return `<img src="${primary}" alt="Photo" loading="lazy"
-              data-fallback="${fallback}"
-              onerror="handleImgError(this)"
-              onclick="openLightboxFromImg(this)">`;
-      }).join('');
-      imgHtml = `<div class="popup-images">${imgs}</div>`;
-    }
+    const imgHtml = buildImageTabsHtml(p.images);
 
     const meta = [];
     if (p.comment_count > 0) meta.push(`💬 ${p.comment_count}`);
@@ -1322,8 +1408,11 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.setAttribute('aria-label', `${loc.address}. ${postCountLabel(postCount)}.`);
   card.setAttribute('aria-selected', 'false');
 
-  // Get first image and total reactions for the card
-  const firstImg = loc.posts.flatMap(p => p.images || []).find(Boolean);
+  // Get first image (prefer noodles → storefront → any) and total reactions for the card
+  const allImgs = loc.posts.flatMap(p => p.images || []);
+  const firstImg = allImgs.find(img => img && img.type === 'noodles')
+                || allImgs.find(img => img && img.type === 'storefront')
+                || allImgs.find(Boolean);
   const reactions = totalReactions(loc);
   const metaParts = [postCountLabel(postCount)];
   if (reactions > 0) metaParts.push('\u{1F44D} ' + reactions);
@@ -1339,8 +1428,9 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.dataset.rating = (sent.score !== undefined && sent.score !== null) ? sent.score : -1;
   card.dataset.reactions = reactions;
 
-  const thumbHtml = firstImg
-    ? `<img class="loc-thumb" src="${escapeHtml(firstImg)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
+  const thumbSrc = firstImg ? resolveImageSources(firstImg).primary : '';
+  const thumbHtml = thumbSrc
+    ? `<img class="loc-thumb" src="${escapeHtml(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
     : `<svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>`;
 
   card.innerHTML = `
