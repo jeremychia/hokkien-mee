@@ -3,14 +3,19 @@
 Classify downloaded images into noodles/storefront/other.
 
 Usage:
-  python extractor/classify_images.py --input output/group_posts.json --output output/image_labels.json
+  python extractor/classify_images.py [--input INPUT] [--output OUTPUT]
+
+Model selection (automatic — no flags needed):
+  - Manual labels exist + valid cache  → load cached fine-tuned ResNet.
+  - Manual labels exist + stale/no cache → fine-tune ResNet and cache.
+  - No manual labels                   → zero-shot CLIP, or base ResNet as fallback.
+
+Manual labels in the CSV are NEVER overwritten.
 
 Outputs:
   - output/image_labels.json
   - output/image_labels.csv
   - output/image_classification_report.md
-
-This is intentionally a lightweight step that can run after download_images and before map_posts.
 """
 
 import argparse
@@ -108,7 +113,9 @@ def fine_tune_resnet(model, manual_labels):
 
     transform = transforms.Compose([
         transforms.Resize(256),
-        transforms.CenterCrop(224),
+        transforms.RandomCrop(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
@@ -162,54 +169,22 @@ def fine_tune_resnet(model, manual_labels):
     return model
 
 
-def get_model(fine_tune=False, manual_labels=None, force_retrain=False):
-    if fine_tune and manual_labels:
-        # Use ResNet and fine-tune
+def get_model(manual_labels=None):
+    """
+    Return a classifier pipeline.
+
+    - With manual labels and a valid cache (same label count): load cached fine-tuned ResNet.
+    - With manual labels but stale / missing cache: fine-tune ResNet and cache.
+    - Without manual labels: zero-shot CLIP, or base ResNet as fallback.
+    """
+    if manual_labels:
         try:
             import torch
             from torchvision import transforms
             from torchvision.models import resnet50
-        except Exception:
-            return None
-
-        # Check for cached model
-        if not force_retrain and os.path.exists(MODEL_CACHE_PATH) and os.path.exists(MODEL_CACHE_INFO_PATH):
-            try:
-                with open(MODEL_CACHE_INFO_PATH, 'r') as f:
-                    cache_info = json.load(f)
-                if cache_info.get('manual_labels_count') == len(manual_labels):
-                    print(f"Loading cached fine-tuned model from {MODEL_CACHE_PATH}")
-                    model = resnet50(weights="IMAGENET1K_V2")
-                    model.fc = torch.nn.Linear(model.fc.in_features, 3)  # Adjust for 3 classes
-                    model.load_state_dict(torch.load(MODEL_CACHE_PATH, map_location=torch.device('cpu')))
-                    model.eval()
-                    preprocess = transforms.Compose([
-                        transforms.Resize(256),
-                        transforms.CenterCrop(224),
-                        transforms.ToTensor(),
-                        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                    ])
-                    return {
-                        "model": model,
-                        "preprocess": preprocess,
-                        "torch": torch,
-                        "type": "resnet_finetuned_cached",
-                    }
-                else:
-                    print(f"Cached model has different number of labels ({cache_info.get('manual_labels_count')} vs {len(manual_labels)}), retraining...")
-            except Exception as e:
-                print(f"Failed to load cached model: {e}, retraining...")
-
-        try:
-            model = resnet50(weights="IMAGENET1K_V2")
-        except Exception:
-            try:
-                model = resnet50(pretrained=True)
-            except Exception as e:
-                print(f"Warning: could not load torchvision model (skipping model-driven prediction): {e}")
-                return None
-
-        model.eval()
+        except Exception as e:
+            print(f"Warning: torchvision not available ({e}), falling back to zero-shot model")
+            return _get_zeroshot_model()
 
         preprocess = transforms.Compose([
             transforms.Resize(256),
@@ -218,79 +193,70 @@ def get_model(fine_tune=False, manual_labels=None, force_retrain=False):
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ])
 
+        # Try loading a valid cached model first
+        if os.path.exists(MODEL_CACHE_PATH) and os.path.exists(MODEL_CACHE_INFO_PATH):
+            try:
+                with open(MODEL_CACHE_INFO_PATH, "r") as f:
+                    cache_info = json.load(f)
+                if cache_info.get("manual_labels_count") == len(manual_labels):
+                    print(f"Loading cached fine-tuned model ({len(manual_labels)} manual labels)")
+                    model = resnet50(weights="IMAGENET1K_V2")
+                    model.fc = torch.nn.Linear(model.fc.in_features, 3)
+                    model.load_state_dict(torch.load(MODEL_CACHE_PATH, map_location=torch.device("cpu")))
+                    model.eval()
+                    return {"model": model, "preprocess": preprocess, "torch": torch, "type": "resnet_finetuned"}
+                print(f"Label count changed ({cache_info.get('manual_labels_count')} → {len(manual_labels)}), retraining...")
+            except Exception as e:
+                print(f"Cache load failed ({e}), retraining...")
+
+        # Fine-tune from scratch
+        try:
+            model = resnet50(weights="IMAGENET1K_V2")
+        except Exception:
+            model = resnet50(pretrained=True)
+        model.eval()
         print(f"Fine-tuning ResNet on {len(manual_labels)} manual labels...")
         model = fine_tune_resnet(model, manual_labels)
-        return {
-            "model": model,
-            "preprocess": preprocess,
-            "torch": torch,
-            "type": "resnet_finetuned",
-        }
-    else:
-        # Try CLIP first (zero-shot)
-        try:
-            from transformers import CLIPProcessor, CLIPModel
-            import torch
-        except ImportError:
-            pass
-        else:
-            try:
-                model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-                processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-                return {
-                    "model": model,
-                    "processor": processor,
-                    "torch": torch,
-                    "type": "clip",
-                }
-            except Exception as e:
-                print(f"Warning: could not load CLIP model: {e}")
+        return {"model": model, "preprocess": preprocess, "torch": torch, "type": "resnet_finetuned"}
 
-        # Fallback to ResNet
-        try:
-            import torch
-            from torchvision import transforms
-            from torchvision.models import resnet50
-        except Exception:
-            return None
+    return _get_zeroshot_model()
 
-        try:
-            model = resnet50(weights="IMAGENET1K_V2")
-        except Exception:
-            try:
-                model = resnet50(pretrained=True)
-            except Exception as e:
-                print(f"Warning: could not load torchvision model (skipping model-driven prediction): {e}")
-                return None
 
+def _get_zeroshot_model():
+    """Zero-shot CLIP classifier, with base ResNet as fallback."""
+    try:
+        from transformers import CLIPProcessor, CLIPModel
+        import torch
+        model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+        processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+        return {"model": model, "processor": processor, "torch": torch, "type": "clip"}
+    except Exception as e:
+        print(f"CLIP not available ({e}), trying base ResNet")
+
+    try:
+        import torch
+        from torchvision import transforms
+        from torchvision.models import resnet50
+        model = resnet50(weights="IMAGENET1K_V2")
         model.eval()
-
         preprocess = transforms.Compose([
             transforms.Resize(256),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ])
-
         labels = load_imagenet_labels() or {}
-        return {
-            "model": model,
-            "preprocess": preprocess,
-            "labels": labels,
-            "torch": torch,
-            "type": "resnet",
-        }
+        return {"model": model, "preprocess": preprocess, "labels": labels, "torch": torch, "type": "resnet"}
+    except Exception as e:
+        print(f"Warning: could not load any model ({e})")
+        return None
 
 
 def infer_image_label_with_model(image_path, pipeline):
     model_type = pipeline.get("type", "resnet")
-
     if model_type == "clip":
         return infer_with_clip(image_path, pipeline)
-    elif model_type in ("resnet", "resnet_finetuned"):
-        return infer_with_resnet(image_path, pipeline)
-    else:
-        return None
+    return infer_with_resnet(image_path, pipeline)
 
 
 def infer_with_clip(image_path, pipeline):
@@ -429,52 +395,26 @@ def classify_image(image_path, classifier):
     if not os.path.exists(image_path):
         raise FileNotFoundError(image_path)
 
-    result = {
-        "image_type": "other",
-        "confidence": 0.0,
-        "reason": "unclassified",
-        "model_source": "heuristic",
-    }
-
     if classifier is not None:
-        model_type = classifier.get("type", "resnet")
-        if model_type == "clip":
-            infer = infer_image_label_with_model(image_path, classifier)
-            if infer:
-                predicted_class, prob = infer
-                result["image_type"] = predicted_class
-                result["confidence"] = float(prob)
-                result["reason"] = f"clip zero-shot"
-                result["model_source"] = "clip"
-                return result
-        elif model_type == "resnet_finetuned":
-            infer = infer_image_label_with_model(image_path, classifier)
-            if infer:
-                label, prob = infer
-                result["image_type"] = label
-                result["confidence"] = float(prob)
-                result["reason"] = "finetuned resnet"
-                result["model_source"] = "finetuned_resnet"
-                return result
-        elif model_type == "resnet":
-            infer = infer_image_label_with_model(image_path, classifier)
-            if infer:
-                imagenet_label, prob = infer
-                mapped = map_imagenet_to_class(imagenet_label)
-                if mapped:
-                    result["image_type"] = mapped
-                    result["confidence"] = float(prob)
-                    result["reason"] = f"imagenet:{imagenet_label}"
-                    result["model_source"] = "imagenet_resnet"
-                    return result
+        infer = infer_image_label_with_model(image_path, classifier)
+        if infer:
+            predicted_class, prob = infer
+            model_type = classifier.get("type", "resnet")
+            return {
+                "image_type": predicted_class,
+                "confidence": float(prob),
+                "reason": model_type,
+                "model_source": model_type,
+            }
 
     # Fallback to heuristic
     rule_label, rule_conf = heuristic_classify(image_path)
-    result["image_type"] = rule_label
-    result["confidence"] = float(rule_conf)
-    result["reason"] = "heuristic based on filename"
-    result["model_source"] = "heuristic"
-    return result
+    return {
+        "image_type": rule_label,
+        "confidence": float(rule_conf),
+        "reason": "heuristic based on filename",
+        "model_source": "heuristic",
+    }
 
 
 def write_json(output_path, data):
@@ -564,11 +504,6 @@ def main():
     parser.add_argument("--report", default=OUTPUT_REPORT_DEFAULT, help="Path to output markdown report")
     parser.add_argument("--preview", type=int, default=10, help="Show top N rows after classification")
     parser.add_argument("--skip-model", action="store_true", help="Skip model-based classification and use heuristic only")
-    parser.add_argument("--merge-existing", action="store_true", help="Load existing labels from CSV and only classify unclassified images")
-    parser.add_argument("--reclassify-all", action="store_true", help="Reclassify all images, ignoring existing auto-classifications (preserves manual labels)")
-    parser.add_argument("--only-new", action="store_true", help="Only classify images not present in existing CSV")
-    parser.add_argument("--fine-tune", action="store_true", help="Fine-tune the model on manual labels before classification")
-    parser.add_argument("--force-retrain", action="store_true", help="Force retraining even if cached model exists")
     parser.add_argument("--confidence-threshold", type=float, default=0.5, help="Minimum confidence to accept classification, else classify as 'other'")
     args = parser.parse_args()
 
@@ -576,57 +511,24 @@ def main():
     if not isinstance(posts, list):
         raise RuntimeError("Unexpected posts data")
 
-    existing_labels = {}
-    mode = "all"  # default: classify all
-    if args.only_new:
-        mode = "only_new"
-        if os.path.exists(args.csv):
-            existing_labels = load_existing_labels(args.csv)
-            print(f"Loaded {len(existing_labels)} existing labels from {args.csv} (only classifying new images)")
-        else:
-            print("No existing CSV found, classifying all images")
-    elif args.reclassify_all:
-        mode = "reclassify_all"
-        if os.path.exists(args.csv):
-            existing_labels = load_existing_labels(args.csv)
-            print(f"Loaded {len(existing_labels)} existing labels from {args.csv} (reclassifying auto-labeled, preserving manual)")
-        else:
-            print("No existing CSV found, classifying all images")
-    elif args.merge_existing:
-        mode = "merge_existing"
-        if os.path.exists(args.csv):
-            existing_labels = load_existing_labels(args.csv)
-            print(f"Loaded {len(existing_labels)} existing labels from {args.csv} (preserving manual labels)")
-        else:
-            print("No existing CSV found, classifying all images")
-
+    # Always load existing labels — manual tags must never be overwritten
+    existing_labels = load_existing_labels(args.csv) if os.path.exists(args.csv) else {}
     manual_labels = load_manual_labels(args.csv) if os.path.exists(args.csv) else []
-    manual_count = len(manual_labels)
-    total_existing = len(existing_labels)
-    print(f"Existing labels: {total_existing} (manual={manual_count}, auto={total_existing - manual_count})")
+    print(f"Loaded {len(existing_labels)} existing labels ({len(manual_labels)} manual)")
 
-    if args.fine_tune and not manual_labels:
-        print("Warning: --fine-tune specified but no manual labels found in CSV. Skipping fine-tuning.")
-        args.fine_tune = False
-
+    # Model selection is automatic: fine-tuned on manual labels if any exist, zero-shot otherwise
     classifier = None
     if not args.skip_model:
-        classifier = get_model(fine_tune=args.fine_tune, manual_labels=manual_labels, force_retrain=args.force_retrain)
+        classifier = get_model(manual_labels=manual_labels if manual_labels else None)
 
     rows = []
     missed = 0
-
-    # Count total images for progress bar
     total_images = sum(len(post.get("images", [])) for post in posts if isinstance(post.get("images"), list))
 
     start_time = time.time()
-    print(f"Starting classification of {total_images} images...")
+    print(f"Classifying {total_images} images...")
 
-    # Use tqdm for progress bar if available
-    if tqdm is not None:
-        progress_bar = tqdm(total=total_images, desc="Classifying images", unit="img")
-    else:
-        progress_bar = None
+    progress_bar = tqdm(total=total_images, desc="Classifying images", unit="img") if tqdm else None
 
     for post in posts:
         post_id = str(post.get("post_id", "unknown"))
@@ -637,72 +539,41 @@ def main():
         for i, img_url in enumerate(image_urls):
             image_id = f"{post_id}_{i}"
             local_path = os.path.join(IMAGES_DIR, f"{image_id}.jpg")
-            source_url = img_url
 
             if not os.path.exists(local_path):
-                print(f"Warning: local image not found, skipping: {local_path}")
                 missed += 1
                 if progress_bar:
                     progress_bar.update(1)
                 continue
 
-            # Determine if we should classify this image
             existing = existing_labels.get(local_path)
-            should_classify = True
-            is_manual = False
+            is_manual = bool(existing and existing["is_manual"])
 
-            # Always preserve existing manual labels
-            if existing and existing["is_manual"]:
-                should_classify = False
-                is_manual = True
+            if is_manual:
+                # Always preserve manual labels — never overwrite
                 classification = {
                     "image_type": existing["type"],
                     "confidence": 1.0,
                     "reason": "manual override",
                     "model_source": "manual",
                 }
-            elif mode == "only_new":
-                should_classify = existing is None
-            elif mode == "reclassify_all":
-                # Manual labels already handled above
-                pass  # should_classify = True for auto or new
-            elif mode == "merge_existing":
-                # Manual labels already handled above
-                pass  # should_classify = True for auto or new
-            # else: mode == "all", should_classify = True
-
-            if should_classify:
+            else:
                 classification = classify_image(local_path, classifier)
-                is_manual = False
-            elif not is_manual:
-                # For existing auto-classified, reuse the old classification
-                if existing:
-                    classification = {
-                        "image_type": existing["type"],
-                        "confidence": 0.5,  # placeholder
-                        "reason": "existing auto-classification",
-                        "model_source": "cached",
-                    }
-                else:
-                    classification = classify_image(local_path, classifier)
+                if classification["confidence"] < args.confidence_threshold:
+                    classification["image_type"] = "other"
+                    classification["reason"] = f"low confidence ({classification['confidence']:.2f}), {classification['reason']}"
 
-            # Apply confidence threshold for non-manual classifications
-            if not is_manual and classification["confidence"] < args.confidence_threshold:
-                classification["image_type"] = "other"
-                classification["reason"] = f"low confidence ({classification['confidence']:.2f}), {classification['reason']}"
-
-            row = {
+            rows.append({
                 "image_id": image_id,
                 "post_id": post_id,
-                "source_url": source_url,
+                "source_url": img_url,
                 "local_path": local_path,
                 "image_type": classification["image_type"],
                 "confidence": classification["confidence"],
                 "model_source": classification["model_source"],
                 "reason": classification["reason"],
                 "is_manual": is_manual,
-            }
-            rows.append(row)
+            })
 
             if progress_bar:
                 progress_bar.update(1)
@@ -710,13 +581,10 @@ def main():
     if progress_bar:
         progress_bar.close()
 
-    end_time = time.time()
-    duration = end_time - start_time
+    duration = time.time() - start_time
     processed = len(rows)
     rate = processed / duration if duration > 0 else 0
-
-    print(f"Done. Classified {processed} images, skipped {missed} missing images.")
-    print(f"Total time: {duration:.2f}s ({rate:.1f} images/second)")
+    print(f"Done. Classified {processed} images, skipped {missed} missing in {duration:.2f}s ({rate:.1f} img/s)")
 
     write_json(args.output, rows)
     write_csv(args.csv, rows)
