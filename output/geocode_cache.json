@@ -1122,5 +1122,10 @@
   "onemap:boardway coffee shop singapore": null,
   "nominatim:boardway coffee shop": null,
   "nominatim:boardway": null,
-  "nominatim:boardway coffee shop singapore": null
+  "nominatim:boardway coffee shop singapore": null,
+  "onemap:107 tampines": {
+    "lat": 1.34836421842072,
+    "lng": 103.948158723814,
+    "address": "107 TAMPINES STREET 11 SINGAPORE 521107"
+  }
 }

@@ -118,7 +118,7 @@ main() {
             preflight
             step_extract "$@"
             echo
-            step_images
+            step_download_images
             echo
             step_classify_images
             echo
