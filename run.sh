@@ -60,7 +60,7 @@ step_download_images() {
 
 step_classify_images() {
     info "Classifying images..."
-    uv run python extractor/classify_images.py --input output/group_posts.json --output output/image_labels.json --csv output/image_labels.csv --report output/image_classification_report.md --preview 10 --merge-existing
+    uv run python extractor/classify_images.py --input output/group_posts.json --output output/image_labels.json --csv output/image_labels.csv --report output/image_classification_report.md --preview 10
     ok "Images classified → output/image_labels.json"
 }
 
