@@ -819,6 +819,27 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   border-radius: 8px;
   box-shadow: 0 4px 30px rgba(0,0,0,0.5);
 }
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.18);
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2001;
+}
+.lightbox-nav:hover,
+.lightbox-nav:focus { background: rgba(255,255,255,0.32); outline: 2px solid #fff; }
+.lightbox-nav.prev { left: 16px; }
+.lightbox-nav.next { right: 16px; }
 .lightbox-meta {
   position: absolute;
   left: 16px;
@@ -873,6 +894,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   .popup-wrap { max-height: min(76vh, 620px); height: min(76vh, 620px); padding: 12px; gap: 8px; }
   .popup-section-head { font-size: 10.5px; padding: 6px 8px; }
   .lightbox-meta { font-size: 10px; left: 12px; right: 12px; bottom: 12px; max-width: none; }
+  .lightbox-nav { width: 38px; height: 38px; font-size: 24px; }
+  .lightbox-nav.prev { left: 10px; }
+  .lightbox-nav.next { right: 10px; }
   .map-attr { font-size: 9px; }
   .locate-btn span.btn-label { display: none; }
   .locate-btn { padding: 0 10px; }
@@ -1134,7 +1158,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 
 <!-- Image lightbox -->
 <div class="lightbox" id="lightbox">
+  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous photo">‹</button>
   <img id="lightboxImg" src="" alt="Enlarged photo">
+  <button class="lightbox-nav next" id="lightboxNext" aria-label="Next photo">›</button>
   <div class="lightbox-meta" id="lightboxMeta"></div>
 </div>
 
@@ -1327,7 +1353,24 @@ function handleImgError(el) {
 
 function openLightboxFromImg(el) {
   if (el && el.src) {
-    openLightbox(el.src, el.getAttribute('data-photo-id') || 'unknown');
+    const popupWrap = el.closest('.popup-wrap');
+    const candidates = popupWrap
+      ? Array.from(popupWrap.querySelectorAll('img.popup-photo'))
+      : [el];
+
+    const items = candidates
+      .map(img => ({
+        src: img.currentSrc || img.src,
+        id: img.getAttribute('data-photo-id') || 'unknown',
+      }))
+      .filter(item => !!item.src);
+
+    const clickedSrc = el.currentSrc || el.src;
+    let idx = items.findIndex(item => item.src === clickedSrc && item.id === (el.getAttribute('data-photo-id') || 'unknown'));
+    if (idx < 0) idx = items.findIndex(item => item.src === clickedSrc);
+    if (idx < 0) idx = 0;
+
+    openLightbox(clickedSrc, el.getAttribute('data-photo-id') || 'unknown', items, idx);
   }
 }
 
@@ -1418,6 +1461,7 @@ function imgTag(img) {
   const fallback = escapeHtml(srcs.fallback || '');
   const debugId = escapeHtml(photoDebugId(img));
   return `<img src="${primary}" alt="Photo" loading="lazy"
+      class="popup-photo"
         data-fallback="${fallback}"
         data-photo-id="${debugId}"
         title="ID: ${debugId}"
@@ -1965,26 +2009,81 @@ map.on('click', () => {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxMeta = document.getElementById('lightboxMeta');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+let lightboxItems = [];
+let lightboxIndex = 0;
 
-function openLightbox(url, photoId = 'unknown') {
-  lightboxImg.src = url;
-  if (lightboxMeta) {
-    lightboxMeta.textContent = `ID: ${photoId}`;
-  }
-  lightbox.classList.add('open');
+function setMapInteractionLocked(locked) {
+  const method = locked ? 'disable' : 'enable';
+  map.keyboard[method]();
+  map.dragging[method]();
+  map.scrollWheelZoom[method]();
+  map.doubleClickZoom[method]();
+  map.boxZoom[method]();
+  map.touchZoom[method]();
 }
+
+function renderLightboxItem() {
+  if (!lightboxItems.length) return;
+  const item = lightboxItems[lightboxIndex];
+  lightboxImg.src = item.src;
+  if (lightboxMeta) {
+    lightboxMeta.textContent = `ID: ${item.id}`;
+  }
+}
+
+function openLightbox(url, photoId = 'unknown', items = null, index = 0) {
+  lightboxItems = Array.isArray(items) && items.length ? items : [{ src: url, id: photoId }];
+  lightboxIndex = Math.max(0, Math.min(index, lightboxItems.length - 1));
+  renderLightboxItem();
+  lightbox.classList.add('open');
+  setMapInteractionLocked(true);
+}
+
+function navigateLightbox(step) {
+  if (!lightbox.classList.contains('open') || lightboxItems.length < 2) return;
+  lightboxIndex = (lightboxIndex + step + lightboxItems.length) % lightboxItems.length;
+  renderLightboxItem();
+}
+
+lightboxPrev.addEventListener('click', (e) => {
+  e.stopPropagation();
+  navigateLightbox(-1);
+});
+
+lightboxNext.addEventListener('click', (e) => {
+  e.stopPropagation();
+  navigateLightbox(1);
+});
 
 lightbox.addEventListener('click', () => {
   lightbox.classList.remove('open');
   lightboxImg.src = '';
   if (lightboxMeta) lightboxMeta.textContent = '';
+  lightboxItems = [];
+  lightboxIndex = 0;
+  setMapInteractionLocked(false);
 });
 
 document.addEventListener('keydown', (e) => {
+  if (lightbox.classList.contains('open') && e.key === 'ArrowLeft') {
+    e.preventDefault();
+    navigateLightbox(-1);
+    return;
+  }
+  if (lightbox.classList.contains('open') && e.key === 'ArrowRight') {
+    e.preventDefault();
+    navigateLightbox(1);
+    return;
+  }
   if (e.key === 'Escape') {
     lightbox.classList.remove('open');
     lightboxImg.src = '';
     if (lightboxMeta) lightboxMeta.textContent = '';
+    lightboxItems = [];
+    lightboxIndex = 0;
+    setMapInteractionLocked(false);
   }
 });
 
