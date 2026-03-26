@@ -812,6 +812,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   align-items: center;
   justify-content: center;
   cursor: zoom-out;
+  touch-action: none;
 }
 .lightbox.open { display: flex; }
 .lightbox img {
@@ -2013,6 +2014,9 @@ const lightboxPrev = document.getElementById('lightboxPrev');
 const lightboxNext = document.getElementById('lightboxNext');
 let lightboxItems = [];
 let lightboxIndex = 0;
+let lightboxTouchStartX = null;
+let lightboxTouchStartY = null;
+let suppressLightboxClick = false;
 
 function setMapInteractionLocked(locked) {
   const method = locked ? 'disable' : 'enable';
@@ -2058,6 +2062,10 @@ lightboxNext.addEventListener('click', (e) => {
 });
 
 lightbox.addEventListener('click', () => {
+  if (suppressLightboxClick) {
+    suppressLightboxClick = false;
+    return;
+  }
   lightbox.classList.remove('open');
   lightboxImg.src = '';
   if (lightboxMeta) lightboxMeta.textContent = '';
@@ -2065,6 +2073,30 @@ lightbox.addEventListener('click', () => {
   lightboxIndex = 0;
   setMapInteractionLocked(false);
 });
+
+lightbox.addEventListener('touchstart', (e) => {
+  if (!lightbox.classList.contains('open') || e.touches.length !== 1) return;
+  lightboxTouchStartX = e.touches[0].clientX;
+  lightboxTouchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+lightbox.addEventListener('touchend', (e) => {
+  if (!lightbox.classList.contains('open') || lightboxTouchStartX === null || !e.changedTouches.length) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+  const dx = endX - lightboxTouchStartX;
+  const dy = endY - lightboxTouchStartY;
+
+  lightboxTouchStartX = null;
+  lightboxTouchStartY = null;
+
+  const isHorizontalSwipe = Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.2;
+  if (isHorizontalSwipe) {
+    suppressLightboxClick = true;
+    navigateLightbox(dx < 0 ? 1 : -1);
+  }
+}, { passive: true });
 
 document.addEventListener('keydown', (e) => {
   if (lightbox.classList.contains('open') && e.key === 'ArrowLeft') {
