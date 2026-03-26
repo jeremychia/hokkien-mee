@@ -41,8 +41,7 @@
   --radius: 10px;
   --sidebar-width: 350px;
   --header-height: 50px;
-  --popup-wrap-max: min(78vh, 640px);
-  --popup-gallery-max: 180px;
+  --popup-wrap-max: min(72vh, 560px);
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -464,14 +463,49 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   background: var(--bg);
   min-height: 0;
 }
-.popup-gallery-section {
-  flex: 0 0 auto;
-}
+.popup-gallery-section,
 .popup-posts-section {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   min-height: 0;
+}
+.popup-content-tabs {
+  display: inline-flex;
+  gap: 6px;
+}
+.popup-content-tab-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 600;
+  cursor: pointer;
+}
+.popup-content-tab-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.popup-content-tab-btn.active {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.popup-tab-panels {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+.popup-tab-panel {
+  display: none;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.popup-tab-panel.active {
+  display: flex;
 }
 .popup-section-head {
   display: flex;
@@ -495,7 +529,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
-.popup-gallery-scroll { max-height: var(--popup-gallery-max); padding: 8px; }
+.popup-gallery-scroll { flex: 1 1 auto; min-height: 0; padding: 8px; }
 .popup-posts-scroll { flex: 1 1 auto; min-height: 0; padding: 8px 10px; }
 .popup-gallery-scroll::-webkit-scrollbar,
 .popup-posts-scroll::-webkit-scrollbar { width: 4px; }
@@ -836,8 +870,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 
   #map { width: 100%; }
   .popup-images img { width: 100px; height: 70px; }
-  .popup-wrap { max-height: min(82vh, 680px); height: min(82vh, 680px); padding: 12px; gap: 8px; }
-  .popup-gallery-scroll { max-height: 150px; }
+  .popup-wrap { max-height: min(76vh, 620px); height: min(76vh, 620px); padding: 12px; gap: 8px; }
   .popup-section-head { font-size: 10.5px; padding: 6px 8px; }
   .lightbox-meta { font-size: 10px; left: 12px; right: 12px; bottom: 12px; max-width: none; }
   .map-attr { font-size: 9px; }
@@ -1429,6 +1462,22 @@ function switchImgTab(btn) {
   tabs.querySelectorAll('.img-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === tabKey));
 }
 
+function switchPopupTab(btn) {
+  const wrap = btn.closest('.popup-wrap');
+  if (!wrap) return;
+  const tab = btn.dataset.tab;
+
+  wrap.querySelectorAll('.popup-content-tab-btn').forEach(b => {
+    const active = b.dataset.tab === tab;
+    b.classList.toggle('active', active);
+    b.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+
+  wrap.querySelectorAll('.popup-tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.dataset.tab === tab);
+  });
+}
+
 // ── Popup HTML ──────────────────────────────────────────────────
 function buildPopupHtml(loc) {
   const count = loc.posts.length;
@@ -1480,7 +1529,10 @@ function buildPopupHtml(loc) {
   }
 
   const galleryCounts = collectLocationImages(loc);
-  const gallerySection = galleryHtml ? `
+  const hasGallery = !!galleryHtml;
+  const defaultTab = hasGallery ? 'photos' : 'posts';
+
+  const gallerySection = hasGallery ? `
     <div class="popup-section popup-gallery-section" aria-label="Location photos">
       <div class="popup-section-head">
         <span>Photos at this location</span>
@@ -1505,14 +1557,22 @@ function buildPopupHtml(loc) {
         <span class="popup-id">ID: ${loc.id}</span>
       </div>
       <hr class="popup-divider">
-      ${gallerySection}
-      <div class="popup-section popup-posts-section" aria-label="Posts mentioning this location">
-        <div class="popup-section-head">
-          <span>Posts</span>
-          <span class="popup-section-meta">${count} post${count === 1 ? '' : 's'}</span>
-        </div>
-        <div class="popup-posts-scroll">
-          ${postsHtml}
+      <div class="popup-content-tabs" role="tablist" aria-label="View by content type">
+        ${hasGallery ? `<button class="popup-content-tab-btn${defaultTab === 'photos' ? ' active' : ''}" role="tab" aria-selected="${defaultTab === 'photos' ? 'true' : 'false'}" data-tab="photos" onclick="switchPopupTab(this)">Photos</button>` : ''}
+        <button class="popup-content-tab-btn${defaultTab === 'posts' ? ' active' : ''}" role="tab" aria-selected="${defaultTab === 'posts' ? 'true' : 'false'}" data-tab="posts" onclick="switchPopupTab(this)">Posts</button>
+      </div>
+      <div class="popup-tab-panels">
+        ${hasGallery ? `<div class="popup-tab-panel${defaultTab === 'photos' ? ' active' : ''}" data-tab="photos">${gallerySection}</div>` : ''}
+        <div class="popup-tab-panel${defaultTab === 'posts' ? ' active' : ''}" data-tab="posts">
+          <div class="popup-section popup-posts-section" aria-label="Posts mentioning this location">
+            <div class="popup-section-head">
+              <span>Posts</span>
+              <span class="popup-section-meta">${count} post${count === 1 ? '' : 's'}</span>
+            </div>
+            <div class="popup-posts-scroll">
+              ${postsHtml}
+            </div>
+          </div>
         </div>
       </div>
     </div>`;
@@ -1523,11 +1583,8 @@ function constrainOpenPopupHeight() {
   if (!wrap) return;
   const isMobile = window.innerWidth <= 768;
   const vh = window.innerHeight || document.documentElement.clientHeight || 800;
-  const maxWrap = Math.floor(Math.min(vh * (isMobile ? 0.82 : 0.78), isMobile ? 680 : 640));
-  wrap.style.setProperty('--popup-wrap-max', `${Math.max(420, maxWrap)}px`);
-
-  const galleryMax = Math.floor(Math.min(Math.max(maxWrap * 0.3, 130), isMobile ? 190 : 220));
-  wrap.style.setProperty('--popup-gallery-max', `${galleryMax}px`);
+  const maxWrap = Math.floor(Math.min(vh * (isMobile ? 0.76 : 0.72), isMobile ? 620 : 560));
+  wrap.style.setProperty('--popup-wrap-max', `${Math.max(320, maxWrap)}px`);
 }
 
 function copyDeepLink(url) {
