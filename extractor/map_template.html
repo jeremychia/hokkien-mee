@@ -41,6 +41,8 @@
   --radius: 10px;
   --sidebar-width: 350px;
   --header-height: 50px;
+  --popup-wrap-max: min(78vh, 640px);
+  --popup-gallery-max: 180px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -445,53 +447,99 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .leaflet-popup-tip { box-shadow: none !important; }
 
 .popup-wrap {
-  max-height: 400px;
-  overflow-y: auto;
+  max-height: var(--popup-wrap-max);
+  height: var(--popup-wrap-max);
   padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
 }
 .popup-wrap::-webkit-scrollbar { width: 4px; }
 .popup-wrap::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 2px; }
-.popup-scroll-fade {
-  position: sticky;
-  bottom: 0;
-  text-align: center;
-  padding: 16px 0 2px;
-  background: linear-gradient(transparent, white 50%);
+
+.popup-section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  min-height: 0;
+}
+.popup-gallery-section {
+  flex: 0 0 auto;
+}
+.popup-posts-section {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.popup-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+.popup-section-meta {
   font-size: 10px;
   color: var(--text-tertiary);
-  pointer-events: none;
-  transition: opacity 0.3s;
+  font-weight: 500;
 }
+.popup-gallery-scroll,
+.popup-posts-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.popup-gallery-scroll { max-height: var(--popup-gallery-max); padding: 8px; }
+.popup-posts-scroll { flex: 1 1 auto; min-height: 0; padding: 8px 10px; }
+.popup-gallery-scroll::-webkit-scrollbar,
+.popup-posts-scroll::-webkit-scrollbar { width: 4px; }
+.popup-gallery-scroll::-webkit-scrollbar-thumb,
+.popup-posts-scroll::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 2px; }
 
 .popup-location {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.25;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
 }
+.popup-address {
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+}
 .popup-count {
   background: var(--primary);
   color: white;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  padding: 2px 7px;
+  padding: 1px 6px;
   border-radius: 10px;
   white-space: nowrap;
 }
-.popup-divider { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+.popup-divider { border: none; border-top: 1px solid var(--border); margin: 7px 0; }
 .popup-rating {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
+  gap: 3px;
+  font-size: 10px;
   color: var(--text-secondary);
 }
-.popup-rating .stars { color: #F39C12; font-size: 11px; letter-spacing: -0.5px; }
+.popup-rating .stars { color: #F39C12; font-size: 10px; letter-spacing: -0.5px; }
 .popup-rating .score { font-weight: 600; color: var(--text); }
-.popup-rating .basis { color: var(--text-tertiary); font-size: 10px; }
+.popup-rating .basis { color: var(--text-tertiary); font-size: 9px; }
 .popup-directions {
   color: var(--primary);
   text-decoration: none;
@@ -549,6 +597,30 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   transition: opacity 0.2s;
 }
 .popup-images img:hover { opacity: 0.85; }
+
+.location-gallery {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+.gallery-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.gallery-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+.gallery-meta {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
 
 /* ── Image category tabs ─────────────────────────────────────── */
 .img-tabs { margin-top: 6px; }
@@ -659,17 +731,17 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 /* ── Popup Actions ───────────────────────────────────────────── */
 .popup-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 .popup-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
-  padding: 4px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
   text-decoration: none;
   border: 1px solid var(--border);
@@ -689,9 +761,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .popup-id {
   display: block;
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-tertiary);
-  margin-top: 6px;
+  margin-top: 3px;
   font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
   letter-spacing: 0.3px;
   user-select: all;
@@ -712,6 +784,23 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   max-width: 90vw; max-height: 90vh;
   border-radius: 8px;
   box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+.lightbox-meta {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  line-height: 1.2;
+  max-width: calc(100vw - 32px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
 }
 
 /* ── Map attribution ─────────────────────────────────────────── */
@@ -747,6 +836,10 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 
   #map { width: 100%; }
   .popup-images img { width: 100px; height: 70px; }
+  .popup-wrap { max-height: min(82vh, 680px); height: min(82vh, 680px); padding: 12px; gap: 8px; }
+  .popup-gallery-scroll { max-height: 150px; }
+  .popup-section-head { font-size: 10.5px; padding: 6px 8px; }
+  .lightbox-meta { font-size: 10px; left: 12px; right: 12px; bottom: 12px; max-width: none; }
   .map-attr { font-size: 9px; }
   .locate-btn span.btn-label { display: none; }
   .locate-btn { padding: 0 10px; }
@@ -1009,6 +1102,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 <!-- Image lightbox -->
 <div class="lightbox" id="lightbox">
   <img id="lightboxImg" src="" alt="Enlarged photo">
+  <div class="lightbox-meta" id="lightboxMeta"></div>
 </div>
 
 <!-- Map attribution -->
@@ -1160,6 +1254,22 @@ function truncate(str, len) {
   return str.slice(0, len).replace(/\s+\S*$/, '') + '…';
 }
 
+function photoDebugId(img) {
+  let raw = '';
+
+  if (typeof img === 'string') {
+    raw = img;
+  } else if (img && typeof img === 'object') {
+    raw = img.id || img.image_id || img.photo_id || img.filename || img.local || img.url || '';
+  }
+
+  if (!raw) return 'unknown';
+
+  const cleaned = String(raw).split('?')[0].split('#')[0];
+  const fileish = cleaned.split('/').filter(Boolean).pop() || cleaned;
+  return fileish.length > 32 ? fileish.slice(0, 29) + '…' : fileish;
+}
+
 function resolveImageSources(img) {
   if (typeof img === 'string') {
     return { primary: img, fallback: '' };
@@ -1184,7 +1294,7 @@ function handleImgError(el) {
 
 function openLightboxFromImg(el) {
   if (el && el.src) {
-    openLightbox(el.src);
+    openLightbox(el.src, el.getAttribute('data-photo-id') || 'unknown');
   }
 }
 
@@ -1273,10 +1383,43 @@ function imgTag(img) {
   if (!srcs.primary) return '';
   const primary = escapeHtml(srcs.primary);
   const fallback = escapeHtml(srcs.fallback || '');
+  const debugId = escapeHtml(photoDebugId(img));
   return `<img src="${primary}" alt="Photo" loading="lazy"
         data-fallback="${fallback}"
+        data-photo-id="${debugId}"
+        title="ID: ${debugId}"
         onerror="handleImgError(this)"
         onclick="openLightboxFromImg(this)">`;
+}
+
+function collectLocationImages(loc) {
+  const seen = new Set();
+  const images = [];
+  const postsWithImages = new Set();
+
+  for (const post of loc.posts || []) {
+    const imgs = post.images || [];
+    for (const img of imgs) {
+      const srcs = resolveImageSources(img);
+      const key = srcs.primary || srcs.fallback;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      images.push(img);
+      postsWithImages.add(post.post_link || `${post.author}-${post.timestamp}`);
+    }
+  }
+
+  return { images, postCount: postsWithImages.size };
+}
+
+function buildLocationGalleryHtml(loc) {
+  const { images } = collectLocationImages(loc);
+  if (images.length === 0) return '';
+
+  return `
+    <div class="location-gallery">
+      ${buildImageTabsHtml(images)}
+    </div>`;
 }
 
 function switchImgTab(btn) {
@@ -1290,6 +1433,7 @@ function switchImgTab(btn) {
 function buildPopupHtml(loc) {
   const count = loc.posts.length;
   const badge = count > 1 ? `<span class="popup-count">${count} posts</span>` : '';
+  const galleryHtml = buildLocationGalleryHtml(loc);
 
   // Rating (inline)
   let ratingHtml = '';
@@ -1315,12 +1459,12 @@ function buildPopupHtml(loc) {
   let postsHtml = '';
   for (const p of loc.posts) {
     const text = escapeHtml(truncate(p.text || '', 200)).replace(/\n/g, '<br>');
-
     const imgHtml = buildImageTabsHtml(p.images);
 
     const meta = [];
     if (p.comment_count > 0) meta.push(`💬 ${p.comment_count}`);
     if (p.reactions) meta.push(`👍 ${p.reactions}`);
+    if (p.images && p.images.length > 0) meta.push(`📷 ${p.images.length}`);
     const metaHtml = meta.length
       ? `<div class="popup-meta">${meta.join(' · ')}</div>` : '';
 
@@ -1335,10 +1479,22 @@ function buildPopupHtml(loc) {
       </div>`;
   }
 
+  const galleryCounts = collectLocationImages(loc);
+  const gallerySection = galleryHtml ? `
+    <div class="popup-section popup-gallery-section" aria-label="Location photos">
+      <div class="popup-section-head">
+        <span>Photos at this location</span>
+        <span class="popup-section-meta">${galleryCounts.images.length} photos · ${galleryCounts.postCount} post${galleryCounts.postCount === 1 ? '' : 's'}</span>
+      </div>
+      <div class="popup-gallery-scroll">
+        ${galleryHtml}
+      </div>
+    </div>` : '';
+
   return `
     <div class="popup-wrap">
       <div class="popup-location">
-        <span>${escapeHtml(loc.address)}</span>
+        <span class="popup-address" title="${escapeHtml(loc.address)}">${escapeHtml(loc.address)}</span>
         ${badge}
         ${ratingHtml}
         <div class="popup-actions">
@@ -1349,9 +1505,29 @@ function buildPopupHtml(loc) {
         <span class="popup-id">ID: ${loc.id}</span>
       </div>
       <hr class="popup-divider">
-      ${postsHtml}
-      <div class="popup-scroll-fade">↓ scroll for more</div>
+      ${gallerySection}
+      <div class="popup-section popup-posts-section" aria-label="Posts mentioning this location">
+        <div class="popup-section-head">
+          <span>Posts</span>
+          <span class="popup-section-meta">${count} post${count === 1 ? '' : 's'}</span>
+        </div>
+        <div class="popup-posts-scroll">
+          ${postsHtml}
+        </div>
+      </div>
     </div>`;
+}
+
+function constrainOpenPopupHeight() {
+  const wrap = document.querySelector('.leaflet-popup .popup-wrap');
+  if (!wrap) return;
+  const isMobile = window.innerWidth <= 768;
+  const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+  const maxWrap = Math.floor(Math.min(vh * (isMobile ? 0.82 : 0.78), isMobile ? 680 : 640));
+  wrap.style.setProperty('--popup-wrap-max', `${Math.max(420, maxWrap)}px`);
+
+  const galleryMax = Math.floor(Math.min(Math.max(maxWrap * 0.3, 130), isMobile ? 190 : 220));
+  wrap.style.setProperty('--popup-gallery-max', `${galleryMax}px`);
 }
 
 function copyDeepLink(url) {
@@ -1475,25 +1651,6 @@ MAP_DATA.locations.forEach((loc, i) => {
 });
 
 map.addLayer(cluster);
-
-// ── Popup scroll indicator ──────────────────────────────────────
-map.on('popupopen', () => {
-  requestAnimationFrame(() => {
-    const wrap = document.querySelector('.leaflet-popup .popup-wrap');
-    if (!wrap) return;
-    const fade = wrap.querySelector('.popup-scroll-fade');
-    if (!fade) return;
-    if (wrap.scrollHeight <= wrap.clientHeight + 10) {
-      fade.style.display = 'none';
-    } else {
-      fade.style.display = '';
-      wrap.addEventListener('scroll', function onScroll() {
-        const atEnd = wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 10;
-        fade.style.opacity = atEnd ? '0' : '1';
-      });
-    }
-  });
-});
 
 // ── Stats ───────────────────────────────────────────────────────
 document.getElementById('statStalls').textContent = MAP_DATA.locations.length;
@@ -1750,21 +1907,27 @@ map.on('click', () => {
 // ── Lightbox ────────────────────────────────────────────────────
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
+const lightboxMeta = document.getElementById('lightboxMeta');
 
-function openLightbox(url) {
+function openLightbox(url, photoId = 'unknown') {
   lightboxImg.src = url;
+  if (lightboxMeta) {
+    lightboxMeta.textContent = `ID: ${photoId}`;
+  }
   lightbox.classList.add('open');
 }
 
 lightbox.addEventListener('click', () => {
   lightbox.classList.remove('open');
   lightboxImg.src = '';
+  if (lightboxMeta) lightboxMeta.textContent = '';
 });
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     lightbox.classList.remove('open');
     lightboxImg.src = '';
+    if (lightboxMeta) lightboxMeta.textContent = '';
   }
 });
 
@@ -1801,6 +1964,14 @@ map.whenReady(() => {
       });
     }, 500);
   }
+});
+
+map.on('popupopen', () => {
+  requestAnimationFrame(constrainOpenPopupHeight);
+});
+
+window.addEventListener('resize', () => {
+  constrainOpenPopupHeight();
 });
 
 // ── Hide loader ─────────────────────────────────────────────────
