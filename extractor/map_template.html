@@ -621,9 +621,14 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   line-height: 1.5;
   word-break: break-word;
 }
-.popup-images { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.popup-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 4px;
+  margin-top: 6px;
+}
 .popup-images img {
-  width: 110px; height: 80px;
+  width: 100%; height: 80px;
   object-fit: cover;
   border-radius: 6px;
   background: var(--bg);
@@ -631,6 +636,12 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   transition: opacity 0.2s;
 }
 .popup-images img:hover { opacity: 0.85; }
+.popup-images.single-image {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.popup-images.single-image img {
+  grid-column: 1;
+}
 
 .location-gallery {
   margin: 0;
@@ -682,9 +693,13 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   color: var(--primary);
 }
 .img-tab-panel { display: none; }
-.img-tab-panel.active { display: flex; gap: 4px; flex-wrap: wrap; }
+.img-tab-panel.active {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+  gap: 4px;
+}
 .img-tab-panel img {
-  width: 80px; height: 60px;
+  width: 100%; height: 60px;
   object-fit: cover;
   border-radius: 6px;
   background: var(--bg);
@@ -692,6 +707,12 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   transition: opacity 0.2s;
 }
 .img-tab-panel img:hover { opacity: 0.85; }
+.img-tab-panel.active.single-image {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.img-tab-panel.active.single-image img {
+  grid-column: 1;
+}
 .popup-meta {
   display: flex;
   align-items: center;
@@ -891,7 +912,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   .sidebar.open { transform: translateX(0); }
 
   #map { width: 100%; }
-  .popup-images img { width: 100px; height: 70px; }
+  .popup-images { grid-template-columns: repeat(auto-fit, minmax(86px, 1fr)); }
+  .popup-images img { height: 70px; }
+  .img-tab-panel.active { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); }
   .popup-wrap { max-height: min(76vh, 620px); height: min(76vh, 620px); padding: 12px; gap: 8px; }
   .popup-section-head { font-size: 10.5px; padding: 6px 8px; }
   .lightbox-meta { font-size: 10px; left: 12px; right: 12px; bottom: 12px; max-width: none; }
@@ -1436,7 +1459,8 @@ function buildImageTabsHtml(images) {
   if (activeTabs.length === 1) {
     const imgs = activeTabs[0].key;
     const imgsHtml = buckets[imgs].map(img => imgTag(img)).join('');
-    return `<div class="popup-images">${imgsHtml}</div>`;
+    const singleClass = buckets[imgs].length === 1 ? ' single-image' : '';
+    return `<div class="popup-images${singleClass}">${imgsHtml}</div>`;
   }
 
   const defaultTab = activeTabs[0].key;
@@ -1449,7 +1473,8 @@ function buildImageTabsHtml(images) {
 
   const panels = activeTabs.map(t => {
     const imgsHtml = buckets[t.key].map(img => imgTag(img)).join('');
-    return `<div class="img-tab-panel${t.key === defaultTab ? ' active' : ''}" data-tab="${t.key}">${imgsHtml}</div>`;
+    const singleClass = buckets[t.key].length === 1 ? ' single-image' : '';
+    return `<div class="img-tab-panel${t.key === defaultTab ? ' active' : ''}${singleClass}" data-tab="${t.key}">${imgsHtml}</div>`;
   }).join('');
 
   return `<div class="img-tabs"><div class="img-tab-bar">${tabBar}</div>${panels}</div>`;
