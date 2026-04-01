@@ -27,10 +27,4 @@ The image classification feature enables automated identification of food items 
 - Improves data quality for analytics and mapping.
 - Supports continuous improvement as more images are classified and the model is retrained.
 
-## Map Image Attribution Feature
 
-- When viewing images in the interactive map, each image popup now displays:
-  - The contributor (author) of the post
-  - The post ID
-  - A direct link to the original Facebook post
-- This ensures proper attribution and allows users to trace the source of each image easily.

@@ -8,10 +8,12 @@ This documentation describes the architecture, setup, and features of the Hokkie
 - [architecture.md](architecture.md) — High-level system architecture
 
 ## Features
-- [Image Classification](features/image_classification.md)
-- [Image Downloading](features/image_downloading.md)
-- [Group Extraction](features/group_extraction.md)
-- [Location Mapping](features/location_mapping.md)
-- [Secrets Management](features/secrets_management.md)
+- [Group Extraction](features/group_extraction.md) — Scrapes posts and metadata from the Facebook group
+- [Image Downloading](features/image_downloading.md) — Downloads images referenced in posts
+- [Image Classification](features/image_classification.md) — Classifies images (noodles, storefront, other) using a fine-tuned ResNet model
+- [Location Mapping](features/location_mapping.md) — Geocodes posts and renders the interactive map
+- [Secrets Management](features/secrets_management.md) — Manages API keys and cookies securely
 
-Refer to each feature file for details on implementation and usage.
+## Potential Features
+
+See [potential-features.md](potential-features.md) for ideas on future improvements.
