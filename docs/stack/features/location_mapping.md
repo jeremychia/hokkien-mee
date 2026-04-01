@@ -20,7 +20,8 @@ Location mapping connects classified images and posts to real-world locations, e
 
 ## How it works
 1. Matches posts and images to locations using available data and manual overrides.
-2. Generates an interactive HTML map for exploration and sharing.
+2. For each image in the map popup, displays the contributor (author), post ID, and a link to the original Facebook post, making attribution and source tracing easy.
+3. Generates an interactive HTML map for exploration and sharing.
 
 ## User Impact
 - Empowers users to explore food trends by location.

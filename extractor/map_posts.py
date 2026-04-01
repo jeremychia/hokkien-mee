@@ -885,6 +885,9 @@ def build_site(geocoded_posts, total_posts):
                 "url": url,
                 "local": f"images/{image_id}.jpg",
                 "type": _image_labels.get(image_id, "other"),
+                "author": post.get("author", "Unknown"),
+                "post_link": post.get("post_link", ""),
+                "post_id": post_id,
             })
 
         location_groups[key]["posts"].append({

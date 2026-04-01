@@ -877,7 +877,16 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: default;
+  user-select: text;
+}
+.img-meta-link {
+  color: #FFD700;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 /* ── Map attribution ─────────────────────────────────────────── */
@@ -1386,6 +1395,9 @@ function openLightboxFromImg(el) {
       .map(img => ({
         src: img.currentSrc || img.src,
         id: img.getAttribute('data-photo-id') || 'unknown',
+        author: img.getAttribute('data-author') || '',
+        post_link: img.getAttribute('data-post-link') || '',
+        post_id: img.getAttribute('data-post-id') || '',
       }))
       .filter(item => !!item.src);
 
@@ -1486,13 +1498,16 @@ function imgTag(img) {
   const primary = escapeHtml(srcs.primary);
   const fallback = escapeHtml(srcs.fallback || '');
   const debugId = escapeHtml(photoDebugId(img));
-  return `<img src="${primary}" alt="Photo" loading="lazy"
+    return `<img src="${primary}" alt="Photo" loading="lazy"
       class="popup-photo"
-        data-fallback="${fallback}"
-        data-photo-id="${debugId}"
-        title="ID: ${debugId}"
-        onerror="handleImgError(this)"
-        onclick="openLightboxFromImg(this)">`;
+      data-fallback="${fallback}"
+      data-photo-id="${debugId}"
+      data-author="${escapeHtml(img.author || '')}"
+      data-post-link="${escapeHtml(img.post_link || '')}"
+      data-post-id="${escapeHtml(img.post_id || '')}"
+      title="ID: ${debugId}"
+      onerror="handleImgError(this)"
+      onclick="openLightboxFromImg(this)">`;
 }
 
 function collectLocationImages(loc) {
@@ -2058,7 +2073,12 @@ function renderLightboxItem() {
   const item = lightboxItems[lightboxIndex];
   lightboxImg.src = item.src;
   if (lightboxMeta) {
-    lightboxMeta.textContent = `ID: ${item.id}`;
+    let meta = '';
+    if (item.author) meta += `<span class='img-meta-author'>By: ${item.author}</span>`;
+    if (item.post_id) meta += ` · <span class='img-meta-id'>ID: ${item.post_id}</span>`;
+    if (item.post_link) meta += ` · <a class='img-meta-link' href='${item.post_link}' target='_blank' rel='noopener' onclick='event.stopPropagation(); return true;'>View post ↗</a>`;
+    if (!meta) meta = `ID: ${item.id}`;
+    lightboxMeta.innerHTML = meta;
   }
 }
 
