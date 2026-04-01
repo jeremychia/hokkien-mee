@@ -1267,5 +1267,23 @@
     "lat": 1.32783414615937,
     "lng": 103.887102669236,
     "address": "80 CIRCUIT ROAD CIRCUIT ROAD MARKET AND FOOD CENTRE SINGAPORE 370080"
-  }
+  },
+  "onemap:80 circuit road, #02-05, singapore 370080": null,
+  "onemap:chuan fried hokkien prawn mee 川炒福建虾面": null,
+  "onemap:chuan fried hokkien prawn mee": null,
+  "onemap:chuan fried hokkien prawn mee 川炒福建虾面 singapore": null,
+  "nominatim:80 circuit road, #02-05, singapore 370080": null,
+  "nominatim:chuan fried hokkien prawn mee 川炒福建虾面": null,
+  "nominatim:chuan fried hokkien prawn mee": null,
+  "nominatim:chuan fried hokkien prawn mee 川炒福建虾面 singapore": null,
+  "onemap:chuan hokkien mee": null,
+  "onemap:chuan hokkien mee singapore": null,
+  "nominatim:chuan hokkien mee": null,
+  "nominatim:chuan hokkien mee singapore": null,
+  "nominatim:chuan fried hokkien mee": null,
+  "nominatim:chuan fried hokkien mee singapore": null,
+  "nominatim:jeremy chuan fried hokkien mee": null,
+  "nominatim:jeremy chuan fried hokkien mee singapore": null,
+  "onemap:chuan fried hokkien prawn mee singapore": null,
+  "nominatim:chuan fried hokkien prawn mee singapore": null
 }
