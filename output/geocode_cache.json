@@ -1285,5 +1285,97 @@
   "nominatim:jeremy chuan fried hokkien mee": null,
   "nominatim:jeremy chuan fried hokkien mee singapore": null,
   "onemap:chuan fried hokkien prawn mee singapore": null,
-  "nominatim:chuan fried hokkien prawn mee singapore": null
+  "nominatim:chuan fried hokkien prawn mee singapore": null,
+  "onemap:holland drive market & food centre": null,
+  "onemap:holland drive market & food centre singapore": null,
+  "onemap:fatty cat hokkien mee": null,
+  "onemap:fatty cat hokkien mee singapore": null,
+  "onemap:jeremy fatty cat hokkien mee": null,
+  "onemap:jeremy fatty cat hokkien mee singapore": null,
+  "nominatim:holland drive market & food centre": {
+    "lat": 1.3111022,
+    "lng": 103.7948879,
+    "address": "Holland Village Market and Food Centre, 1, Lorong Mambong"
+  },
+  "onemap:weeks ago i went the coffeeshop": null,
+  "onemap:weeks ago i went the": null,
+  "onemap:weeks ago i went the coffeeshop singapore": null,
+  "nominatim:weeks ago i went the coffeeshop": null,
+  "nominatim:weeks ago i went the": null,
+  "nominatim:weeks ago i went the coffeeshop singapore": null,
+  "onemap:409 amk ave": {
+    "lat": 1.36265410749321,
+    "lng": 103.855288297631,
+    "address": "409 ANG MO KIO AVENUE 10 MARKET & HAWKER CENTRE (BLK 409 ANG MO KIO AVE 10) SINGAPORE 560409"
+  },
+  "onemap:mian wang 1971": null,
+  "onemap:mian wang 1971 singapore": null,
+  "nominatim:mian wang 1971": {
+    "lat": 1.2480538,
+    "lng": 103.8238565,
+    "address": "Opp Palawan Beach, Palawan Beach Walk, Sentosa"
+  },
+  "onemap:changi village fried hokkien mee": null,
+  "onemap:changi village fried hokkien mee singapore": null,
+  "onemap:bukit canberra hawker centre": {
+    "lat": 1.44884901222355,
+    "lng": 103.822852017484,
+    "address": "21 CANBERRA LINK BUKIT CANBERRA HAWKER CENTRE SINGAPORE 756973"
+  },
+  "onemap:44 holland drive": {
+    "lat": 1.30811780015992,
+    "lng": 103.792773769341,
+    "address": "44 HOLLAND DRIVE HOLLAND DRIVE MARKET AND FOOD CENTRE SINGAPORE 270044"
+  },
+  "onemap:534752": {
+    "lat": 1.36266808815552,
+    "lng": 103.888208363351,
+    "address": "1014 UPPER SERANGOON ROAD TAI PENG GARDENS SINGAPORE 534752"
+  },
+  "onemap:blue star fried hokkien mee": null,
+  "onemap:blue star fried hokkien mee singapore": null,
+  "nominatim:blue star fried hokkien mee": null,
+  "nominatim:blue star fried hokkien mee singapore": null,
+  "onemap:blk 631 bedok reservoir road": null,
+  "onemap:631 bedok reservoir road": {
+    "lat": 1.33295923556348,
+    "lng": 103.914941831232,
+    "address": "631 BEDOK RESERVOIR ROAD EUNOS GROVE SINGAPORE 470631"
+  },
+  "onemap:68 is just": null,
+  "onemap:68 is just singapore": null,
+  "onemap:163 kallang way": {
+    "lat": 1.32171455811179,
+    "lng": 103.875287076204,
+    "address": "163 KALLANG WAY MAPLETREE HI-TECH PARK @ KALLANG WAY SINGAPORE 349256"
+  },
+  "onemap:561453": {
+    "lat": 1.3682477887765,
+    "lng": 103.856361649863,
+    "address": "453A ANG MO KIO AVENUE 10 CHONG BOON MARKET AND FOOD CENTRE SINGAPORE 561453"
+  },
+  "onemap:709 geylang rd": {
+    "lat": 1.31484500760924,
+    "lng": 103.889805442953,
+    "address": "709 GEYLANG ROAD SINGAPORE 389624"
+  },
+  "onemap:mel's place restaurant & bar": null,
+  "onemap:mel's place restaurant & bar singapore": null,
+  "nominatim:mel's place restaurant & bar": null,
+  "nominatim:mel's place restaurant & bar singapore": null,
+  "onemap:marketplace 347 jurong east ave 1": null,
+  "onemap:marketplace 347 jurong east ave": null,
+  "onemap:marketplace 347 jurong east ave 1 singapore": null,
+  "nominatim:marketplace 347 jurong east ave 1": null,
+  "nominatim:marketplace 347 jurong east ave": null,
+  "nominatim:marketplace 347 jurong east ave 1 singapore": null,
+  "onemap:443 kopitiam tast": null,
+  "onemap:443 kopitiam tast singapore": null,
+  "onemap:pasir ris blk 443 kopitiam": null,
+  "onemap:pasir ris blk 443 kopitiam singapore": null,
+  "onemap:444 pasir": {
+    "lat": 1.370002238886,
+    "lng": 103.957400908358,
+    "address": "444 PASIR RIS DRIVE 6 SINGAPORE 510444"
+  }
 }
