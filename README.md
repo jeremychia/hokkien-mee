@@ -1,6 +1,6 @@
 # hokkien-mee
 
-Visualising Hokkien Mee in Singapore.
+Visualising Hokkien Mee in Singapore. **[View the live map →](https://jeremychia.github.io/hokkien-mee/)**
 
 Data is extracted from the public Facebook group: [Hokkien Mee (227074250721100)](https://www.facebook.com/groups/227074250721100/)
 
@@ -89,6 +89,9 @@ uv run python extractor/extract_group.py --cookies /path/to/cookies.txt
 
 # Debug mode — opens a visible browser window so you can see what's happening
 uv run python extractor/extract_group.py --debug
+
+# Backfill mode — keeps scrolling past already-extracted posts to fetch older ones
+uv run python extractor/extract_group.py --backfill
 ```
 
 Output is saved to `output/group_posts.json`.
@@ -115,7 +118,14 @@ If you want to correct or supplement the automatic classification:
 
 This writes `output/image_labels.csv` and `output/image_labels.json`.
 
-2. Open `output/image_labels.csv` in a spreadsheet editor (Excel, Numbers, LibreOffice Calc). Edit the `image_type` column with:
+2. Open `output/image_labels.csv` in a spreadsheet editor (Excel, Numbers, LibreOffice Calc), or use the built-in web labeler:
+
+```bash
+python label_server.py
+# then open http://localhost:8000
+```
+
+Edit the `image_type` column with:
    - `noodles`
    - `storefront`
    - `other`
@@ -286,6 +296,7 @@ hokkien-mee/
 ├── README.md
 ├── pyproject.toml
 ├── run.sh                  ← run pipeline (extract → images → map)
+├── label_server.py         ← web UI for manual image labeling
 ├── .gitignore
 ├── facebook_cookies.txt    ← you create this (git-ignored)
 ├── secrets/
@@ -293,10 +304,13 @@ hokkien-mee/
 ├── extractor/
 │   ├── extract_group.py    ← extracts posts + comments to JSON
 │   ├── download_images.py  ← downloads images locally
+│   ├── classify_images.py  ← classifies images (noodles / storefront / other)
 │   ├── map_posts.py        ← geocodes locations and builds map
-│   └── map_template.html   ← HTML/CSS/JS template for the map
+│   ├── map_template.html   ← HTML/CSS/JS template for the map
+│   └── location_overrides.json ← curated stall name → address mappings
 ├── docs/
-│   └── index.html          ← interactive map (deployed to GitHub Pages)
+│   ├── index.html          ← interactive map (deployed to GitHub Pages)
+│   └── label_images.html   ← image labeling UI (served by label_server.py)
 └── output/                 ← created automatically
     ├── group_posts.json    ← extracted data (version controlled)
     ├── geocode_cache.json  ← cached geocoding results (git-ignored)
