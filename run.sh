@@ -7,8 +7,9 @@
 #   ./run.sh images       Download images only
 #   ./run.sh classify     Classify images only
 #   ./run.sh map          Generate map only
+#   ./run.sh all          Run all steps above (same as no argument), does not publish
 #   ./run.sh publish      Commit and push changes to GitHub 
-#   ./run.sh all          Run all steps (same as no argument)
+
 #
 # Options are passed through to the underlying scripts.
 # For example:
