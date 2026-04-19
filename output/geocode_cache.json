@@ -1518,5 +1518,88 @@
     "lat": 1.4187353006021,
     "lng": 103.835703280669,
     "address": "618 YISHUN RING ROAD SINGAPORE 760618"
-  }
+  },
+  "onemap:309 hougang": {
+    "lat": 1.36620554681345,
+    "lng": 103.895152424666,
+    "address": "309 HOUGANG AVENUE 5 SINGAPORE 530309"
+  },
+  "onemap:530322": {
+    "lat": 1.36709855359263,
+    "lng": 103.89697867894,
+    "address": "322 HOUGANG AVENUE 5 SINGAPORE 530322"
+  },
+  "onemap:newton": {
+    "lat": 1.31429426375311,
+    "lng": 103.841150697585,
+    "address": "18 NEWTON ROAD NEWTON 18 SINGAPORE 307989"
+  },
+  "onemap:earlier yiji hokkien mee": null,
+  "onemap:earlier yiji hokkien mee singapore": null,
+  "nominatim:earlier yiji hokkien mee": null,
+  "nominatim:earlier yiji hokkien mee singapore": null,
+  "onemap:toa payoh lor 8 market and hawker centre": null,
+  "onemap:toa payoh lor 8 market and hawker centre singapore": null,
+  "nominatim:toa payoh lor 8 market and hawker centre": null,
+  "nominatim:toa payoh lor 8 market and hawker centre singapore": null,
+  "onemap:10 mins walk": null,
+  "onemap:10 mins walk singapore": null,
+  "nominatim:10 mins walk": null,
+  "nominatim:10 mins walk singapore": null,
+  "onemap:geylang bahru market": {
+    "lat": 1.32146311046779,
+    "lng": 103.870005014547,
+    "address": "69 GEYLANG BAHRU GEYLANG BAHRU MARKET AND FOOD CENTRE SINGAPORE 330069"
+  },
+  "onemap:570279": {
+    "lat": 1.35722283118337,
+    "lng": 103.843785252615,
+    "address": "279 BISHAN STREET 24 SINGAPORE 570279"
+  },
+  "onemap:675 yishun": {
+    "lat": 1.42006293748965,
+    "lng": 103.843561434577,
+    "address": "675 YISHUN AVENUE 4 FERN GROVE @ YISHUN SINGAPORE 760675"
+  },
+  "onemap:435 hougang ave 8": {
+    "lat": 1.37752800104625,
+    "lng": 103.89360316857,
+    "address": "435 HOUGANG AVENUE 8 SINGAPORE 530435"
+  },
+  "onemap:116989": null,
+  "onemap:116989 singapore": null,
+  "nominatim:116989": null,
+  "nominatim:116989 singapore": {
+    "lat": 1.2899175,
+    "lng": 103.8519072,
+    "address": "Singapore"
+  },
+  "onemap:10 but portion st": null,
+  "onemap:10 but portion st singapore": null,
+  "nominatim:10 but portion st": null,
+  "nominatim:10 but portion st singapore": null,
+  "onemap:560529": {
+    "lat": 1.37234358233883,
+    "lng": 103.855455428073,
+    "address": "529 ANG MO KIO AVENUE 10 CHENG SAN CENTRE SINGAPORE 560529"
+  },
+  "onemap:730780": {
+    "lat": 1.44834155029683,
+    "lng": 103.801057143543,
+    "address": "780 WOODLANDS CRESCENT WOODLANDS DEW SINGAPORE 730780"
+  },
+  "onemap:460412": {
+    "lat": 1.32929126082802,
+    "lng": 103.931090689284,
+    "address": "412 BEDOK NORTH AVENUE 2 SINGAPORE 460412"
+  },
+  "onemap:310211": {
+    "lat": 1.34042178857688,
+    "lng": 103.853768900549,
+    "address": "211 LORONG 8 TOA PAYOH SINGAPORE 310211"
+  },
+  "onemap:hong heng hkm tiong bahru market": null,
+  "onemap:hong heng hkm tiong bahru market singapore": null,
+  "onemap:remy hong heng hkm tiong bahru market": null,
+  "onemap:remy hong heng hkm tiong bahru market singapore": null
 }
