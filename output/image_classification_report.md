@@ -1,6 +1,6 @@
 # Image Classification Report
 
-## noodles (count=836, manual=115, auto=721)
+## noodles (count=843, manual=115, auto=728)
 
 ### Highest Confidence (Auto)
 - 25841397518862088_2 (0.9994) output/images/25841397518862088_2.jpg [resnet_finetuned]
@@ -26,11 +26,12 @@
 - 26059050807096757_1 (0.5028) output/images/26059050807096757_1.jpg [resnet_finetuned]
 - 25922209460780893_0 (0.5013) output/images/25922209460780893_0.jpg [resnet_finetuned]
 
-## storefront (count=312, manual=48, auto=264)
+## storefront (count=316, manual=48, auto=268)
 
 ### Highest Confidence (Auto)
 - 25503890979279412_2 (1.0000) output/images/25503890979279412_2.jpg [resnet_finetuned]
 - 25619192807749228_2 (1.0000) output/images/25619192807749228_2.jpg [resnet_finetuned]
+- 26296948786640290_1 (1.0000) output/images/26296948786640290_1.jpg [resnet_finetuned]
 - 25594544023547440_1 (1.0000) output/images/25594544023547440_1.jpg [resnet_finetuned]
 - 25782525474749293_1 (1.0000) output/images/25782525474749293_1.jpg [resnet_finetuned]
 - 25537243715944138_0 (1.0000) output/images/25537243715944138_0.jpg [resnet_finetuned]
@@ -38,7 +39,6 @@
 - 25897316689936837_3 (0.9999) output/images/25897316689936837_3.jpg [resnet_finetuned]
 - 25857297810605392_2 (0.9999) output/images/25857297810605392_2.jpg [resnet_finetuned]
 - 26067243926277445_0 (0.9999) output/images/26067243926277445_0.jpg [resnet_finetuned]
-- 25510745415260635_0 (0.9999) output/images/25510745415260635_0.jpg [resnet_finetuned]
 
 ### Lowest Confidence (Auto)
 - 25803236569344850_3 (0.6585) output/images/25803236569344850_3.jpg [resnet_finetuned]
@@ -52,7 +52,7 @@
 - 25950841391251033_3 (0.5139) output/images/25950841391251033_3.jpg [resnet_finetuned]
 - 26278789105122925_4 (0.5133) output/images/26278789105122925_4.jpg [resnet_finetuned]
 
-## other (count=195, manual=45, auto=150)
+## other (count=197, manual=45, auto=152)
 
 ### Highest Confidence (Auto)
 - 25482513641417146_3 (0.9356) output/images/25482513641417146_3.jpg [resnet_finetuned]
@@ -78,7 +78,7 @@
 - 26240760585592444_1 (0.4184) output/images/26240760585592444_1.jpg [low confidence (0.42), resnet_finetuned]
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg [low confidence (0.42), resnet_finetuned]
 
-## Needs Manual Review (confidence < 0.65, count=120)
+## Needs Manual Review (confidence < 0.65, count=121)
 
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg → `other`
 - 26240760585592444_1 (0.4184) output/images/26240760585592444_1.jpg → `other`

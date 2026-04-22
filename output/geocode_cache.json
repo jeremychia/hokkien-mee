@@ -1601,5 +1601,25 @@
   "onemap:hong heng hkm tiong bahru market": null,
   "onemap:hong heng hkm tiong bahru market singapore": null,
   "onemap:remy hong heng hkm tiong bahru market": null,
-  "onemap:remy hong heng hkm tiong bahru market singapore": null
+  "onemap:remy hong heng hkm tiong bahru market singapore": null,
+  "onemap:308 punggol walk 7": null,
+  "onemap:308 punggol walk": {
+    "lat": 1.407802653060176,
+    "lng": 103.8996093896448,
+    "address": "308 PUNGGOL WALK PCF SPARKLETOTS PRESCHOOL @ PUNGGOL WEST BLK 308B (DS)"
+  },
+  "onemap:130 jurong gateway rd": {
+    "lat": 1.334724904674347,
+    "lng": 103.7393212617357,
+    "address": "130 JURONG GATEWAY ROAD J CONNECT SINGAPORE 600130"
+  },
+  "onemap:newton food center": {
+    "lat": 1.311915520312747,
+    "lng": 103.8395697287207,
+    "address": "500 CLEMENCEAU AVENUE NORTH NEWTON FOOD CENTRE SINGAPORE 229495"
+  },
+  "onemap:fung yi delights": null,
+  "onemap:fung yi delights singapore": null,
+  "nominatim:fung yi delights": null,
+  "nominatim:fung yi delights singapore": null
 }
