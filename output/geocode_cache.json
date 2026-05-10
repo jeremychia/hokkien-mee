@@ -1723,5 +1723,174 @@
   "nominatim:singapore fried prawn noodles": null,
   "nominatim:restoran ah kaw, 三樓干米粉": null,
   "nominatim:restoran ah kaw,": null,
-  "nominatim:restoran ah kaw, 三樓干米粉 singapore": null
+  "nominatim:restoran ah kaw, 三樓干米粉 singapore": null,
+  "onemap:280 bishan street 24": {
+    "lat": 1.357421196359542,
+    "lng": 103.8442757906027,
+    "address": "280 BISHAN STREET 24 SINGAPORE 570280"
+  },
+  "onemap:709 geylang road": {
+    "lat": 1.314845007609258,
+    "lng": 103.8898054429531,
+    "address": "709 GEYLANG ROAD SINGAPORE 389624"
+  },
+  "onemap:153 serangoon north": {
+    "lat": 1.369950996858087,
+    "lng": 103.872312298412,
+    "address": "153 SERANGOON NORTH AVENUE 1 SINGAPORE 550153"
+  },
+  "onemap:5 portion very st": null,
+  "onemap:5 portion very st singapore": null,
+  "nominatim:5 portion very st": null,
+  "nominatim:5 portion very st singapore": null,
+  "onemap:460069": {
+    "lat": 1.319350263605241,
+    "lng": 103.9436323601942,
+    "address": "69 BEDOK SOUTH AVENUE 3 SIGLAP LUCKY VALLEY SINGAPORE 460069"
+  },
+  "onemap:springleaf eating house": null,
+  "onemap:springleaf eating house singapore": null,
+  "nominatim:springleaf eating house": {
+    "lat": 1.3982104,
+    "lng": 103.8184078,
+    "address": "Soon Kee Duck Rice Eating House, 908H, Upper Thomson Road"
+  },
+  "onemap:same coffeeshop": null,
+  "onemap:same coffeeshop singapore": null,
+  "nominatim:same coffeeshop": null,
+  "nominatim:same coffeeshop singapore": null,
+  "onemap:69 bedok south road": null,
+  "onemap:69 bedok south road singapore": null,
+  "onemap:also this coffee shop": null,
+  "onemap:also this": null,
+  "onemap:also this coffee shop singapore": null,
+  "nominatim:also this coffee shop": null,
+  "nominatim:also this": null,
+  "nominatim:also this coffee shop singapore": null,
+  "onemap:otong prawn mee at tiong bahru market": null,
+  "onemap:68 kallang": {
+    "lat": 1.327778580310165,
+    "lng": 103.8793529196968,
+    "address": "68 KALLANG PUDDING ROAD SYH LOGISTICS BUILDING SINGAPORE 349327"
+  },
+  "onemap:treasure toast singapore": null,
+  "nominatim:treasure toast singapore": {
+    "lat": 1.2961589,
+    "lng": 103.8554985,
+    "address": "Treasure Toast, 23, Purvis Street"
+  },
+  "onemap:3 hkm st": null,
+  "onemap:3 hkm st singapore": null,
+  "nominatim:3 hkm st": null,
+  "nominatim:3 hkm st singapore": null,
+  "onemap:167 woodlands st 11": {
+    "lat": 1.433593705867127,
+    "lng": 103.775884057946,
+    "address": "167 WOODLANDS STREET 11 SINGAPORE 730167"
+  },
+  "onemap:725 havelock road": {
+    "lat": 1.289252383820343,
+    "lng": 103.8277753323599,
+    "address": "725 HAVELOCK ROAD SINGAPORE 169647"
+  },
+  "onemap:tao payoh lorong 6 block 51": null,
+  "onemap:tao payoh lorong 6 block": null,
+  "onemap:tao payoh lorong 6 block 51 singapore": null,
+  "nominatim:tao payoh lorong 6 block 51": null,
+  "nominatim:tao payoh lorong 6 block": null,
+  "nominatim:tao payoh lorong 6 block 51 singapore": null,
+  "onemap:woodlands man-na traditional hokkien mee": null,
+  "onemap:woodlands man-na traditional hokkien mee singapore": null,
+  "nominatim:woodlands man-na traditional hokkien mee": null,
+  "nominatim:woodlands man-na traditional hokkien mee singapore": null,
+  "onemap:5 upper": {
+    "lat": 1.312640144978281,
+    "lng": 103.8724918735604,
+    "address": "5 UPPER BOON KENG ROAD AGAPE LITTLE UNI (KALLANG) PTE. LTD."
+  },
+  "onemap:tanjong pagar plaza market and food centre": null,
+  "onemap:tanjong pagar plaza market and food centre singapore": null,
+  "nominatim:tanjong pagar plaza market and food centre": null,
+  "nominatim:tanjong pagar plaza market and food centre singapore": null,
+  "onemap:original simon road hokkien mee": null,
+  "onemap:original simon road hokkien mee singapore": null,
+  "nominatim:original simon road hokkien mee": null,
+  "nominatim:original simon road hokkien mee singapore": null,
+  "onemap:650451": {
+    "lat": 1.353037179685265,
+    "lng": 103.7439425677109,
+    "address": "451 BUKIT BATOK WEST AVENUE 6 WEST TERRA @ BUKIT BATOK SINGAPORE 650451"
+  },
+  "onemap:1 hawker uncle close": null,
+  "onemap:1 hawker uncle close singapore": null,
+  "nominatim:1 hawker uncle close": null,
+  "nominatim:1 hawker uncle close singapore": null,
+  "onemap:71 geylang": {
+    "lat": 1.310693682575733,
+    "lng": 103.8726842524559,
+    "address": "71 GEYLANG ROAD GEYLANG CONSERVATION AREA SINGAPORE 389194"
+  },
+  "onemap:111 woodlands street 13": {
+    "lat": 1.437943817322306,
+    "lng": 103.7820594337414,
+    "address": "111 WOODLANDS STREET 13 SINGAPORE 730111"
+  },
+  "onemap:bef siglap road bus stop": null,
+  "onemap:bef siglap road bus stop singapore": null,
+  "nominatim:bef siglap road bus stop": null,
+  "nominatim:bef siglap road bus stop singapore": null,
+  "onemap:309 tast": {
+    "lat": 1.308755478236057,
+    "lng": 103.9092120233295,
+    "address": "309 EAST COAST ROAD SINGAPORE 428956"
+  },
+  "onemap:30 pm close": null,
+  "onemap:30 pm close singapore": null,
+  "onemap:disappointing hokkien mee": null,
+  "onemap:disappointing hokkien mee singapore": null,
+  "onemap:8 toa payoh": {
+    "lat": 1.337880501138812,
+    "lng": 103.8566128021832,
+    "address": "8 LORONG 7 TOA PAYOH TOA PAYOH COURT SINGAPORE 310008"
+  },
+  "onemap:739276": {
+    "lat": 1.440935705674522,
+    "lng": 103.7812772496368,
+    "address": "10 MARSILING INDUSTRIAL ESTATE ROAD 1 MARSILING INDUSTRIAL ESTATE SINGAPORE 739276"
+  },
+  "onemap:8 in the north": null,
+  "onemap:8 in the north singapore": null,
+  "nominatim:8 in the north": null,
+  "nominatim:8 in the north singapore": null,
+  "onemap:51 toa payoh": {
+    "lat": 1.33880289195098,
+    "lng": 103.8407674016771,
+    "address": "51 TOA PAYOH RISE LIGHTHOUSE SCHOOL SINGAPORE 298106"
+  },
+  "onemap:s 777 coffeeshop": null,
+  "onemap:s 777 coffeeshop singapore": null,
+  "onemap:whole coffeeshop": null,
+  "onemap:whole coffeeshop singapore": null,
+  "nominatim:s 777 coffeeshop": {
+    "lat": 1.4166266,
+    "lng": 103.8351843,
+    "address": "Broadway Coffeeshop, 848, Yishun Street 81"
+  },
+  "onemap:fhkm at bedok interchange food center": null,
+  "onemap:bedok interchange food center": null,
+  "onemap:fhkm at bedok interchange food center singapore": null,
+  "nominatim:fhkm at bedok interchange food center": null,
+  "nominatim:bedok interchange food center": null,
+  "nominatim:fhkm at bedok interchange food center singapore": null,
+  "onemap:lavender": {
+    "lat": 1.307297672298299,
+    "lng": 103.8621105709497,
+    "address": "813 JELLICOE ROAD LAVENDER GARDENS SINGAPORE 200813"
+  },
+  "onemap:ot new shop open at tampines 1 kopitiam": null,
+  "onemap:tampines 1 kopitiam": null,
+  "onemap:ot new shop open at tampines 1 kopitiam singapore": null,
+  "nominatim:ot new shop open at tampines 1 kopitiam": null,
+  "nominatim:tampines 1 kopitiam": null,
+  "nominatim:ot new shop open at tampines 1 kopitiam singapore": null
 }
