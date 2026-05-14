@@ -27,17 +27,20 @@
 /* ── Reset & Variables ───────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --primary: #D35400;
-  --primary-light: #FDEBD0;
-  --primary-hover: #E67E22;
-  --bg: #F7F8FA;
-  --card: #FFFFFF;
-  --text: #2C3E50;
-  --text-secondary: #7F8C8D;
-  --text-tertiary: #B0B8BF;
-  --border: #E8ECF0;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+  --primary:        #C8761C;
+  --primary-light:  #FCE8C8;
+  --primary-hover:  #9A5A12;
+  --bg:             #FBF7EE;
+  --card:           #FFFFFF;
+  --text:           #2B231C;
+  --text-secondary: #5B4A3D;
+  --text-tertiary:  #8B7B6D;
+  --border:         #D4C5B1;
+  --star:           #D89020;
+  --bg-noodle:      #FBF3E0;
+  --shadow:         0 1px 3px rgba(60,40,20,0.10);
+  --shadow-lg:      0 4px 16px rgba(60,40,20,0.14);
+  --shadow-marker:  0 2px 6px rgba(40,25,10,0.30);
   --radius: 10px;
   --sidebar-width: 350px;
   --header-height: 50px;
@@ -46,13 +49,12 @@
 }
 
 :root.high-contrast {
-  --primary: #B23A00;
-  --primary-light: #FCE5D6;
-  --primary-hover: #8F2E00;
-  --text: #1F2D3D;
-  --text-secondary: #4B5A63;
-  --text-tertiary: #6C7A83;
-  --border: #D0D7DE;
+  --primary:        #B05C0E;
+  --primary-hover:  #7A3E08;
+  --text:           #1A140E;
+  --text-secondary: #3A2E24;
+  --text-tertiary:  #5B4A3D;
+  --border:         #BCA99A;
 }
 
 html, body { height: 100%; overflow: hidden; }
@@ -150,7 +152,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .header-badge strong { color: var(--primary); font-weight: 600; }
 .contrast-badge { display: none; }
 .contrast-badge.show { display: inline-flex; }
-.contrast-badge.warning { border-color: #E67E22; color: #B75E12; background: #FFF4E5; }
+.contrast-badge.warning { border-color: var(--primary); color: var(--primary-hover); background: var(--primary-light); }
 .contrast-badge {
   white-space: normal;
   max-width: 360px;
@@ -224,7 +226,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .search-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(211,84,0,0.1);
+  box-shadow: 0 0 0 3px rgba(200,118,28,0.12);
 }
 .search-input::placeholder { color: var(--text-tertiary); }
 
@@ -346,8 +348,8 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .location-list::-webkit-scrollbar { width: 5px; }
 .location-list::-webkit-scrollbar-track { background: transparent; }
-.location-list::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 3px; }
-.location-list::-webkit-scrollbar-thumb:hover { background: #ABB2B9; }
+.location-list::-webkit-scrollbar-thumb { background: var(--tan, #D4C5B1); border-radius: 3px; }
+.location-list::-webkit-scrollbar-thumb:hover { background: var(--border); }
 
 .loc-card {
   background: var(--card);
@@ -401,7 +403,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   gap: 6px;
 }
 .loc-distance { font-weight: 600; color: var(--primary); }
-.loc-stars { color: #F39C12; font-size: 10px; letter-spacing: -1px; }
+.loc-stars { color: var(--star); font-size: 10px; letter-spacing: -1px; }
 .loc-card {
   content-visibility: auto;
   contain-intrinsic-size: 0 68px;
@@ -455,7 +457,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   overflow: hidden;
 }
 .popup-wrap::-webkit-scrollbar { width: 4px; }
-.popup-wrap::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 2px; }
+.popup-wrap::-webkit-scrollbar-thumb { background: var(--tan, #D4C5B1); border-radius: 2px; }
 
 .popup-section {
   border: 1px solid var(--border);
@@ -534,7 +536,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .popup-gallery-scroll::-webkit-scrollbar,
 .popup-posts-scroll::-webkit-scrollbar { width: 4px; }
 .popup-gallery-scroll::-webkit-scrollbar-thumb,
-.popup-posts-scroll::-webkit-scrollbar-thumb { background: #D5D8DC; border-radius: 2px; }
+.popup-posts-scroll::-webkit-scrollbar-thumb { background: var(--tan, #D4C5B1); border-radius: 2px; }
 
 .popup-location {
   font-size: 12.5px;
@@ -571,7 +573,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   font-size: 10px;
   color: var(--text-secondary);
 }
-.popup-rating .stars { color: #F39C12; font-size: 10px; letter-spacing: -0.5px; }
+.popup-rating .stars { color: var(--star); font-size: 10px; letter-spacing: -0.5px; }
 .popup-rating .score { font-weight: 600; color: var(--text); }
 .popup-rating .basis { color: var(--text-tertiary); font-size: 9px; }
 .popup-directions {
@@ -616,7 +618,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .popup-time { font-size: 10.5px; color: var(--text-tertiary); margin-left: 5px; }
 .popup-text {
   font-size: 12px;
-  color: #555;
+  color: var(--text-secondary);
   margin-top: 4px;
   line-height: 1.5;
   word-break: break-word;
@@ -738,13 +740,13 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   width: 36px; height: 36px;
   border-radius: 50%;
   border: 3px solid white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  box-shadow: var(--shadow-marker);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.15s;
   overflow: hidden;
-  background: #FEF3E2;
+  background: var(--bg-noodle);
 }
 .leaflet-marker-icon:hover .marker-icon { transform: scale(1.15); }
 
@@ -758,19 +760,19 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 
 /* MarkerCluster overrides */
-.marker-cluster-small { background-color: rgba(211, 84, 0, 0.2) !important; }
+.marker-cluster-small { background-color: rgba(200,118,28,0.20) !important; }
 .marker-cluster-small div {
-  background-color: rgba(211, 84, 0, 0.7) !important;
+  background-color: rgba(200,118,28,0.78) !important;
   color: white !important; font-weight: 700;
 }
-.marker-cluster-medium { background-color: rgba(192, 57, 43, 0.25) !important; }
+.marker-cluster-medium { background-color: rgba(192,58,31,0.25) !important; }
 .marker-cluster-medium div {
-  background-color: rgba(192, 57, 43, 0.75) !important;
+  background-color: rgba(192,58,31,0.80) !important;
   color: white !important; font-weight: 700;
 }
-.marker-cluster-large { background-color: rgba(192, 57, 43, 0.3) !important; }
+.marker-cluster-large { background-color: rgba(142,42,20,0.30) !important; }
 .marker-cluster-large div {
-  background-color: rgba(192, 57, 43, 0.85) !important;
+  background-color: rgba(142,42,20,0.88) !important;
   color: white !important; font-weight: 700;
 }
 
@@ -938,7 +940,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 /* ── Loading ─────────────────────────────────────────────────── */
 .loading-overlay {
   position: fixed; inset: 0;
-  background: white;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1041,6 +1043,84 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Report Modal ────────────────────────────────────────────── */
+.report-modal-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+}
+.report-modal-backdrop.open { display: flex; }
+.report-modal {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px;
+  width: min(380px, calc(100vw - 32px));
+  box-shadow: var(--shadow-lg);
+}
+.report-modal-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.report-modal-address {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.report-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  background: var(--bg);
+  transition: border-color 0.15s, background 0.15s;
+  text-align: left;
+  width: 100%;
+  font-family: var(--font);
+}
+.report-option:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.report-option-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+}
+.report-option-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: block;
+  margin-top: 2px;
+}
+.report-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+.report-cancel {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: border-color 0.15s, color 0.15s;
+}
+.report-cancel:hover { border-color: var(--text-secondary); color: var(--text); }
 </style>
 </head>
 
@@ -1197,6 +1277,41 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   <div class="lightbox-meta" id="lightboxMeta"></div>
 </div>
 
+<!-- Report modal -->
+<div class="report-modal-backdrop" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+  <div class="report-modal">
+    <div class="report-modal-title" id="reportModalTitle">Report a problem</div>
+    <div class="report-modal-address" id="reportModalAddress"></div>
+    <button class="report-option" onclick="submitReport('wrong_location')">
+      <span>
+        <span class="report-option-label">Wrong location</span>
+        <span class="report-option-desc">The stall is at a different address or has closed.</span>
+      </span>
+    </button>
+    <button class="report-option" onclick="submitReport('wrong_name')">
+      <span>
+        <span class="report-option-label">Wrong name or details</span>
+        <span class="report-option-desc">The stall name, hawker centre, or block number is incorrect.</span>
+      </span>
+    </button>
+    <button class="report-option" onclick="submitReport('wrong_image')">
+      <span>
+        <span class="report-option-label">Incorrect image</span>
+        <span class="report-option-desc">A photo is not of Hokkien Mee or belongs to a different stall.</span>
+      </span>
+    </button>
+    <button class="report-option" onclick="submitReport('other')">
+      <span>
+        <span class="report-option-label">Other issue</span>
+        <span class="report-option-desc">Something else is wrong with this listing.</span>
+      </span>
+    </button>
+    <div class="report-modal-footer">
+      <button class="report-cancel" onclick="closeReportModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- Map attribution -->
 <div class="map-attr">
   Map © <a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener">OneMap</a>
@@ -1242,7 +1357,7 @@ const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 
 // ── Map setup ───────────────────────────────────────────────────
 const map = L.map('map', {
   center: [1.3521, 103.8198],
-  zoom: 14,
+  zoom: 15,
   zoomControl: false,
   attributionControl: false,
 });
@@ -1638,6 +1753,7 @@ function buildPopupHtml(loc) {
           <a class="popup-btn" href="${gmapsUrl}" target="_blank" rel="noopener">📍 Directions</a>
           <a class="popup-btn" href="${formUrl}" target="_blank" rel="noopener">📝 Suggest Edit</a>
           <button class="popup-btn share-btn" onclick="copyDeepLink('${shareUrl}')">🔗 Share</button>
+          <button class="popup-btn" onclick="openReportModal('${escapeHtml(loc.id)}', '${escapeHtml(loc.address).replace(/'/g, '\\x27')}')">⚑ Report</button>
         </div>
         <span class="popup-id">ID: ${loc.id}</span>
       </div>
@@ -1676,6 +1792,39 @@ function copyDeepLink(url) {
   navigator.clipboard.writeText(url).then(() => {
     alert('Link copied to clipboard!');
   });
+}
+
+// ── Report modal ─────────────────────────────────────────────────
+let reportLocId = null;
+let reportLocAddress = null;
+const reportModal = document.getElementById('reportModal');
+const reportModalAddress = document.getElementById('reportModalAddress');
+
+function openReportModal(locId, address) {
+  reportLocId = locId;
+  reportLocAddress = address;
+  reportModalAddress.textContent = address;
+  reportModal.classList.add('open');
+}
+function closeReportModal() {
+  reportModal.classList.remove('open');
+  reportLocId = null;
+  reportLocAddress = null;
+}
+reportModal.addEventListener('click', (e) => {
+  if (e.target === reportModal) closeReportModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && reportModal.classList.contains('open')) closeReportModal();
+});
+function submitReport(type) {
+  const baseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeIuOm0serxmrkzNygEaXiIDy3plD4DBIg_AcJBsprd97o0Uw/viewform?usp=pp_url';
+  const params = new URLSearchParams({
+    'entry.1007330317': reportLocAddress || '',
+    'entry.1388685291': reportLocId || '',
+  });
+  window.open(`${baseUrl}&${params}`, '_blank', 'noopener');
+  closeReportModal();
 }
 
 // ── Build markers & sidebar cards ───────────────────────────────
