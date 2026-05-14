@@ -46,6 +46,20 @@
   --header-height: 50px;
   --popup-wrap-max: min(72vh, 560px);
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* popup redesign tokens */
+  --sambal:         #C03A1F;
+  --primary-soft:   #FBF3E0;
+  --r-pill:         999px;
+  --tp-radius:      14px;
+  --tp-hero-aspect: 16 / 9;
+  --cta-bg:         #CC4400;
+  --cta-bg-hover:   #A33500;
+  /* name aliases used by .tp-* styles */
+  --ink:    var(--text);
+  --coffee: var(--text-secondary);
+  --kopi-o: var(--text-tertiary);
+  --paper:  var(--card);
+  --tan:    var(--border);
 }
 
 :root.high-contrast {
@@ -434,18 +448,37 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 
 /* ── Leaflet Popup Overrides ─────────────────────────────────── */
 .leaflet-popup-content-wrapper {
-  border-radius: var(--radius) !important;
-  box-shadow: var(--shadow-lg) !important;
+  border-radius: var(--tp-radius, 14px) !important;
+  box-shadow: 0 12px 32px rgba(40,25,10,0.22) !important;
   padding: 0 !important;
+  max-height: 480px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 .leaflet-popup-content {
   margin: 0 !important;
   font-family: var(--font) !important;
   font-size: 13px !important;
   line-height: 1.45 !important;
-  min-width: 270px;
+  width: 320px !important;
 }
-.leaflet-popup-tip { box-shadow: none !important; }
+.leaflet-popup-tip { box-shadow: none !important; background: var(--paper) !important; }
+.leaflet-popup-close-button {
+  width: 28px !important; height: 28px !important;
+  background: rgba(255,255,255,0.92) !important;
+  border-radius: 50% !important;
+  top: 10px !important; right: 10px !important;
+  color: var(--coffee) !important;
+  font-size: 16px !important;
+  line-height: 28px !important;
+  text-align: center !important;
+  z-index: 2 !important;
+  box-shadow: 0 2px 6px rgba(40,25,10,0.18) !important;
+}
+.leaflet-popup-close-button:hover {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+}
 
 .popup-wrap {
   max-height: var(--popup-wrap-max);
@@ -1044,6 +1077,129 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   }
 }
 
+/* ── Popup redesign (.tp) ────────────────────────────────────── */
+.tp { background: var(--paper); color: var(--ink); font-family: var(--font); overscroll-behavior: contain; }
+.tp-hero { position: relative; width: 100%; aspect-ratio: var(--tp-hero-aspect, 16/9); background: var(--bg-noodle); overflow: hidden; }
+.tp-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; transition: transform .3s ease; }
+.tp-hero-img:hover { transform: scale(1.02); }
+.tp-hero-empty { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--primary-soft); }
+.tp-hero-empty svg { width: 56px; height: 56px; opacity: 0.7; }
+.tp-rating {
+  position: absolute; left: 10px; bottom: 10px;
+  display: inline-flex; align-items: center; gap: 5px;
+  height: 26px; padding: 0 10px 0 8px;
+  background: var(--paper); border-radius: var(--r-pill);
+  box-shadow: 0 4px 12px rgba(40,25,10,0.25);
+  font: 600 11px/1 var(--font); color: var(--ink);
+}
+.tp-rating-star  { color: var(--star); font-size: 12px; }
+.tp-rating-score { font-size: 12px; font-weight: 700; }
+.tp-rating-basis { font-weight: 500; color: var(--coffee); font-size: 10px; }
+.tp-head { padding: 10px 14px 0; }
+.tp-name { font: 700 13px/1.25 var(--font); letter-spacing: -0.2px; color: var(--ink); margin: 0; }
+.tp-meta { margin: 3px 0 0; font: 500 11px/1.35 var(--font); color: var(--coffee); }
+.tp-meta-sep { color: var(--tan); margin: 0 5px; font-weight: 400; }
+.tp-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 10px 14px 0; height: 40px; padding: 0 14px;
+  background: var(--cta-bg, var(--primary-hover));
+  color: #fff !important; font: 600 13px var(--font); text-decoration: none;
+  border-radius: 8px; transition: background .15s, transform .1s;
+  letter-spacing: 0.1px;
+}
+.tp-cta:hover  { background: var(--cta-bg-hover, #2B231C); }
+.tp-cta:active { transform: scale(0.985); }
+.tp-cta-tail   { font-weight: 400; opacity: 0.85; transition: transform .15s; }
+.tp-cta:hover .tp-cta-tail { transform: translateX(2px); }
+.tp-quote {
+  margin: 10px 14px 0; padding: 9px 12px 11px;
+  background: var(--primary-soft); border-radius: 8px;
+  border-left: 3px solid var(--primary); position: relative;
+}
+.tp-quote-mark {
+  position: absolute; top: 0; left: 7px;
+  font: 700 40px/0.9 'Georgia', serif;
+  color: var(--primary); opacity: 0.18; pointer-events: none;
+}
+.tp-quote-body { margin: 0; font: 500 11.5px/1.5 var(--font); color: var(--ink); font-style: italic; }
+.tp-quote-cite { display: flex; align-items: center; gap: 5px; margin-top: 6px; font: 500 10.5px var(--font); color: var(--coffee); font-style: normal; }
+.tp-quote-author { font-weight: 600; color: var(--ink); }
+.tp-quote-sep { color: var(--tan); }
+.tp-photos { padding: 0 14px; margin-top: 12px; }
+.tp-section-head { display: flex; flex-direction: column; gap: 5px; margin-bottom: 6px; }
+.tp-section-title { font: 600 10px var(--font); color: var(--ink); text-transform: uppercase; letter-spacing: 0.6px; margin: 0; }
+.tp-section-meta { font-weight: 500; color: var(--kopi-o); text-transform: none; letter-spacing: 0; margin-left: 3px; }
+.tp-filter { display: flex; gap: 4px; }
+.tp-filter-pill {
+  display: inline-flex; align-items: center; gap: 3px;
+  height: 22px; padding: 0 7px;
+  border: 1px solid var(--border); background: var(--paper); color: var(--coffee);
+  border-radius: var(--r-pill); font: 500 10px var(--font); cursor: pointer; transition: all .15s;
+}
+.tp-filter-pill:hover { border-color: var(--primary); color: var(--primary); }
+.tp-filter-pill.on { border-color: var(--primary); background: var(--primary-light); color: var(--primary-hover); font-weight: 600; }
+.tp-filter-n { font-weight: 600; opacity: 0.7; margin-left: 2px; }
+.tp-grid-panel { display: none; }
+.tp-grid-panel.active {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
+  animation: tp-fade .25s ease-out;
+}
+@keyframes tp-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.tp-grid-tile {
+  border: 0; padding: 0; background: var(--bg-noodle);
+  border-radius: 5px; overflow: hidden; aspect-ratio: 1; cursor: zoom-in;
+}
+.tp-grid-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease, opacity .15s; }
+.tp-grid-tile:hover img { transform: scale(1.06); opacity: 0.92; }
+.tp-grid-extra { display: none; }
+.tp-grid-more {
+  aspect-ratio: 1; border-radius: 5px; background: var(--bg-noodle);
+  display: flex; align-items: center; justify-content: center;
+  font: 600 11px var(--font); color: var(--primary); border: 1px solid var(--border);
+  cursor: pointer; transition: background .15s;
+}
+.tp-grid-more:hover { background: var(--primary-light); }
+.tp-posts { padding: 0 14px; margin-top: 12px; }
+.tp-posts-toggle {
+  display: flex; align-items: center; justify-content: space-between; width: 100%;
+  background: none; border: none; padding: 0; cursor: pointer; text-align: left;
+}
+.tp-posts-toggle:hover .tp-section-title { color: var(--primary); }
+.tp-posts-chevron {
+  font-size: 10px; color: var(--kopi-o); transition: transform .2s; display: inline-block;
+}
+.tp-posts-toggle[aria-expanded="true"] .tp-posts-chevron { transform: rotate(180deg); }
+.tp-post-list { display: none; flex-direction: column; gap: 8px; margin-top: 6px; }
+.tp-post-list.open { display: flex; }
+.tp-post-item {
+  background: var(--bg-noodle); border-radius: 8px; padding: 9px 11px;
+  border: 1px solid var(--border);
+}
+.tp-post-text { margin: 0 0 6px; font: 400 11.5px/1.55 var(--font); color: var(--ink); }
+.tp-post-meta {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  font: 500 10px var(--font); color: var(--coffee);
+}
+.tp-post-link {
+  margin-left: auto; color: var(--primary); text-decoration: none; font-size: 11px;
+}
+.tp-post-link:hover { text-decoration: underline; }
+.tp-fb {
+  display: block; margin: 10px 14px 0; padding: 8px 10px;
+  text-align: center; color: var(--coffee); font: 500 11px var(--font);
+  text-decoration: none; border-top: 1px solid var(--border); transition: color .15s;
+}
+.tp-fb:hover { color: var(--primary); }
+.tp-fb span { color: var(--primary); margin-left: 4px; }
+.tp-foot { padding: 6px 14px 10px; text-align: center; }
+.tp-report {
+  background: transparent; border: none; color: var(--kopi-o);
+  font: 500 10px var(--font); cursor: pointer; padding: 3px 6px;
+  text-decoration: underline; text-underline-offset: 2px;
+  text-decoration-color: var(--tan); transition: color .15s;
+}
+.tp-report:hover { color: var(--sambal); text-decoration-color: var(--sambal); }
+
 /* ── Report Modal ────────────────────────────────────────────── */
 .report-modal-backdrop {
   display: none;
@@ -1501,7 +1657,7 @@ function handleImgError(el) {
 
 function openLightboxFromImg(el) {
   if (el && el.src) {
-    const popupWrap = el.closest('.popup-wrap');
+    const popupWrap = el.closest('.tp') || el.closest('.popup-wrap');
     const candidates = popupWrap
       ? Array.from(popupWrap.querySelectorAll('img.popup-photo'))
       : [el];
@@ -1679,104 +1835,206 @@ function switchPopupTab(btn) {
 }
 
 // ── Popup HTML ──────────────────────────────────────────────────
+const IMG_TAB_LABELS = { noodles: '🍜 Noodles', storefront: '🏪 Storefront', other: '📷 Other' };
+
 function buildPopupHtml(loc) {
   const count = loc.posts.length;
-  const badge = count > 1 ? `<span class="popup-count">${count} posts</span>` : '';
-  const galleryHtml = buildLocationGalleryHtml(loc);
 
-  // Rating (inline)
-  let ratingHtml = '';
-  if (loc.sentiment && loc.sentiment.score !== null) {
-    const s = loc.sentiment;
-    ratingHtml = `
-      <span class="popup-rating">
-        <span class="stars">${starsHtml(s.score)}</span>
-        <span class="score">${s.score.toFixed(1)}</span>
-        <span class="basis">(${s.rated_comments})</span>
-      </span>`;
+  // Collect all images deduplicated, bucketed by type
+  const seen = new Set();
+  const allImgs = [];
+  for (const post of loc.posts) {
+    for (const img of (post.images || [])) {
+      const srcs = resolveImageSources(img);
+      const key = srcs.primary || srcs.fallback;
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      allImgs.push({ ...img, _post_link: post.post_link, _author: post.author, _timestamp: post.timestamp });
+    }
   }
+  const buckets = { noodles: [], storefront: [], other: [] };
+  for (const img of allImgs) (buckets[img.type] || buckets.other).push(img);
+  const activeTabs = ['noodles', 'storefront', 'other'].filter(k => buckets[k].length > 0);
+  const defaultTab = activeTabs[0] || 'noodles';
 
-  // Google Maps directions link
+  // Hero image (prefer noodles → storefront → any)
+  const hero = buckets.noodles[0] || buckets.storefront[0] || buckets.other[0] || allImgs[0];
+
+  // Google Maps link
   const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
 
-  // Suggest Edit (Google Form)
-  const formUrl = `https://docs.google.com/forms/d/e/1FAIpQLSeIuOm0serxmrkzNygEaXiIDy3plD4DBIg_AcJBsprd97o0Uw/viewform?usp=pp_url&entry.1007330317=${encodeURIComponent(loc.address)}&entry.1388685291=${loc.id}`;
-  
-  // Deep Link (stable location ID)
-  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${loc.id}`;
+  // Facebook link (first post, or group)
+  const fbUrl = escapeHtml((loc.posts[0] && loc.posts[0].post_link) || 'https://www.facebook.com/groups/227074250721100/');
 
-  let postsHtml = '';
-  for (const p of loc.posts) {
-    const text = escapeHtml(truncate(p.text || '', 200)).replace(/\n/g, '<br>');
-    const imgHtml = buildImageTabsHtml(p.images);
-
-    const meta = [];
-    if (p.comment_count > 0) meta.push(`💬 ${p.comment_count}`);
-    if (p.reactions) meta.push(`👍 ${p.reactions}`);
-    if (p.images && p.images.length > 0) meta.push(`📷 ${p.images.length}`);
-    const metaHtml = meta.length
-      ? `<div class="popup-meta">${meta.join(' · ')}</div>` : '';
-
-    postsHtml += `
-      <div class="popup-post">
-        <span class="popup-author">${escapeHtml(p.author)}</span>
-        <span class="popup-time">${escapeHtml(p.timestamp || '')}</span>
-        <div class="popup-text">${text}</div>
-        ${imgHtml}
-        ${metaHtml}
-        <a class="popup-fb-link" href="${escapeHtml(p.post_link)}" target="_blank" rel="noopener">View on Facebook →</a>
-      </div>`;
+  // ── 1. WHO: Hero ────────────────────────────────────────────
+  let heroImgHtml;
+  if (hero) {
+    const srcs = resolveImageSources(hero);
+    heroImgHtml = `<img class="tp-hero-img popup-photo"
+      src="${escapeHtml(srcs.primary)}"
+      alt="${escapeHtml(loc.address)} — featured photo"
+      data-fallback="${escapeHtml(srcs.fallback || '')}"
+      data-photo-id="${escapeHtml(photoDebugId(hero))}"
+      data-author="${escapeHtml(hero._author || hero.author || '')}"
+      data-post-link="${escapeHtml(hero._post_link || hero.post_link || '')}"
+      data-post-id="${escapeHtml(hero.post_id || '')}"
+      onerror="handleImgError(this)"
+      onclick="openLightboxFromImg(this)">`;
+  } else {
+    heroImgHtml = `<div class="tp-hero-empty"><svg width="56" height="56"><use href="#hkm-bowl"/></svg></div>`;
   }
 
-  const galleryCounts = collectLocationImages(loc);
-  const hasGallery = !!galleryHtml;
-  const defaultTab = hasGallery ? 'photos' : 'posts';
-
-  const gallerySection = hasGallery ? `
-    <div class="popup-section popup-gallery-section" aria-label="Location photos">
-      <div class="popup-section-head">
-        <span>Photos at this location</span>
-        <span class="popup-section-meta">${galleryCounts.images.length} photos · ${galleryCounts.postCount} post${galleryCounts.postCount === 1 ? '' : 's'}</span>
-      </div>
-      <div class="popup-gallery-scroll">
-        ${galleryHtml}
-      </div>
-    </div>` : '';
-
-  return `
-    <div class="popup-wrap">
-      <div class="popup-location">
-        <span class="popup-address" title="${escapeHtml(loc.address)}">${escapeHtml(loc.address)}</span>
-        ${badge}
-        ${ratingHtml}
-        <div class="popup-actions">
-          <a class="popup-btn" href="${gmapsUrl}" target="_blank" rel="noopener">📍 Directions</a>
-          <a class="popup-btn" href="${formUrl}" target="_blank" rel="noopener">📝 Suggest Edit</a>
-          <button class="popup-btn share-btn" onclick="copyDeepLink('${shareUrl}')">🔗 Share</button>
-          <button class="popup-btn" onclick="openReportModal('${escapeHtml(loc.id)}', '${escapeHtml(loc.address).replace(/'/g, '\\x27')}')">⚑ Report</button>
-        </div>
-        <span class="popup-id">ID: ${loc.id}</span>
-      </div>
-      <hr class="popup-divider">
-      <div class="popup-content-tabs" role="tablist" aria-label="View by content type">
-        ${hasGallery ? `<button class="popup-content-tab-btn${defaultTab === 'photos' ? ' active' : ''}" role="tab" aria-selected="${defaultTab === 'photos' ? 'true' : 'false'}" data-tab="photos" onclick="switchPopupTab(this)">Photos</button>` : ''}
-        <button class="popup-content-tab-btn${defaultTab === 'posts' ? ' active' : ''}" role="tab" aria-selected="${defaultTab === 'posts' ? 'true' : 'false'}" data-tab="posts" onclick="switchPopupTab(this)">Posts</button>
-      </div>
-      <div class="popup-tab-panels">
-        ${hasGallery ? `<div class="popup-tab-panel${defaultTab === 'photos' ? ' active' : ''}" data-tab="photos">${gallerySection}</div>` : ''}
-        <div class="popup-tab-panel${defaultTab === 'posts' ? ' active' : ''}" data-tab="posts">
-          <div class="popup-section popup-posts-section" aria-label="Posts mentioning this location">
-            <div class="popup-section-head">
-              <span>Posts</span>
-              <span class="popup-section-meta">${count} post${count === 1 ? '' : 's'}</span>
-            </div>
-            <div class="popup-posts-scroll">
-              ${postsHtml}
-            </div>
-          </div>
-        </div>
-      </div>
+  let ratingChipHtml = '';
+  if (loc.sentiment && loc.sentiment.score != null) {
+    const s = loc.sentiment;
+    ratingChipHtml = `<div class="tp-rating">
+      <span class="tp-rating-star" aria-hidden="true">★</span>
+      <strong class="tp-rating-score">${s.score.toFixed(1)}</strong>
+      <span class="tp-rating-basis">based on ${s.rated_comments} reviews</span>
     </div>`;
+  }
+
+  // ── 3. WHY: Featured quote (most-reacted post) ───────────────
+  const feature = [...loc.posts].sort((a, b) => (parseInt(b.reactions) || 0) - (parseInt(a.reactions) || 0))[0];
+  let quoteHtml = '';
+  if (feature && feature.text) {
+    quoteHtml = `<section class="tp-quote" aria-label="Featured review">
+      <span class="tp-quote-mark" aria-hidden="true">"</span>
+      <blockquote class="tp-quote-body">${escapeHtml(truncate(feature.text, 160))}</blockquote>
+      <cite class="tp-quote-cite">
+        <span class="tp-quote-author">${escapeHtml(feature.author)}</span>
+        <span class="tp-quote-sep" aria-hidden="true">·</span>
+        <time>${escapeHtml(feature.timestamp || '')}</time>
+      </cite>
+    </section>`;
+  }
+
+  // Photo grid with filter pills
+  let photosHtml = '';
+  if (allImgs.length > 0) {
+    let filterHtml = '';
+    if (activeTabs.length > 1) {
+      filterHtml = `<div class="tp-filter" role="tablist" aria-label="Photo type">
+        ${activeTabs.map(k =>
+          `<button role="tab" aria-selected="${k === defaultTab}" class="tp-filter-pill${k === defaultTab ? ' on' : ''}" data-tab="${k}" onclick="switchTpTab(this)">
+            ${IMG_TAB_LABELS[k]}
+            <span class="tp-filter-n" aria-hidden="true">${buckets[k].length}</span>
+          </button>`
+        ).join('')}
+      </div>`;
+    }
+    const gridPanels = activeTabs.map(k => {
+      const MAX_TILES = 8;
+      const all_k = buckets[k];
+      const overflow = all_k.length - MAX_TILES;
+      const tiles = all_k.map((img, i) => {
+        const srcs = resolveImageSources(img);
+        const hidden = i >= MAX_TILES ? ' tp-grid-extra' : '';
+        return `<button class="tp-grid-tile${hidden}" onclick="openTpTile(this)" aria-label="Open photo ${i+1}">
+          <img src="${escapeHtml(srcs.primary)}" alt="" loading="lazy" class="popup-photo"
+            data-fallback="${escapeHtml(srcs.fallback || '')}"
+            data-photo-id="${escapeHtml(photoDebugId(img))}"
+            data-author="${escapeHtml(img._author || img.author || '')}"
+            data-post-link="${escapeHtml(img._post_link || img.post_link || '')}"
+            data-post-id="${escapeHtml(img.post_id || '')}"
+            onerror="handleImgError(this)">
+        </button>`;
+      }).join('');
+      const overflowTile = overflow > 0
+        ? `<button class="tp-grid-more" onclick="expandTpGrid(this, event)">+${overflow} more</button>`
+        : '';
+      return `<div class="tp-grid-panel${k === defaultTab ? ' active' : ''}" data-tab="${k}">${tiles}${overflowTile}</div>`;
+    }).join('');
+
+    photosHtml = `<section class="tp-photos" aria-label="Photos of this stall">
+      <div class="tp-section-head">
+        <h4 class="tp-section-title">Photos <span class="tp-section-meta">${allImgs.length}</span></h4>
+        ${filterHtml}
+      </div>
+      ${gridPanels}
+    </section>`;
+  }
+
+  const reportAddr = escapeHtml(loc.id);
+  const reportName = escapeHtml(loc.address).replace(/'/g, '\\x27');
+
+  return `<article class="tp" aria-labelledby="tp-name-${reportAddr}">
+    <div class="tp-hero">${heroImgHtml}${ratingChipHtml}</div>
+    <header class="tp-head">
+      <h3 class="tp-name" id="tp-name-${reportAddr}">${escapeHtml(loc.address)}</h3>
+      <p class="tp-meta">${count} post${count !== 1 ? 's' : ''}</p>
+    </header>
+    <a class="tp-cta" href="${gmapsUrl}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 2C8 2 5 5 5 9c0 5.5 7 13 7 13s7-7.5 7-13c0-4-3-7-7-7z"/>
+        <circle cx="12" cy="9" r="2.5" fill="currentColor"/>
+      </svg>
+      <span>Get directions</span>
+      <span class="tp-cta-tail" aria-hidden="true">→</span>
+    </a>
+    ${quoteHtml}
+    ${photosHtml}
+    ${(function() {
+      const postsWithText = loc.posts.filter(p => p.text && p.text.trim());
+      if (!postsWithText.length) return '';
+      const items = postsWithText.map(p => {
+        const linkHtml = p.post_link
+          ? `<a class="tp-post-link" href="${escapeHtml(p.post_link)}" target="_blank" rel="noopener">View post ↗</a>`
+          : '';
+        return `<article class="tp-post-item">
+          <p class="tp-post-text">${escapeHtml(p.text)}</p>
+          <footer class="tp-post-meta">
+            <span class="tp-post-author">${escapeHtml(p.author || '')}</span>
+            ${linkHtml}
+          </footer>
+        </article>`;
+      }).join('');
+      return `<section class="tp-posts" aria-label="Posts">
+        <button class="tp-posts-toggle" aria-expanded="false" onclick="toggleTpPosts(this)">
+          <h4 class="tp-section-title">Posts <span class="tp-section-meta">${postsWithText.length}</span></h4>
+          <span class="tp-posts-chevron" aria-hidden="true">▼</span>
+        </button>
+        <div class="tp-post-list">${items}</div>
+      </section>`;
+    })()}
+    <a class="tp-fb" href="${fbUrl}" target="_blank" rel="noopener">
+      See all ${count} ${count === 1 ? 'post' : 'posts'} on Facebook
+      <span aria-hidden="true">↗</span>
+    </a>
+    <footer class="tp-foot">
+      <button class="tp-report" onclick="openReportModal('${reportAddr}', '${reportName}')">
+        Something wrong? Report this stall
+      </button>
+    </footer>
+  </article>`;
+}
+
+function switchTpTab(btn) {
+  const tabKey = btn.dataset.tab;
+  const section = btn.closest('.tp-photos');
+  section.querySelectorAll('.tp-filter-pill').forEach(b => {
+    b.classList.toggle('on', b.dataset.tab === tabKey);
+    b.setAttribute('aria-selected', b.dataset.tab === tabKey ? 'true' : 'false');
+  });
+  section.querySelectorAll('.tp-grid-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === tabKey));
+}
+
+function expandTpGrid(btn, event) {
+  if (event) { event.stopPropagation(); event.preventDefault(); }
+  const panel = btn.closest('.tp-grid-panel');
+  panel.querySelectorAll('.tp-grid-extra').forEach(el => el.classList.remove('tp-grid-extra'));
+  btn.remove();
+}
+
+function toggleTpPosts(btn) {
+  const expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !expanded);
+  btn.nextElementSibling.classList.toggle('open', !expanded);
+}
+
+function openTpTile(btn) {
+  const img = btn.querySelector('img');
+  if (img) openLightboxFromImg(img);
 }
 
 function constrainOpenPopupHeight() {
@@ -1847,6 +2105,7 @@ MAP_DATA.locations.forEach((loc, i) => {
   marker.bindPopup(() => buildPopupHtml(loc), {
     maxWidth: 360,
     minWidth: 250,
+    maxHeight: 480,
     className: 'custom-popup',
     autoPanPadding: [40, 40],
   });
