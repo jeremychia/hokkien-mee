@@ -1892,5 +1892,57 @@
   "onemap:ot new shop open at tampines 1 kopitiam singapore": null,
   "nominatim:ot new shop open at tampines 1 kopitiam": null,
   "nominatim:tampines 1 kopitiam": null,
-  "nominatim:ot new shop open at tampines 1 kopitiam singapore": null
+  "nominatim:ot new shop open at tampines 1 kopitiam singapore": null,
+  "onemap:sg umami": null,
+  "onemap:sg umami singapore": null,
+  "nominatim:sg umami": null,
+  "nominatim:sg umami singapore": null,
+  "onemap:130 jurong gateway": {
+    "lat": 1.33472490467434,
+    "lng": 103.739321261736,
+    "address": "130 JURONG GATEWAY ROAD J CONNECT SINGAPORE 600130"
+  },
+  "onemap:127 bukit merah lane 1": {
+    "lat": 1.28532858968794,
+    "lng": 103.803396774073,
+    "address": "127 BUKIT MERAH LANE 1 SINGAPORE 150127"
+  },
+  "onemap:050335": {
+    "lat": 1.2822749605271,
+    "lng": 103.843238518071,
+    "address": "335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335"
+  },
+  "onemap:lu heng kee hokkien mee 盧兴记-959": null,
+  "onemap:lu heng kee hokkien mee -959": null,
+  "onemap:lu heng kee hokkien mee 盧兴记-959 singapore": null,
+  "nominatim:lu heng kee hokkien mee 盧兴记-959": null,
+  "nominatim:lu heng kee hokkien mee -959": null,
+  "nominatim:lu heng kee hokkien mee 盧兴记-959 singapore": null,
+  "onemap:190 middle road": {
+    "lat": 1.30042241913975,
+    "lng": 103.852286627386,
+    "address": "190 MIDDLE ROAD FORTUNE CENTRE SINGAPORE 188979"
+  },
+  "onemap:160040": {
+    "lat": 1.2890578915448,
+    "lng": 103.827513018252,
+    "address": "40 BEO CRESCENT THE BEO CRESCENT SINGAPORE 160040"
+  },
+  "onemap:fortune centre 金隆大廈, 190 middle road": null,
+  "onemap:fortune centre , 190 middle road": {
+    "lat": 1.30042241913975,
+    "lng": 103.852286627386,
+    "address": "190 MIDDLE ROAD FORTUNE CENTRE SINGAPORE 188979"
+  },
+  "onemap:nd tucked into a corner of the coffeeshop": null,
+  "onemap:nd tucked into a corner of the": null,
+  "onemap:nd tucked into a corner of the coffeeshop singapore": null,
+  "nominatim:nd tucked into a corner of the coffeeshop": null,
+  "nominatim:nd tucked into a corner of the": null,
+  "nominatim:nd tucked into a corner of the coffeeshop singapore": null,
+  "onemap:218 sumang walk": {
+    "lat": 1.40322712524584,
+    "lng": 103.89538702242,
+    "address": "218 SUMANG WALK MATILDA PORTICO SINGAPORE 820218"
+  }
 }
