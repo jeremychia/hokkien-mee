@@ -1944,5 +1944,126 @@
     "lat": 1.40322712524584,
     "lng": 103.89538702242,
     "address": "218 SUMANG WALK MATILDA PORTICO SINGAPORE 820218"
+  },
+  "onemap:310051": {
+    "lat": 1.33778337648439,
+    "lng": 103.852507455855,
+    "address": "51 LORONG 6 TOA PAYOH EAST PAYOH PALM SINGAPORE 310051"
+  },
+  "onemap:40 years and st": null,
+  "onemap:40 years and st singapore": null,
+  "nominatim:40 years and st": null,
+  "nominatim:40 years and st singapore": null,
+  "onemap:363201": {
+    "lat": 1.33992021096888,
+    "lng": 103.872053130335,
+    "address": "201C WOODLEIGH LINK WOODLEIGH VILLAGE SINGAPORE 363201"
+  },
+  "onemap:128 bedok north": {
+    "lat": 1.327740236451,
+    "lng": 103.939005696963,
+    "address": "128 BEDOK NORTH STREET 2 SINGAPORE 460128"
+  },
+  "onemap:bedok south avenue 3 block 69": null,
+  "onemap:bedok south avenue 3 block": null,
+  "onemap:bedok south avenue 3 block 69 singapore": null,
+  "nominatim:bedok south avenue 3 block 69": {
+    "lat": 1.3243195,
+    "lng": 103.9443903,
+    "address": "Bedok South Avenue 3, Bedok South, Bedok"
+  },
+  "onemap:130 jurong": {
+    "lat": 1.33472490467434,
+    "lng": 103.739321261736,
+    "address": "130 JURONG GATEWAY ROAD J CONNECT SINGAPORE 600130"
+  },
+  "onemap:chatterbox": null,
+  "onemap:chatterbox singapore": null,
+  "nominatim:chatterbox": null,
+  "nominatim:chatterbox singapore": null,
+  "onemap:hokkien man hokkien mee": null,
+  "onemap:hokkien man hokkien mee singapore": null,
+  "onemap:tampines 1": {
+    "lat": 1.3522279450458,
+    "lng": 103.952437443086,
+    "address": "203 TAMPINES STREET 21 PCF TAMPINES EAST 3-IN-1 FAMILY CENTRE (STUDENT CARE) SINGAPORE 520203"
+  },
+  "onemap:jiak buay pah walked to the hawker centre": null,
+  "onemap:jiak buay pah walked to the hawker centre singapore": null,
+  "onemap:hawker centre beside and chanced upon this yang": null,
+  "onemap:hawker centre beside and chanced upon this yang singapore": null,
+  "nominatim:jiak buay pah walked to the hawker centre": null,
+  "nominatim:jiak buay pah walked to the hawker centre singapore": null,
+  "nominatim:hawker centre beside and chanced upon this yang": null,
+  "nominatim:hawker centre beside and chanced upon this yang singapore": null,
+  "nominatim:hokkien man hokkien mee": {
+    "lat": 1.3357407,
+    "lng": 103.8564664,
+    "address": "Hokkien Man Hokkien Mee (1913 Coffeeshop), 18, Lorong 7 Toa Payoh"
+  },
+  "onemap:ah yu fried prawn noodle hokkien mee": null,
+  "onemap:ah yu fried prawn noodle hokkien mee singapore": null,
+  "nominatim:ah yu fried prawn noodle hokkien mee": null,
+  "nominatim:ah yu fried prawn noodle hokkien mee singapore": null,
+  "onemap:600130": {
+    "lat": 1.33472490467434,
+    "lng": 103.739321261736,
+    "address": "130 JURONG GATEWAY ROAD J CONNECT SINGAPORE 600130"
+  },
+  "onemap:near bukit batok blk 155 market": null,
+  "onemap:near bukit batok blk 155 market singapore": null,
+  "nominatim:near bukit batok blk 155 market": null,
+  "nominatim:near bukit batok blk 155 market singapore": null,
+  "onemap:338 anchorvale cres": {
+    "lat": 1.39922772538912,
+    "lng": 103.88965593061,
+    "address": "338 ANCHORVALE CRESCENT ANCHORVALE PARKVIEW SINGAPORE 540338"
+  },
+  "onemap:460211": {
+    "lat": 1.32550084519552,
+    "lng": 103.931967583359,
+    "address": "211 NEW UPPER CHANGI ROAD BEDOK TOWN CENTRE SINGAPORE 460211"
+  },
+  "onemap:try ah ong hokkien mee": null,
+  "onemap:try ah ong hokkien mee singapore": null,
+  "nominatim:try ah ong hokkien mee": null,
+  "nominatim:try ah ong hokkien mee singapore": null,
+  "onemap:370079": {
+    "lat": 1.3265970672963,
+    "lng": 103.885052285736,
+    "address": "79 CIRCUIT ROAD HAWKER CENTRE (BLKS 79/79A CIRCUIT ROAD) SINGAPORE 370079"
+  },
+  "onemap:tanjong pagar": {
+    "lat": 1.27279383658796,
+    "lng": 103.83793005877,
+    "address": "30 KEPPEL ROAD FORMER TANJONG PAGAR RAILWAY STATION SINGAPORE 089059"
+  },
+  "onemap:1 toa payoh": {
+    "lat": 1.33667236615693,
+    "lng": 103.83997505358,
+    "address": "1 TOA PAYOH LINK SINGAPORE 297608"
+  },
+  "onemap:680309": {
+    "lat": 1.38525196962708,
+    "lng": 103.745864156514,
+    "address": "309 CHOA CHU KANG AVENUE 4 CHOA CHU KANG CENTRAL POST OFFICE SINGAPORE 680309"
+  },
+  "onemap:151115": {
+    "lat": 1.28550445567433,
+    "lng": 103.821823256087,
+    "address": "115 BUKIT MERAH VIEW MARKET & HAWKER CENTRE (BLK 115 BUKIT MERAH VIEW) SINGAPORE 151115"
+  },
+  "onemap:69 bedok south ave 3": {
+    "lat": 1.31935026360524,
+    "lng": 103.943632360195,
+    "address": "69 BEDOK SOUTH AVENUE 3 SIGLAP LUCKY VALLEY SINGAPORE 460069"
+  },
+  "onemap:fire monkey hokkien mee": null,
+  "onemap:fire monkey hokkien mee singapore": null,
+  "onemap:167 woodlands street 11, singapore": null,
+  "onemap:730111": {
+    "lat": 1.43794381732231,
+    "lng": 103.782059433742,
+    "address": "111 WOODLANDS STREET 13 SINGAPORE 730111"
   }
 }
