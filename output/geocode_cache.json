@@ -2206,5 +2206,72 @@
     "lat": 1.310716,
     "lng": 103.8588832,
     "address": "Hwa Heng Beef Noodle, 290, Jalan Besar"
+  },
+  "onemap:335 smith street singapore 050335": {
+    "lat": 1.2822749605271,
+    "lng": 103.843238518071,
+    "address": "335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335"
+  },
+  "onemap:144 upper bukit timah road singapore 588177": {
+    "lat": 1.34241264188642,
+    "lng": 103.776539385406,
+    "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
+  },
+  "onemap:504 bishan street 11 singapore 570504": {
+    "lat": 1.34930004584838,
+    "lng": 103.848484732399,
+    "address": "504 BISHAN STREET 11 SINGAPORE 570504"
+  },
+  "onemap:blk 828 tampines avenue 3 singapore 520828": null,
+  "onemap:828 tampines avenue 3 singapore 520828": null,
+  "nominatim:blk 828 tampines avenue 3 singapore 520828": null,
+  "nominatim:828 tampines avenue 3 singapore 520828": {
+    "lat": 1.3493427,
+    "lng": 103.9352122,
+    "address": "Tampines Avenue 3, Tampines West, Tampines"
+  },
+  "onemap:29 boon keng road singapore 330029": null,
+  "onemap:blk 75 toa payoh lorong 5 singapore 310075": null,
+  "onemap:75 toa payoh lorong 5 singapore 310075": {
+    "lat": 1.336020767662,
+    "lng": 103.852956988062,
+    "address": "75 LORONG 5 TOA PAYOH HAWKER CENTRE (BLK 75 TOA PAYOH LORONG 5) SINGAPORE 310075"
+  },
+  "onemap:120 ang mo kio avenue 3 singapore 560120": {
+    "lat": 1.37004739686133,
+    "lng": 103.844594754874,
+    "address": "120 ANG MO KIO AVENUE 3 SINGAPORE 560120"
+  },
+  "onemap:322 hougang avenue 5 singapore 530322": {
+    "lat": 1.36709855359263,
+    "lng": 103.89697867894,
+    "address": "322 HOUGANG AVENUE 5 SINGAPORE 530322"
+  },
+  "onemap:347 jurong east avenue 1 singapore 600347": {
+    "lat": 1.34541698312776,
+    "lng": 103.731703838354,
+    "address": "347 JURONG EAST AVENUE 1 YUHUA MARKET & HAWKER CENTRE SINGAPORE 600347"
+  },
+  "onemap:67 kallang bahru singapore 330067": {
+    "lat": 1.32139446427243,
+    "lng": 103.869336174701,
+    "address": "67 KALLANG BAHRU GEYLANG BAHRU VILLE SINGAPORE 330067"
+  },
+  "onemap:290 jalan besar singapore 208858": null,
+  "nominatim:290 jalan besar singapore 208858": {
+    "lat": 1.310716,
+    "lng": 103.8588832,
+    "address": "Hwa Heng Beef Noodle, 290, Jalan Besar"
+  },
+  "onemap:6 tanjong pagar plaza singapore 081006": {
+    "lat": 1.27661366983388,
+    "lng": 103.843161677634,
+    "address": "6 TANJONG PAGAR PLAZA TANJONG PAGAR PLAZA SINGAPORE 081006"
+  },
+  "onemap:3 cheong chin nam road singapore 599739": null,
+  "nominatim:3 cheong chin nam road singapore 599739": {
+    "lat": 1.3423248,
+    "lng": 103.7753228,
+    "address": "3, Cheong Chin Nam Road, Anak Bukit"
   }
 }
