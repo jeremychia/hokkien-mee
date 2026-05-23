@@ -1,6 +1,6 @@
 # Image Classification Report
 
-## noodles (count=1114, manual=115, auto=999)
+## noodles (count=1126, manual=115, auto=1011)
 
 ### Highest Confidence (Auto)
 - 25841397518862088_2 (0.9994) output/images/25841397518862088_2.jpg [resnet_finetuned]
@@ -26,7 +26,7 @@
 - 25922209460780893_0 (0.5013) output/images/25922209460780893_0.jpg [resnet_finetuned]
 - 26617872951214537_2 (0.5004) output/images/26617872951214537_2.jpg [resnet_finetuned]
 
-## storefront (count=400, manual=48, auto=352)
+## storefront (count=411, manual=48, auto=363)
 
 ### Highest Confidence (Auto)
 - 25503890979279412_2 (1.0000) output/images/25503890979279412_2.jpg [resnet_finetuned]
@@ -41,18 +41,18 @@
 - 25897316689936837_3 (0.9999) output/images/25897316689936837_3.jpg [resnet_finetuned]
 
 ### Lowest Confidence (Auto)
-- 26595359443465888_1 (0.6350) output/images/26595359443465888_1.jpg [resnet_finetuned]
-- 26440644445604056_1 (0.6228) output/images/26440644445604056_1.jpg [resnet_finetuned]
 - 26543716591963507_0 (0.5968) output/images/26543716591963507_0.jpg [resnet_finetuned]
 - 25465515493116961_1 (0.5871) output/images/25465515493116961_1.jpg [resnet_finetuned]
+- 26633725082962657_0 (0.5722) output/images/26633725082962657_0.jpg [resnet_finetuned]
 - 25898375063164333_4 (0.5467) output/images/25898375063164333_4.jpg [resnet_finetuned]
+- 26681686904833141_0 (0.5424) output/images/26681686904833141_0.jpg [resnet_finetuned]
 - 25795068233495017_2 (0.5244) output/images/25795068233495017_2.jpg [resnet_finetuned]
 - 26459498487051985_1 (0.5235) output/images/26459498487051985_1.jpg [resnet_finetuned]
 - 26311485648519937_1 (0.5200) output/images/26311485648519937_1.jpg [resnet_finetuned]
 - 25950841391251033_3 (0.5139) output/images/25950841391251033_3.jpg [resnet_finetuned]
 - 26278789105122925_4 (0.5133) output/images/26278789105122925_4.jpg [resnet_finetuned]
 
-## other (count=285, manual=45, auto=240)
+## other (count=298, manual=45, auto=253)
 
 ### Highest Confidence (Auto)
 - 26381658544835980_4 (0.9452) output/images/26381658544835980_4.jpg [resnet_finetuned]
@@ -78,7 +78,7 @@
 - 26240760585592444_1 (0.4184) output/images/26240760585592444_1.jpg [low confidence (0.42), resnet_finetuned]
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg [low confidence (0.42), resnet_finetuned]
 
-## Needs Manual Review (confidence < 0.65, count=194)
+## Needs Manual Review (confidence < 0.65, count=204)
 
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg → `other`
 - 26240760585592444_1 (0.4184) output/images/26240760585592444_1.jpg → `other`
@@ -98,6 +98,7 @@
 - 26088190804182757_1 (0.4621) output/images/26088190804182757_1.jpg → `other`
 - 26605108535824312_1 (0.4630) output/images/26605108535824312_1.jpg → `other`
 - 25526544213680755_2 (0.4630) output/images/25526544213680755_2.jpg → `other`
+- 26670701839264981_0 (0.4650) output/images/26670701839264981_0.jpg → `other`
 - 26542816312053535_3 (0.4662) output/images/26542816312053535_3.jpg → `other`
 - 26595359443465888_4 (0.4669) output/images/26595359443465888_4.jpg → `other`
 - 26226236913711478_0 (0.4678) output/images/26226236913711478_0.jpg → `other`
@@ -109,5 +110,4 @@
 - 26360591343609367_2 (0.4836) output/images/26360591343609367_2.jpg → `other`
 - 26069323012736203_2 (0.4854) output/images/26069323012736203_2.jpg → `other`
 - 25893152270353279_0 (0.4863) output/images/25893152270353279_0.jpg → `other`
-- 25795710303430810_1 (0.4865) output/images/25795710303430810_1.jpg → `other`
 

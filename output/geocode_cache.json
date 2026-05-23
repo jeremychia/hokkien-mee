@@ -2065,5 +2065,38 @@
     "lat": 1.43794381732231,
     "lng": 103.782059433742,
     "address": "111 WOODLANDS STREET 13 SINGAPORE 730111"
+  },
+  "onemap:toa payoh lor 8 market": {
+    "lat": 1.3402610461881,
+    "lng": 103.854395758866,
+    "address": "210 LORONG 8 TOA PAYOH MARKET & HAWKER CENTRE (BLK 210 TOA PAYOH LORONG 8) SINGAPORE 310210"
+  },
+  "onemap:redhill hawker center": null,
+  "onemap:redhill hawker center singapore": null,
+  "nominatim:redhill hawker center": null,
+  "nominatim:redhill hawker center singapore": null,
+  "onemap:hola soy hola": null,
+  "onemap:hola soy hola singapore": null,
+  "onemap:simei blk 248 hola coffee shop": null,
+  "onemap:simei blk 248 hola": null,
+  "onemap:simei blk 248 hola coffee shop singapore": null,
+  "nominatim:hola soy hola": null,
+  "nominatim:hola soy hola singapore": null,
+  "nominatim:simei blk 248 hola coffee shop": null,
+  "nominatim:simei blk 248 hola": null,
+  "nominatim:simei blk 248 hola coffee shop singapore": null,
+  "onemap:7 toa payoh": {
+    "lat": 1.34032299499938,
+    "lng": 103.855529906182,
+    "address": "7 LORONG 8 TOA PAYOH FIRST TOA PAYOH PRIMARY SCHOOL SINGAPORE 319252"
+  },
+  "onemap:fried hokkien mee": null,
+  "onemap:fried hokkien mee singapore": null,
+  "onemap:bukit timah market & food centre": null,
+  "onemap:bukit timah market & food centre singapore": null,
+  "nominatim:fried hokkien mee": {
+    "lat": 1.3230668,
+    "lng": 103.8549707,
+    "address": "Singapore Fried Hokkien Mee, Whampoa Drive, Balestier, Whampoa, Novena, Central Region, Singapore, 320090, Singapore"
   }
 }
