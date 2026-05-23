@@ -49,31 +49,15 @@
     "lng": 103.85554106336,
     "address": "4 LORONG 7 TOA PAYOH KIM KEAT COURT SINGAPORE 310004"
   },
-  "onemap:7 lorong 8 toa payoh": {
-    "lat": 1.34032299499939,
-    "lng": 103.85552990618159,
-    "address": "7 LORONG 8 TOA PAYOH FIRST TOA PAYOH PRIMARY SCHOOL SINGAPORE 319252"
-  },
-  "nominatim:blk 435 hougang ave 8": {
-    "lat": 1.3769861,
-    "lng": 103.893657,
-    "address": "Blk 436, Hougang Avenue 8, Hougang East"
-  },
+  "onemap:7 lorong 8 toa payoh": null,
+  "nominatim:blk 435 hougang ave 8": null,
   "onemap:568226": {
     "lat": 1.367178740946947,
     "lng": 103.84015774197732,
     "address": "226H ANG MO KIO STREET 22 KEBUN BARU FOOD CENTRE SINGAPORE 568226"
   },
-  "onemap:chinatown complex": {
-    "lat": 1.28227496052711,
-    "lng": 103.84323851807116,
-    "address": "335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335"
-  },
-  "onemap:beauty world": {
-    "lat": 1.342412641886426,
-    "lng": 103.77653938540612,
-    "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
-  },
+  "onemap:chinatown complex": null,
+  "onemap:beauty world": null,
   "onemap:730304": {
     "lat": 1.429892559808654,
     "lng": 103.77385392757743,
@@ -119,11 +103,7 @@
     "lng": 103.741742087315,
     "address": "177 BUKIT BATOK WEST AVENUE 8 SINGAPORE 650177"
   },
-  "onemap:chinatown": {
-    "lat": 1.28227496052711,
-    "lng": 103.84323851807116,
-    "address": "335 SMITH STREET CHINATOWN COMPLEX SINGAPORE 050335"
-  },
+  "onemap:chinatown": null,
   "onemap:chomp chomp food centre": {
     "lat": 1.364232524768871,
     "lng": 103.86652701737994,
@@ -204,21 +184,13 @@
     "lng": 103.94363236019423,
     "address": "69 BEDOK SOUTH AVENUE 3 SIGLAP LUCKY VALLEY SINGAPORE 460069"
   },
-  "onemap:golden mile": {
-    "lat": 1.302011306768332,
-    "lng": 103.86432251794324,
-    "address": "6001 BEACH ROAD CARNIVAL CINEMAS GOLDEN MILE SINGAPORE 199589"
-  },
+  "onemap:golden mile": null,
   "onemap:37 geylang": {
     "lat": 1.315515531254514,
     "lng": 103.8896496481294,
     "address": "LORONG 37 GEYLANG"
   },
-  "onemap:209001": {
-    "lat": 1.313224325033954,
-    "lng": 103.85969950435451,
-    "address": "383 JALAN BESAR KAM LENG HOTEL SINGAPORE 209001"
-  },
+  "onemap:209001": null,
   "onemap:31 kelantan lane": {
     "lat": 1.306303685309716,
     "lng": 103.85682678401646,
@@ -456,11 +428,7 @@
     "lng": 103.84473272672606,
     "address": "127 LORONG 1 TOA PAYOH TOA PAYOH WEST MARKET AND FOOD COURT SINGAPORE 310127"
   },
-  "onemap:3155 commonwealth avenue west": {
-    "lat": 1.314966522855597,
-    "lng": 103.7642704675928,
-    "address": "3155 COMMONWEALTH AVENUE WEST CLEMENTI BUS INTERCHANGE SINGAPORE 129588"
-  },
+  "onemap:3155 commonwealth avenue west": null,
   "onemap:79a circuit road": {
     "lat": 1.325506874368143,
     "lng": 103.88491977037975,
@@ -525,11 +493,7 @@
     "lng": 103.93522082327,
     "address": "136 BEDOK NORTH AVENUE 3 SINGAPORE 460136"
   },
-  "onemap:bugis": {
-    "lat": 1.29960368990297,
-    "lng": 103.854242347489,
-    "address": "201 VICTORIA STREET BUGIS+ SINGAPORE 188067"
-  },
+  "onemap:bugis": null,
   "onemap:40 beo cres": {
     "lat": 1.2890578915448,
     "lng": 103.827513018252,
@@ -561,11 +525,7 @@
     "lng": 103.939564083361,
     "address": "915 TAMPINES STREET 91 TAMPINES PALMSVILLE SINGAPORE 520915"
   },
-  "onemap:tiong bahru": {
-    "lat": 1.2883742531214,
-    "lng": 103.81951732881,
-    "address": "603 TIONG BAHRU ROAD SHELL TIONG BAHRU SINGAPORE 158788"
-  },
+  "onemap:tiong bahru": null,
   "onemap:ah huat hokkien mee": null,
   "onemap:ah huat hokkien mee singapore": null,
   "nominatim:ah huat hokkien mee": null,
@@ -573,16 +533,8 @@
   "onemap:44 cambridge rd": null,
   "onemap:44 cambridge rd singapore": null,
   "onemap:cambridge rd coffeeshop": null,
-  "onemap:cambridge rd": {
-    "lat": 1.31483389413517,
-    "lng": 103.848446660151,
-    "address": "CAMBRIDGE ROAD"
-  },
-  "onemap:beauty world centre": {
-    "lat": 1.34241264188642,
-    "lng": 103.776539385406,
-    "address": "144 UPPER BUKIT TIMAH ROAD BEAUTY WORLD CENTRE SINGAPORE 588177"
-  },
+  "onemap:cambridge rd": null,
+  "onemap:beauty world centre": null,
   "onemap:204 bedok north": {
     "lat": 1.32635909520616,
     "lng": 103.929995919076,
@@ -661,11 +613,7 @@
     "lng": 103.872312298412,
     "address": "153 SERANGOON NORTH AVENUE 1 SINGAPORE 550153"
   },
-  "onemap:holland village": {
-    "lat": 1.311148061738307,
-    "lng": 103.7950034275418,
-    "address": "HOLLAND VILLAGE"
-  },
+  "onemap:holland village": null,
   "onemap:51 old airport rd": {
     "lat": 1.308251847128713,
     "lng": 103.8858087060893,
@@ -715,11 +663,7 @@
   "onemap:1 min walk singapore": null,
   "onemap:jackson hokkien mee": null,
   "onemap:jackson hokkien mee singapore": null,
-  "onemap:serangoon north ave 1": {
-    "lat": 1.366471682164077,
-    "lng": 103.8732518851821,
-    "address": "SERANGOON NORTH AVENUE 1"
-  },
+  "onemap:serangoon north ave 1": null,
   "onemap:504 bishan st": {
     "lat": 1.349300045848388,
     "lng": 103.8484847323989,
@@ -779,11 +723,7 @@
     "address": "69 GEYLANG BAHRU GEYLANG BAHRU MARKET AND FOOD CENTRE SINGAPORE 330069"
   },
   "onemap:rainbow rice house": null,
-  "nominatim:rainbow rice house": {
-    "lat": 1.2871225,
-    "lng": 103.8468031,
-    "address": "Rainbow Rice House, 43, North Canal Road"
-  },
+  "nominatim:rainbow rice house": null,
   "onemap:43 north canal road singapore 059299": {
     "lat": 1.287214712923806,
     "lng": 103.8468543957777,
@@ -801,16 +741,8 @@
     "lng": 103.7184436778251,
     "address": "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505"
   },
-  "onemap:blk 503 jurong west street 52": {
-    "lat": 1.3495,
-    "lng": 103.7183,
-    "address": "BLK 503 JURONG WEST STREET 52 SINGAPORE 640503"
-  },
-  "nominatim:blk 503 jurong west street 52": {
-    "lat": 1.3495,
-    "lng": 103.7183,
-    "address": "BLK 503 JURONG WEST STREET 52 SINGAPORE 640503"
-  },
+  "onemap:blk 503 jurong west street 52": null,
+  "nominatim:blk 503 jurong west street 52": null,
   "onemap:blk 503 jurong west street 52 singapore 640503": null,
   "onemap:503 jurong west street 52 singapore 640503": null,
   "nominatim:blk 503 jurong west street 52 singapore 640503": null,
@@ -949,11 +881,7 @@
   "onemap:hwa heng fried hokkein prawn mee @ bendemeer singapore": null,
   "nominatim:hwa heng fried hokkein prawn mee @ bendemeer": null,
   "nominatim:hwa heng fried hokkein prawn mee @ bendemeer singapore": null,
-  "onemap:esplanade xchange": {
-    "lat": 1.29322790777899,
-    "lng": 103.855411346624,
-    "address": "90 BRAS BASAH ROAD ESPLANADE XCHANGE SINGAPORE 189562"
-  },
+  "onemap:esplanade xchange": null,
   "onemap:follow hokkien mee": null,
   "onemap:follow hokkien mee singapore": null,
   "nominatim:follow hokkien mee": null,
@@ -1051,11 +979,7 @@
   "onemap:bugis fishhead steamboat singapore": null,
   "nominatim:bugis fishhead steamboat": null,
   "nominatim:bugis fishhead steamboat singapore": null,
-  "onemap:tampines mart": {
-    "lat": 1.35436493799094,
-    "lng": 103.960042188281,
-    "address": "11 TAMPINES STREET 32 TAMPINES MART SINGAPORE 529287"
-  },
+  "onemap:tampines mart": null,
   "onemap:buangkok hawker centre": {
     "lat": 1.38370564829041,
     "lng": 103.892308602589,
@@ -1071,11 +995,7 @@
   "nominatim:eart of hougang central at the": null,
   "nominatim:eart of hougang central at the coffeeshop singapore": null,
   "nominatim:seng huat coffee house - 成发咖啡屋 : 811 hougang": null,
-  "nominatim:seng huat coffee house - : 811 hougang": {
-    "lat": 1.3718488,
-    "lng": 103.8936296,
-    "address": "Seng Huat Coffee House, 811, Hougang Central"
-  },
+  "nominatim:seng huat coffee house - : 811 hougang": null,
   "onemap:it's located at geylang bahru coffeeshop": null,
   "onemap:geylang bahru coffeeshop": null,
   "onemap:it's located at geylang bahru": null,
@@ -1171,11 +1091,7 @@
   "onemap:10 jeremy seletar terrace singapore": null,
   "nominatim:10 jeremy seletar terrace": null,
   "nominatim:10 jeremy seletar terrace singapore": null,
-  "onemap:serangoon north avenue 1 blk 152": {
-    "lat": 1.36645063269507,
-    "lng": 103.872110834899,
-    "address": "125 SERANGOON NORTH AVENUE 1 PCF SPARKLETOTS PRESCHOOL @ SERANGOON BLK 125 (KN) SINGAPORE 550125"
-  },
+  "onemap:serangoon north avenue 1 blk 152": null,
   "onemap:jurong east central blk 130 coffee shop": null,
   "onemap:jurong east central blk 130": null,
   "onemap:jurong east central blk 130 coffee shop singapore": null,
@@ -1236,18 +1152,10 @@
   "onemap:ds one at golden mile hawker center singapore": null,
   "onemap:daruma tavern": null,
   "onemap:daruma tavern singapore": null,
-  "nominatim:daruma tavern": {
-    "lat": 1.3969936,
-    "lng": 103.9210999,
-    "address": "Daruma Tavern, Punggol Promenade Riverside Walk, Waterway East"
-  },
+  "nominatim:daruma tavern": null,
   "onemap:first time visiting this hawker centre": null,
   "onemap:first time visiting this hawker centre singapore": null,
-  "onemap:hawker centre": {
-    "lat": 1.32481816551889,
-    "lng": 103.930544296289,
-    "address": "208B NEW UPPER CHANGI ROAD BEDOK INTERCHANGE HAWKER CENTRE SINGAPORE 462208"
-  },
+  "onemap:hawker centre": null,
   "onemap:maxwell food centre": {
     "lat": 1.28033142727315,
     "lng": 103.844747227479,
@@ -1310,11 +1218,7 @@
   },
   "onemap:mian wang 1971": null,
   "onemap:mian wang 1971 singapore": null,
-  "nominatim:mian wang 1971": {
-    "lat": 1.2480538,
-    "lng": 103.8238565,
-    "address": "Opp Palawan Beach, Palawan Beach Walk, Sentosa"
-  },
+  "nominatim:mian wang 1971": null,
   "onemap:changi village fried hokkien mee": null,
   "onemap:changi village fried hokkien mee singapore": null,
   "onemap:bukit canberra hawker centre": {
@@ -1464,11 +1368,7 @@
   },
   "onemap:serangoon garden fried hokkien mee": null,
   "onemap:serangoon garden fried hokkien mee singapore": null,
-  "nominatim:serangoon garden fried hokkien mee": {
-    "lat": 1.36431,
-    "lng": 103.8665843,
-    "address": "Ah Hock Fried Hokkien Mee, 20, Kensington Park Road"
-  },
+  "nominatim:serangoon garden fried hokkien mee": null,
   "onemap:surprised to find a food court": null,
   "onemap:surprised to find a food court singapore": null,
   "onemap:food court hkm whose boss actually cares to do this honestly": null,
@@ -1529,11 +1429,7 @@
     "lng": 103.89697867894,
     "address": "322 HOUGANG AVENUE 5 SINGAPORE 530322"
   },
-  "onemap:newton": {
-    "lat": 1.31429426375311,
-    "lng": 103.841150697585,
-    "address": "18 NEWTON ROAD NEWTON 18 SINGAPORE 307989"
-  },
+  "onemap:newton": null,
   "onemap:earlier yiji hokkien mee": null,
   "onemap:earlier yiji hokkien mee singapore": null,
   "nominatim:earlier yiji hokkien mee": null,
@@ -1603,11 +1499,7 @@
   "onemap:remy hong heng hkm tiong bahru market": null,
   "onemap:remy hong heng hkm tiong bahru market singapore": null,
   "onemap:308 punggol walk 7": null,
-  "onemap:308 punggol walk": {
-    "lat": 1.407802653060176,
-    "lng": 103.8996093896448,
-    "address": "308 PUNGGOL WALK PCF SPARKLETOTS PRESCHOOL @ PUNGGOL WEST BLK 308B (DS)"
-  },
+  "onemap:308 punggol walk": null,
   "onemap:130 jurong gateway rd": {
     "lat": 1.334724904674347,
     "lng": 103.7393212617357,
@@ -1646,11 +1538,7 @@
     "lng": 103.8700050145466,
     "address": "69 GEYLANG BAHRU GEYLANG BAHRU MARKET AND FOOD CENTRE SINGAPORE 330069"
   },
-  "onemap:290 jalan": {
-    "lat": 1.310646029847899,
-    "lng": 103.8589134021047,
-    "address": "290 JALAN BESAR BEAT. SPORTS HOSTEL SINGAPORE 208953"
-  },
+  "onemap:290 jalan": null,
   "onemap:re expecting a lot because the coffeeshop": null,
   "onemap:re expecting a lot because the": null,
   "onemap:re expecting a lot because the coffeeshop singapore": null,
@@ -1673,11 +1561,7 @@
   "nominatim:clementi ave 2 food centre & market singapore": null,
   "onemap:721 ang mo kio central": null,
   "onemap:721 ang mo kio central singapore": null,
-  "onemap:2019 bukit batok industrial park a": {
-    "lat": 1.342535826352103,
-    "lng": 103.7514977879861,
-    "address": "2019 BUKIT BATOK STREET 23 BUKIT BATOK INDUSTRIAL ESTATE PARK A SINGAPORE 659524"
-  },
+  "onemap:2019 bukit batok industrial park a": null,
   "onemap:kim's famous fried hokkien prawn mee": null,
   "onemap:kim's famous fried hokkien prawn mee singapore": null,
   "nominatim:kim's famous fried hokkien prawn mee": null,
@@ -1704,11 +1588,7 @@
   "nominatim:ts daniel tan boon huat on the coffeeshop singapore": null,
   "onemap:no fried hokkien mee": null,
   "onemap:no fried hokkien mee singapore": null,
-  "nominatim:no fried hokkien mee": {
-    "lat": 1.3230668,
-    "lng": 103.8549707,
-    "address": "Singapore Fried Hokkien Mee, 90, Whampoa Drive, Balestier, Whampoa, Novena, Central Region, Singapore, 320090, Singapore"
-  },
+  "nominatim:no fried hokkien mee": null,
   "onemap:099114": {
     "lat": 1.26656813225079,
     "lng": 103.819248035765,
@@ -1768,17 +1648,9 @@
   "nominatim:also this": null,
   "nominatim:also this coffee shop singapore": null,
   "onemap:otong prawn mee at tiong bahru market": null,
-  "onemap:68 kallang": {
-    "lat": 1.327778580310165,
-    "lng": 103.8793529196968,
-    "address": "68 KALLANG PUDDING ROAD SYH LOGISTICS BUILDING SINGAPORE 349327"
-  },
+  "onemap:68 kallang": null,
   "onemap:treasure toast singapore": null,
-  "nominatim:treasure toast singapore": {
-    "lat": 1.2961589,
-    "lng": 103.8554985,
-    "address": "Treasure Toast, 23, Purvis Street"
-  },
+  "nominatim:treasure toast singapore": null,
   "onemap:3 hkm st": null,
   "onemap:3 hkm st singapore": null,
   "nominatim:3 hkm st": null,
@@ -1853,40 +1725,24 @@
     "lng": 103.8566128021832,
     "address": "8 LORONG 7 TOA PAYOH TOA PAYOH COURT SINGAPORE 310008"
   },
-  "onemap:739276": {
-    "lat": 1.440935705674522,
-    "lng": 103.7812772496368,
-    "address": "10 MARSILING INDUSTRIAL ESTATE ROAD 1 MARSILING INDUSTRIAL ESTATE SINGAPORE 739276"
-  },
+  "onemap:739276": null,
   "onemap:8 in the north": null,
   "onemap:8 in the north singapore": null,
   "nominatim:8 in the north": null,
   "nominatim:8 in the north singapore": null,
-  "onemap:51 toa payoh": {
-    "lat": 1.33880289195098,
-    "lng": 103.8407674016771,
-    "address": "51 TOA PAYOH RISE LIGHTHOUSE SCHOOL SINGAPORE 298106"
-  },
+  "onemap:51 toa payoh": null,
   "onemap:s 777 coffeeshop": null,
   "onemap:s 777 coffeeshop singapore": null,
   "onemap:whole coffeeshop": null,
   "onemap:whole coffeeshop singapore": null,
-  "nominatim:s 777 coffeeshop": {
-    "lat": 1.4166266,
-    "lng": 103.8351843,
-    "address": "Broadway Coffeeshop, 848, Yishun Street 81"
-  },
+  "nominatim:s 777 coffeeshop": null,
   "onemap:fhkm at bedok interchange food center": null,
   "onemap:bedok interchange food center": null,
   "onemap:fhkm at bedok interchange food center singapore": null,
   "nominatim:fhkm at bedok interchange food center": null,
   "nominatim:bedok interchange food center": null,
   "nominatim:fhkm at bedok interchange food center singapore": null,
-  "onemap:lavender": {
-    "lat": 1.307297672298299,
-    "lng": 103.8621105709497,
-    "address": "813 JELLICOE ROAD LAVENDER GARDENS SINGAPORE 200813"
-  },
+  "onemap:lavender": null,
   "onemap:ot new shop open at tampines 1 kopitiam": null,
   "onemap:tampines 1 kopitiam": null,
   "onemap:ot new shop open at tampines 1 kopitiam singapore": null,
@@ -1929,11 +1785,7 @@
     "address": "40 BEO CRESCENT THE BEO CRESCENT SINGAPORE 160040"
   },
   "onemap:fortune centre 金隆大廈, 190 middle road": null,
-  "onemap:fortune centre , 190 middle road": {
-    "lat": 1.30042241913975,
-    "lng": 103.852286627386,
-    "address": "190 MIDDLE ROAD FORTUNE CENTRE SINGAPORE 188979"
-  },
+  "onemap:fortune centre , 190 middle road": null,
   "onemap:nd tucked into a corner of the coffeeshop": null,
   "onemap:nd tucked into a corner of the": null,
   "onemap:nd tucked into a corner of the coffeeshop singapore": null,
@@ -1967,11 +1819,7 @@
   "onemap:bedok south avenue 3 block 69": null,
   "onemap:bedok south avenue 3 block": null,
   "onemap:bedok south avenue 3 block 69 singapore": null,
-  "nominatim:bedok south avenue 3 block 69": {
-    "lat": 1.3243195,
-    "lng": 103.9443903,
-    "address": "Bedok South Avenue 3, Bedok South, Bedok"
-  },
+  "nominatim:bedok south avenue 3 block 69": null,
   "onemap:130 jurong": {
     "lat": 1.33472490467434,
     "lng": 103.739321261736,
@@ -1983,11 +1831,7 @@
   "nominatim:chatterbox singapore": null,
   "onemap:hokkien man hokkien mee": null,
   "onemap:hokkien man hokkien mee singapore": null,
-  "onemap:tampines 1": {
-    "lat": 1.3522279450458,
-    "lng": 103.952437443086,
-    "address": "203 TAMPINES STREET 21 PCF TAMPINES EAST 3-IN-1 FAMILY CENTRE (STUDENT CARE) SINGAPORE 520203"
-  },
+  "onemap:tampines 1": null,
   "onemap:jiak buay pah walked to the hawker centre": null,
   "onemap:jiak buay pah walked to the hawker centre singapore": null,
   "onemap:hawker centre beside and chanced upon this yang": null,
@@ -1996,11 +1840,7 @@
   "nominatim:jiak buay pah walked to the hawker centre singapore": null,
   "nominatim:hawker centre beside and chanced upon this yang": null,
   "nominatim:hawker centre beside and chanced upon this yang singapore": null,
-  "nominatim:hokkien man hokkien mee": {
-    "lat": 1.3357407,
-    "lng": 103.8564664,
-    "address": "Hokkien Man Hokkien Mee (1913 Coffeeshop), 18, Lorong 7 Toa Payoh"
-  },
+  "nominatim:hokkien man hokkien mee": null,
   "onemap:ah yu fried prawn noodle hokkien mee": null,
   "onemap:ah yu fried prawn noodle hokkien mee singapore": null,
   "nominatim:ah yu fried prawn noodle hokkien mee": null,
@@ -2033,21 +1873,13 @@
     "lng": 103.885052285736,
     "address": "79 CIRCUIT ROAD HAWKER CENTRE (BLKS 79/79A CIRCUIT ROAD) SINGAPORE 370079"
   },
-  "onemap:tanjong pagar": {
-    "lat": 1.27279383658796,
-    "lng": 103.83793005877,
-    "address": "30 KEPPEL ROAD FORMER TANJONG PAGAR RAILWAY STATION SINGAPORE 089059"
-  },
+  "onemap:tanjong pagar": null,
   "onemap:1 toa payoh": {
     "lat": 1.33667236615693,
     "lng": 103.83997505358,
     "address": "1 TOA PAYOH LINK SINGAPORE 297608"
   },
-  "onemap:680309": {
-    "lat": 1.38525196962708,
-    "lng": 103.745864156514,
-    "address": "309 CHOA CHU KANG AVENUE 4 CHOA CHU KANG CENTRAL POST OFFICE SINGAPORE 680309"
-  },
+  "onemap:680309": null,
   "onemap:151115": {
     "lat": 1.28550445567433,
     "lng": 103.821823256087,
@@ -2085,18 +1917,291 @@
   "nominatim:simei blk 248 hola coffee shop": null,
   "nominatim:simei blk 248 hola": null,
   "nominatim:simei blk 248 hola coffee shop singapore": null,
-  "onemap:7 toa payoh": {
-    "lat": 1.34032299499938,
-    "lng": 103.855529906182,
-    "address": "7 LORONG 8 TOA PAYOH FIRST TOA PAYOH PRIMARY SCHOOL SINGAPORE 319252"
-  },
+  "onemap:7 toa payoh": null,
   "onemap:fried hokkien mee": null,
   "onemap:fried hokkien mee singapore": null,
   "onemap:bukit timah market & food centre": null,
   "onemap:bukit timah market & food centre singapore": null,
-  "nominatim:fried hokkien mee": {
-    "lat": 1.3230668,
-    "lng": 103.8549707,
-    "address": "Singapore Fried Hokkien Mee, Whampoa Drive, Balestier, Whampoa, Novena, Central Region, Singapore, 320090, Singapore"
+  "nominatim:fried hokkien mee": null,
+  "onemap:ahjie hokkien mee": null,
+  "onemap:ahjie hokkien mee singapore": null,
+  "nominatim:7 lorong 8 toa payoh": null,
+  "nominatim:ahjie hokkien mee": null,
+  "nominatim:ahjie hokkien mee singapore": null,
+  "nominatim:435 hougang ave 8 coffee shop": {
+    "lat": 1.3754593,
+    "lng": 103.8910657,
+    "address": "Coffee Shop, Hougang Avenue 8, Hougang West"
+  },
+  "onemap:smith street market & hawker center": null,
+  "onemap:smith street market & hawker center singapore": null,
+  "onemap:chinatown singapore": null,
+  "nominatim:chinatown complex": null,
+  "nominatim:smith street market & hawker center": null,
+  "nominatim:smith street market & hawker center singapore": null,
+  "nominatim:chinatown": null,
+  "nominatim:chinatown singapore": null,
+  "onemap:beauty world singapore": null,
+  "onemap:shiok hokkien mee": null,
+  "onemap:shiok hokkien mee singapore": null,
+  "nominatim:beauty world": null,
+  "nominatim:beauty world singapore": null,
+  "nominatim:beauty world centre": null,
+  "nominatim:shiok hokkien mee": null,
+  "nominatim:shiok hokkien mee singapore": null,
+  "onemap:golden mile singapore": null,
+  "nominatim:golden mile": null,
+  "nominatim:golden mile singapore": null,
+  "nominatim:u fu fhkm at chinatown complex food center": null,
+  "nominatim:chinatown complex food center": null,
+  "nominatim:u fu fhkm at chinatown complex food center singapore": null,
+  "onemap:209001 singapore": null,
+  "nominatim:209001": {
+    "lat": 1.3132242,
+    "lng": 103.8596995,
+    "address": "209001, Kallang, Central Region"
+  },
+  "onemap:simon hkm at anchorvale hawker centre": null,
+  "onemap:anchorvale hawker centre": {
+    "lat": 1.39690459918221,
+    "lng": 103.888683684536,
+    "address": "339 ANCHORVALE ROAD ANCHORVALE VILLAGE HAWKER CENTRE ANCHORVALE VILLAGE SINGAPORE 540339"
+  },
+  "onemap:clementi mall food court": null,
+  "onemap:clementi mall food court singapore": null,
+  "nominatim:3155 commonwealth avenue west": {
+    "lat": 1.3149814,
+    "lng": 103.7644695,
+    "address": "The Clementi Mall, 3155, Commonwealth Avenue West"
+  },
+  "onemap:and store? it looks very good, must have been well fried. btw what is the address and store?": null,
+  "onemap:and store? it looks very good, must have been well fried. btw what is the address and store? singapore": null,
+  "onemap:please": null,
+  "onemap:please singapore": null,
+  "nominatim:and store? it looks very good, must have been well fried. btw what is the address and store?": null,
+  "nominatim:and store? it looks very good, must have been well fried. btw what is the address and store? singapore": null,
+  "nominatim:please": null,
+  "nominatim:please singapore": null,
+  "onemap:bugis singapore": null,
+  "nominatim:bugis": null,
+  "nominatim:bugis singapore": null,
+  "onemap:tiong bahru singapore": null,
+  "nominatim:tiong bahru": null,
+  "nominatim:tiong bahru singapore": null,
+  "onemap:cambridge rd coffeeshop singapore": null,
+  "onemap:bencoolen": null,
+  "onemap:bencoolen singapore": null,
+  "nominatim:44 cambridge rd": {
+    "lat": 1.3140415,
+    "lng": 103.8467845,
+    "address": "Cambridge Road, Kampong Java, Kallang"
+  },
+  "onemap:beauty world centre singapore": null,
+  "onemap:fusion fried hokkien soto mee": null,
+  "onemap:fusion fried hokkien soto mee singapore": null,
+  "onemap:try the one at clementi market": null,
+  "onemap:clementi market": {
+    "lat": 1.31437328536733,
+    "lng": 103.770805494512,
+    "address": "353 CLEMENTI AVENUE 2 CLEMENTI AVE 2 MARKET/COOKED FOOD CENTRE SINGAPORE 120353"
+  },
+  "onemap:holland village singapore": null,
+  "nominatim:holland village": null,
+  "nominatim:holland village singapore": null,
+  "onemap:bugis fish head steamboat": null,
+  "onemap:bugis fish head steamboat singapore": null,
+  "nominatim:bugis fish head steamboat": null,
+  "nominatim:bugis fish head steamboat singapore": null,
+  "onemap:serangoon north ave": null,
+  "onemap:serangoon north ave 1 singapore": null,
+  "nominatim:1 min walk": {
+    "lat": 1.3654781,
+    "lng": 103.8813571,
+    "address": "Kang Choo Bin Walk, Kovan, Buangkok"
+  },
+  "onemap:please? google search but nothing comes out.. thanks": null,
+  "onemap:please? google search but nothing comes out.. thanks singapore": null,
+  "nominatim:please? google search but nothing comes out.. thanks": null,
+  "nominatim:please? google search but nothing comes out.. thanks singapore": null,
+  "onemap:esplanade xchange singapore": null,
+  "nominatim:esplanade xchange": null,
+  "nominatim:esplanade xchange singapore": null,
+  "onemap:swee guan fried hokkien mee": null,
+  "onemap:swee guan fried hokkien mee singapore": null,
+  "onemap:29 fkhm at east": null,
+  "onemap:29 fkhm at east singapore": null,
+  "nominatim:swee guan fried hokkien mee": null,
+  "nominatim:swee guan fried hokkien mee singapore": null,
+  "nominatim:29 fkhm at east": null,
+  "nominatim:29 fkhm at east singapore": null,
+  "nominatim:new player inside buangkok hawker centre": null,
+  "nominatim:new player inside buangkok hawker centre singapore": null,
+  "nominatim:hawker centre serving up a plate that is above average in taste": null,
+  "nominatim:hawker centre serving up a plate that is above average in taste singapore": null,
+  "onemap:tampines mart singapore": null,
+  "onemap:wow at a food court": null,
+  "onemap:a food court": {
+    "lat": 1.33810351452112,
+    "lng": 103.844732726726,
+    "address": "127 LORONG 1 TOA PAYOH TOA PAYOH WEST MARKET AND FOOD COURT SINGAPORE 310127"
+  },
+  "nominatim:seng huat coffee house - 成发咖啡屋 : 811 hougang singapore": null,
+  "nominatim:3 young st": null,
+  "nominatim:3 young st singapore": null,
+  "onemap:serangoon north avenue 1 blk 152 singapore": null,
+  "nominatim:serangoon north avenue 1 blk 152": null,
+  "nominatim:serangoon north avenue 1 blk 152 singapore": null,
+  "onemap:hong heng hokkien mee": null,
+  "onemap:hong heng hokkien mee singapore": null,
+  "nominatim:eng hokkien mee in tiong bahru market": null,
+  "nominatim:eng hokkien mee in tiong bahru market singapore": null,
+  "nominatim:hong heng hokkien mee": null,
+  "nominatim:hong heng hokkien mee singapore": null,
+  "nominatim:hainan fried hokkien prawn mee": null,
+  "nominatim:hainan fried hokkien prawn mee singapore": null,
+  "nominatim:ds one at golden mile hawker center": null,
+  "nominatim:golden mile hawker center": null,
+  "nominatim:ds one at golden mile hawker center singapore": null,
+  "nominatim:daruma tavern singapore": null,
+  "onemap:whampoa hawker centre, blk 90 whampoa dr": null,
+  "onemap:whampoa hawker centre, blk 90 whampoa dr singapore": null,
+  "nominatim:first time visiting this hawker centre": null,
+  "nominatim:first time visiting this hawker centre singapore": null,
+  "nominatim:whampoa hawker centre, blk 90 whampoa dr": null,
+  "nominatim:whampoa hawker centre, blk 90 whampoa dr singapore": null,
+  "nominatim:mian wang 1971 singapore": null,
+  "onemap:jeremy shiok hokkien mee": null,
+  "onemap:jeremy shiok hokkien mee singapore": null,
+  "nominatim:jeremy shiok hokkien mee": null,
+  "nominatim:jeremy shiok hokkien mee singapore": null,
+  "nominatim:serangoon garden fried hokkien mee singapore": null,
+  "onemap:newton singapore": null,
+  "nominatim:newton": null,
+  "nominatim:newton singapore": null,
+  "nominatim:hong heng hkm tiong bahru market": null,
+  "nominatim:hong heng hkm tiong bahru market singapore": null,
+  "nominatim:remy hong heng hkm tiong bahru market": null,
+  "nominatim:remy hong heng hkm tiong bahru market singapore": null,
+  "onemap:308 punggol walk 7 singapore": null,
+  "onemap:beo crescent market": {
+    "lat": 1.28883089150258,
+    "lng": 103.827353892228,
+    "address": "38A BEO CRESCENT BEO CRESCENT MARKET SINGAPORE 169982"
+  },
+  "onemap:290 jalan singapore": null,
+  "onemap:new stall in this coffee shop": null,
+  "onemap:new stall in this": null,
+  "onemap:new stall in this coffee shop singapore": null,
+  "nominatim:290 jalan": null,
+  "nominatim:290 jalan singapore": {
+    "lat": 1.4511133,
+    "lng": 103.7697427,
+    "address": "Johor–Singapore Causeway, North Coast, Woodlands"
+  },
+  "nominatim:721 ang mo kio central": {
+    "lat": 1.36962,
+    "lng": 103.8470851,
+    "address": "Ang Mo Kio Central 1, Ang Mo Kio Town Centre, Thomson"
+  },
+  "onemap:2019 bukit batok industrial park a singapore": null,
+  "nominatim:2019 bukit batok industrial park a": null,
+  "nominatim:2019 bukit batok industrial park a singapore": null,
+  "nominatim:no fried hokkien mee singapore": null,
+  "nominatim:food court @ beauty world": null,
+  "nominatim:food court @ beauty world singapore": null,
+  "onemap:68 kallang singapore": null,
+  "onemap:709 geylang": {
+    "lat": 1.31484500760924,
+    "lng": 103.889805442953,
+    "address": "709 GEYLANG ROAD SINGAPORE 389624"
+  },
+  "nominatim:30 pm close": null,
+  "nominatim:30 pm close singapore": null,
+  "onemap:jeremy disappointing hokkien mee": null,
+  "onemap:jeremy disappointing hokkien mee singapore": null,
+  "nominatim:disappointing hokkien mee": null,
+  "nominatim:disappointing hokkien mee singapore": null,
+  "nominatim:jeremy disappointing hokkien mee": null,
+  "nominatim:jeremy disappointing hokkien mee singapore": null,
+  "onemap:739276 singapore": null,
+  "nominatim:739276": {
+    "lat": 1.4408733,
+    "lng": 103.7813618,
+    "address": "739276, Woodlands, North Region"
+  },
+  "onemap:51 toa payoh singapore": {
+    "lat": 1.33778337648439,
+    "lng": 103.852507455855,
+    "address": "51 LORONG 6 TOA PAYOH EAST PAYOH PALM SINGAPORE 310051"
+  },
+  "onemap:lavender singapore": null,
+  "nominatim:lavender": null,
+  "nominatim:lavender singapore": null,
+  "onemap:fortune centre 金隆大廈, 190 middle road singapore": null,
+  "nominatim:fortune centre 金隆大廈, 190 middle road": null,
+  "nominatim:fortune centre , 190 middle road": null,
+  "nominatim:fortune centre 金隆大廈, 190 middle road singapore": null,
+  "nominatim:bedok south avenue 3 block": null,
+  "nominatim:bedok south avenue 3 block 69 singapore": null,
+  "onemap:tampines": null,
+  "onemap:tampines 1 singapore": null,
+  "nominatim:hokkien man hokkien mee singapore": null,
+  "nominatim:tampines 1": null,
+  "nominatim:tampines": null,
+  "nominatim:tampines 1 singapore": null,
+  "onemap:tanjong pagar singapore": null,
+  "onemap:tanjong pagar's prawnhub hokkien mee": null,
+  "onemap:tanjong pagar's prawnhub hokkien mee singapore": null,
+  "nominatim:tanjong pagar": null,
+  "nominatim:tanjong pagar singapore": null,
+  "nominatim:tanjong pagar's prawnhub hokkien mee": null,
+  "nominatim:tanjong pagar's prawnhub hokkien mee singapore": null,
+  "onemap:680309 singapore": null,
+  "onemap:also try the other food in the food court": null,
+  "onemap:also try the other food in the food court singapore": null,
+  "onemap:wok of wonders big appetite food court": null,
+  "onemap:wok of wonders big appetite food court singapore": null,
+  "onemap:food court as it houses 11 stalls": null,
+  "onemap:food court as it houses 11 stalls singapore": null,
+  "nominatim:680309": {
+    "lat": 1.385071,
+    "lng": 103.7457191,
+    "address": "680309, Choa Chu Kang, West Region"
+  },
+  "onemap:7 toa payoh singapore": {
+    "lat": 1.33865954756919,
+    "lng": 103.855806480101,
+    "address": "5 LORONG 7 TOA PAYOH SINGAPORE 310005"
+  },
+  "nominatim:fried hokkien mee singapore": null,
+  "nominatim:bukit timah market & food centre": null,
+  "nominatim:bukit timah market & food centre singapore": null,
+  "onemap:105 hougang avenue 1": {
+    "lat": 1.35408273910145,
+    "lng": 103.890130407955,
+    "address": "105 HOUGANG AVENUE 1 HOUGANG 105 HAINANESE VILLAGE CENTRE SINGAPORE 530105"
+  },
+  "onemap:clementi avenue 2 food centre": {
+    "lat": 1.31437328536733,
+    "lng": 103.770805494512,
+    "address": "353 CLEMENTI AVENUE 2 CLEMENTI AVE 2 MARKET/COOKED FOOD CENTRE SINGAPORE 120353"
+  },
+  "onemap:bedok interchange hawker centre": null,
+  "nominatim:bedok interchange hawker centre": null,
+  "onemap:18 lorong 7 toa payoh": {
+    "lat": 1.33575723665506,
+    "lng": 103.856789628423,
+    "address": "18 LORONG 7 TOA PAYOH KIM KEAT PALM SINGAPORE 310018"
+  },
+  "onemap:redhill food centre": {
+    "lat": 1.28730751501552,
+    "lng": 103.818311195307,
+    "address": "85 REDHILL LANE REDHILL FOOD CENTRE SINGAPORE 150085"
+  },
+  "onemap:bukit timah food centre": null,
+  "nominatim:bukit timah food centre": {
+    "lat": 1.3161183,
+    "lng": 103.8054965,
+    "address": "Empress Road Food Centre, 7, Empress Road"
   }
 }

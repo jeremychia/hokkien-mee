@@ -9,5 +9,10 @@
     "505 JURONG WEST STREET 52 MARKET & HAWKER CENTRE (BLK 505 JURONG WEST STREET 52) SINGAPORE 640505": "BLK 503 JURONG WEST STREET 52 SINGAPORE 640503"
   },
   "renames": {},
-  "excludes": []
+  "excludes": [
+    "Bugis",
+    "Tampines 1",
+    "Chatterbox",
+    "Kopitiam"
+  ]
 }

@@ -142,13 +142,23 @@ LOCATION_ALIASES = {
     "mayflower food center": "Mayflower food Center",
     "mayflower food centre": "Mayflower food Center",
     "mayflower hawker ctr": "Mayflower food Center",
+    # Area names → specific food venues (area names alone are too vague to geocode correctly)
+    "golden mile": "golden mile food centre",
+    "tiong bahru": "tiong bahru market",
+    "chinatown": "050335",  # Chinatown Complex postal code
+    "holland village": "44 holland drive",  # Holland Drive Market & Food Centre
+    "beauty world": "588177",  # Beauty World Centre postal code (digit query bypasses whitelist)
+    "beauty world centre": "588177",
+    "newton": "newton food center",
+    "tanjong pagar": "081006",  # Tanjong Pagar Plaza postal code
     # Known stall → address mappings (stalls not indexed on geocoders)
     "kim keat hokkien mee": "511 Bishan Street 13",
     "kim keat hokkien mee - official": "511 Bishan Street 13",
     "ahjie hokkien mee": "7 Lorong 8 Toa Payoh",
     "ah ong hokkien mee": "4 Lorong 7 Toa Payoh",
-    "chuan fried hokkien prawn mee": "80 Circuit Road, #02-05, Singapore 370080",
-    "shiok hokkien mee": "Beauty World Centre",
+    "chuan fried hokkien prawn mee": "80 Circuit Road",  # unit # breaks OneMap
+    "chuan fried hokkien prawn mee 川炒福建虾面": "80 Circuit Road",
+    "shiok hokkien mee": "588177",  # Beauty World Centre (digit query bypasses whitelist)
     "ho ji fried hokkien prawn noodles": "Mayflower food Center",
     "big fat boy fried hokkien mee": "352 Clementi Avenue 2",
     "bedok 69 hokkien mee": "69 Bedok South Avenue 3",
@@ -160,18 +170,30 @@ LOCATION_ALIASES = {
     "ah hak fish soup": "69 Bedok South Avenue 3",
     "sheng cheng char kway teow": "665 Buffalo Road",
     "yong heng hokkien mee": "155 Bukit Batok Street 11",
+    "hokkien man hokkien mee": "18 lorong 7 toa payoh",
     # Stalls added from backfill geocoding failures
     "tian tian lai fried hokkien mee": "127 Lorong 1 Toa Payoh",
     "hong heng fried sotong prawn mee": "Tiong Bahru Market",
+    "hong heng hkm tiong bahru market": "Tiong Bahru Market",
     "tian seng fried hokkien mee": "79A Circuit Road",
-    "chuan hokkien mee": "80 Circuit Road, #02-05, Singapore 370080",
+    "chuan hokkien mee": "80 Circuit Road",
     "hup seng hokkien mee": "505 Jurong West Street 52",
     "com hokkien mee": "44 Owen Road",
     "enjoy eating house and bar": "462 Crawford Lane",
     "enjoy eating house": "462 Crawford Lane",
-    # Venue aliases
+    # Venue aliases (& character, parentheses break geocoders)
     "tampines st 82 blk 844 kopitiam": "844 Tampines Street 82",
     "clementi mall food court": "3155 Commonwealth Avenue West",
+    "clementi ave 2 food centre & market": "clementi avenue 2 food centre",
+    "bukit timah market & food centre": "bukit timah food centre",
+    "north bridge rd hawker centre": "north bridge road food centre",
+    "hainanese village centre (lorong ah soo market)": "105 hougang avenue 1",
+    "hainanese village centre": "105 hougang avenue 1",
+    "fortune centre 金隆大廈, 190 middle road": "190 middle road",
+    "bedok interchange food center": "bedok interchange hawker centre",
+    "redhill hawker center": "redhill food centre",
+    "tao payoh lorong 6 block 51": "310051",
+    "bedok south avenue 3 block 69": "69 bedok south avenue 3",
     "mayflower market and hawker centre": "Mayflower food Center",
     "mayflower market & hawker centre": "Mayflower food Center",
     "mayflower market and food centre": "Mayflower food Center",
@@ -370,8 +392,10 @@ def clean_query(query):
         return variations
     # Reject standalone generic terms
     if q.lower() in {
-        'coffeeshop', 'coffee shop', 'market', 'food court',
-        'food centre', 'food center', 'hawker', 'stall',
+        'coffeeshop', 'coffee shop', 'market', 'food court', 'foodcourt',
+        'food centre', 'food center', 'hawker', 'hawker centre',
+        'hawker center', 'market and hawker centre', 'new hawker centre',
+        'stall', 'kopitiam', 'eating house', 'food house',
     }:
         return variations
 
@@ -637,6 +661,52 @@ def save_cache(cache):
         json.dump(cache, f, ensure_ascii=False, indent=2)
 
 
+_NON_FOOD_RE = re.compile(
+    r'\b(?:school|preschool|pre-school|sparkletots|childcare|child\s+care|'
+    r'kindergarten|interchange|bus\s+terminal|'
+    r'industrial\s+estate|industrial\s+park|logistics|warehouse|'
+    r'cinema|cineplex|theatre|theater|'
+    r'hostel|hotel|post\s+office)\b',
+    re.I,
+)
+_FOOD_RE = re.compile(
+    r'\b(?:market|food\s+cent(?:re|er)|hawker|food\s+court|foodcourt|'
+    r'kopitiam|food\s+village|eating\s+house|food\s+house|'
+    r'makan\s+place|canteen|food\s+republic|complex)\b',
+    re.I,
+)
+
+
+def is_food_venue(address, query):
+    """Return True if the geocoded address is an appropriate food venue.
+
+    Always rejects known non-food venue types (schools, interchanges, etc.).
+    For named-venue queries (no leading digit), also requires food keywords.
+    Address/postal-code queries (leading digit) only need the blocklist check.
+    """
+    if _NON_FOOD_RE.search(address):
+        return False
+    if not re.match(r'^\d', query.strip()) and not _FOOD_RE.search(address):
+        return False
+    return True
+
+
+def clean_stale_cache(cache):
+    """Null out existing cache entries that fail the food-venue check."""
+    cleaned = 0
+    for key, value in cache.items():
+        if value is None:
+            continue
+        if ':' not in key:
+            continue
+        _, query = key.split(':', 1)
+        if not is_food_venue(value.get('address', ''), query):
+            cache[key] = None
+            cleaned += 1
+    if cleaned:
+        print(f"Invalidated {cleaned} stale cache entries that weren't food venues")
+
+
 def geocode_post(post, token, cache):
     """Try to geocode a post. Returns (lat, lng, matched_query, address) or None.
 
@@ -670,8 +740,11 @@ def geocode_post(post, token, cache):
 
         if result:
             lat, lng, address = result
-            cache[cache_key] = {"lat": lat, "lng": lng, "address": address}
-            return (lat, lng, original, address)
+            if is_food_venue(address, query):
+                cache[cache_key] = {"lat": lat, "lng": lng, "address": address}
+                return (lat, lng, original, address)
+            else:
+                cache[cache_key] = None
         else:
             cache[cache_key] = None
 
@@ -690,8 +763,11 @@ def geocode_post(post, token, cache):
 
         if result:
             lat, lng, address = result
-            cache[cache_key] = {"lat": lat, "lng": lng, "address": address}
-            return (lat, lng, original, address)
+            if is_food_venue(address, query):
+                cache[cache_key] = {"lat": lat, "lng": lng, "address": address}
+                return (lat, lng, original, address)
+            else:
+                cache[cache_key] = None
         else:
             cache[cache_key] = None
 
@@ -971,9 +1047,11 @@ def main():
     token = get_onemap_token()
     print("  ✓ Token obtained\n")
 
-    # Load geocode cache
+    # Load geocode cache and invalidate stale entries
     cache = load_cache()
-    print(f"Geocode cache: {len(cache)} entries\n")
+    print(f"Geocode cache: {len(cache)} entries")
+    clean_stale_cache(cache)
+    print()
 
     # Geocode each post
     geocoded = []
