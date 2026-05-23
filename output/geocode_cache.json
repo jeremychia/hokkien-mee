@@ -2093,11 +2093,7 @@
   "onemap:new stall in this": null,
   "onemap:new stall in this coffee shop singapore": null,
   "nominatim:290 jalan": null,
-  "nominatim:290 jalan singapore": {
-    "lat": 1.4511133,
-    "lng": 103.7697427,
-    "address": "Johor–Singapore Causeway, North Coast, Woodlands"
-  },
+  "nominatim:290 jalan singapore": null,
   "nominatim:721 ang mo kio central": {
     "lat": 1.36962,
     "lng": 103.8470851,
@@ -2203,5 +2199,12 @@
     "lat": 1.3161183,
     "lng": 103.8054965,
     "address": "Empress Road Food Centre, 7, Empress Road"
+  },
+  "onemap:290 jalan besar": null,
+  "onemap:290 jalan besar singapore": null,
+  "nominatim:290 jalan besar": {
+    "lat": 1.310716,
+    "lng": 103.8588832,
+    "address": "Hwa Heng Beef Noodle, 290, Jalan Besar"
   }
 }

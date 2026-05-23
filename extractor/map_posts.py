@@ -520,6 +520,8 @@ def _extract_from_text(text, candidates):
     block_patterns = [
         # "Blk 308C Punggol Walk" or "Block 304, Woodlands Street 31"
         rf'(?:blk|block)\s*(\d+[A-Za-z]?[\s,]+[A-Za-z\s]+{_ROAD_SUFFIX}(?:\s+\d+)?)',
+        # "290 Jalan Besar", "31 Jalan Kukoh" — "Jalan X" where X isn't a road suffix
+        r'(\d+[A-Za-z]?\s+[Jj]alan\s+[A-Za-z]+(?:\s+[A-Za-z]+)?)',
         # "828 Tampines Ave 3" — number-first with known area name
         rf'(\d+[A-Za-z]?\s+{_AREA_NAMES}\s*{_ROAD_SUFFIX}?(?:\s+\d+)?)',
         # Standalone street address: "31 Kelantan Lane", "68 Geylang Bahru"
@@ -666,7 +668,7 @@ _NON_FOOD_RE = re.compile(
     r'kindergarten|interchange|bus\s+terminal|'
     r'industrial\s+estate|industrial\s+park|logistics|warehouse|'
     r'cinema|cineplex|theatre|theater|'
-    r'hostel|hotel|post\s+office)\b',
+    r'hostel|hotel|post\s+office|causeway)\b',
     re.I,
 )
 _FOOD_RE = re.compile(
