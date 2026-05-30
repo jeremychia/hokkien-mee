@@ -20,6 +20,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import sys
 import time
 from datetime import datetime, timezone
@@ -93,8 +94,10 @@ def apply_location_overrides(location, overrides):
 # ---------------------------------------------------------------------------
 INPUT_FILE = "output/group_posts.json"
 OUTPUT_MAP = "docs/index.html"
+OUTPUT_CSS = "docs/map.css"
 GEOCODE_CACHE = "output/geocode_cache.json"
 TEMPLATE_FILE = os.path.join(os.path.dirname(__file__), "map_template.html")
+CSS_FILE = os.path.join(os.path.dirname(__file__), "map.css")
 
 GROUP_URL = "https://www.facebook.com/groups/227074250721100/"
 
@@ -1096,6 +1099,7 @@ def main():
     os.makedirs(os.path.dirname(OUTPUT_MAP), exist_ok=True)
     with open(OUTPUT_MAP, "w", encoding="utf-8") as f:
         f.write(html)
+    shutil.copy2(CSS_FILE, OUTPUT_CSS)
 
     print(f"Map saved to {OUTPUT_MAP}")
     print(f"Open in browser: file://{os.path.abspath(OUTPUT_MAP)}")
