@@ -149,8 +149,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .header-link:hover { background: var(--primary-light); }
 
-.header-badge,
-.contrast-badge {
+.header-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -164,24 +163,6 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   white-space: nowrap;
 }
 .header-badge strong { color: var(--primary); font-weight: 600; }
-.contrast-badge { display: none; }
-.contrast-badge.show { display: inline-flex; }
-.contrast-badge.warning { border-color: var(--primary); color: var(--primary-hover); background: var(--primary-light); }
-.contrast-badge {
-  white-space: normal;
-  max-width: 360px;
-}
-.contrast-action {
-  border: 1px solid var(--primary);
-  background: var(--primary);
-  color: #FFFFFF;
-  font-size: 10px;
-  border-radius: 999px;
-  padding: 2px 6px;
-  cursor: pointer;
-  line-height: 1.2;
-}
-.contrast-action:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
 .sidebar-toggle {
   display: none;
   background: none;
@@ -1583,35 +1564,6 @@ function renderDataBadge() {
   badge.setAttribute('title', 'Data source and last updated date');
 }
 
-function hexToRgb(hex) {
-  const clean = hex.replace('#', '');
-  if (clean.length !== 6) return null;
-  const num = parseInt(clean, 16);
-  return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255,
-  };
-}
-
-function relativeLuminance({ r, g, b }) {
-  const srgb = [r, g, b].map(v => {
-    const c = v / 255;
-    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
-}
-
-function contrastRatio(hex1, hex2) {
-  const c1 = hexToRgb(hex1);
-  const c2 = hexToRgb(hex2);
-  if (!c1 || !c2) return null;
-  const l1 = relativeLuminance(c1) + 0.05;
-  const l2 = relativeLuminance(c2) + 0.05;
-  return l1 > l2 ? l1 / l2 : l2 / l1;
-}
-
-
 function truncate(str, len) {
   if (str.length <= len) return str;
   return str.slice(0, len).replace(/\s+\S*$/, '') + '…';
@@ -1801,37 +1753,11 @@ function collectLocationImages(loc) {
   return { images, postCount: postsWithImages.size };
 }
 
-function buildLocationGalleryHtml(loc) {
-  const { images } = collectLocationImages(loc);
-  if (images.length === 0) return '';
-
-  return `
-    <div class="location-gallery">
-      ${buildImageTabsHtml(images)}
-    </div>`;
-}
-
 function switchImgTab(btn) {
   const tabKey = btn.dataset.tab;
   const tabs = btn.closest('.img-tabs');
   tabs.querySelectorAll('.img-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabKey));
   tabs.querySelectorAll('.img-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === tabKey));
-}
-
-function switchPopupTab(btn) {
-  const wrap = btn.closest('.popup-wrap');
-  if (!wrap) return;
-  const tab = btn.dataset.tab;
-
-  wrap.querySelectorAll('.popup-content-tab-btn').forEach(b => {
-    const active = b.dataset.tab === tab;
-    b.classList.toggle('active', active);
-    b.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-
-  wrap.querySelectorAll('.popup-tab-panel').forEach(panel => {
-    panel.classList.toggle('active', panel.dataset.tab === tab);
-  });
 }
 
 // ── Popup HTML ──────────────────────────────────────────────────
