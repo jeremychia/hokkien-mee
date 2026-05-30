@@ -238,6 +238,20 @@ const locData = {};
 const locationDistances = {};   // idx → km, populated when user locates themselves
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+// ── Full data (fetched async; popup content waits for this) ──────
+const idToFullLoc = {};   // loc.id → full location with posts array
+const fullDataReady = fetch('data.json')
+  .then(r => r.json())
+  .then(data => {
+    for (const loc of (data.locations || [])) {
+      idToFullLoc[loc.id] = loc;
+      // Merge posts back into locData entries
+      const idx = MAP_DATA.locations.findIndex(l => l.id === loc.id);
+      if (idx !== -1) locData[idx].posts = loc.posts;
+    }
+  })
+  .catch(() => null);  // silently degrade if fetch fails (e.g. file:// protocol)
+
 // ── Hokkien Mee marker SVG (inline for each marker) ────────────
 const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="28" height="28">
   <circle cx="32" cy="32" r="30" fill="#FEF3E2"/>
@@ -427,9 +441,10 @@ function starsHtml(score) {
   return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
 }
 
-/** Get total reactions for a location */
+/** Get total reactions for a location (uses precomputed value from bootstrap) */
 function totalReactions(loc) {
-  return loc.posts.reduce((sum, p) => sum + (parseInt(p.reactions) || 0), 0);
+  if (loc.reactions != null) return loc.reactions;
+  return (loc.posts || []).reduce((sum, p) => sum + (parseInt(p.reactions) || 0), 0);
 }
 
 // Current sort mode
@@ -530,6 +545,20 @@ function switchImgTab(btn) {
 const IMG_TAB_LABELS = { noodles: '🍜 Noodles', storefront: '🏪 Storefront', other: '📷 Other' };
 
 function buildPopupHtml(loc) {
+  if (!loc.posts) {
+    // Full data not yet loaded — show loading state; popup will refresh when data arrives
+    fullDataReady.then(() => {
+      const popup = map.openPopups ? null : null;
+      // Find and refresh any open popup for this location
+      map.eachLayer(layer => {
+        if (layer.getPopup && layer.isPopupOpen && layer.isPopupOpen()) {
+          const p = layer.getPopup();
+          if (p) p.setContent(buildPopupHtml(loc));
+        }
+      });
+    });
+    return `<div class="tp" style="min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary)">Loading…</div>`;
+  }
   const count = loc.posts.length;
 
   // Collect all images deduplicated, bucketed by type
@@ -780,7 +809,7 @@ function submitReport(type) {
 function renderCardMeta(idx) {
   const loc = locData[idx];
   if (!loc) return;
-  const postCount = loc.posts.length;
+  const postCount = loc.post_count ?? (loc.posts || []).length;
   const reactions = totalReactions(loc);
   const sent = loc.sentiment || {};
   const parts = [postCountLabel(postCount)];
@@ -799,7 +828,7 @@ function renderCardMeta(idx) {
 const locationList = document.getElementById('locationList');
 
 MAP_DATA.locations.forEach((loc, i) => {
-  const postCount = loc.posts.length;
+  const postCount = loc.post_count ?? (loc.posts || []).length;
   locData[i] = loc;
 
   // Marker with custom HKM icon
@@ -844,22 +873,18 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.setAttribute('aria-label', `${loc.address}. ${postCountLabel(postCount)}.`);
   card.setAttribute('aria-selected', 'false');
 
-  // Get first image (prefer noodles → storefront → any) and total reactions for the card
-  const allImgs = loc.posts.flatMap(p => p.images || []);
-  const firstImg = allImgs.find(img => img && img.type === 'noodles')
-                || allImgs.find(img => img && img.type === 'storefront')
-                || allImgs.find(Boolean);
+  // Get thumbnail from bootstrap (pre-selected first image) or fall back to scanning posts
+  const firstImg = loc.thumb
+    || (() => {
+      const allImgs = (loc.posts || []).flatMap(p => p.images || []);
+      return allImgs.find(img => img && img.type === 'noodles')
+          || allImgs.find(img => img && img.type === 'storefront')
+          || allImgs.find(Boolean);
+    })();
   const reactions = totalReactions(loc);
-  const metaParts = [postCountLabel(postCount)];
-  if (reactions > 0) metaParts.push('\u{1F44D} ' + reactions);
-
-  // Rating (inline with meta)
-  const sent = loc.sentiment || {};
-  if (sent.score !== undefined && sent.score !== null) {
-    metaParts.push(`<span class="loc-stars">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}`);
-  }
 
   // Store data attributes for sorting
+  const sent = loc.sentiment || {};
   card.dataset.posts = postCount;
   card.dataset.rating = (sent.score !== undefined && sent.score !== null) ? sent.score : -1;
   card.dataset.reactions = reactions;
@@ -873,9 +898,7 @@ MAP_DATA.locations.forEach((loc, i) => {
     ${thumbHtml}
     <div class="loc-card-body">
       <div class="loc-name">${escapeHtml(loc.address)}</div>
-      <div class="loc-meta">
-        <span>${metaParts.join(' \u00B7 ')}</span>
-      </div>
+      <div class="loc-meta"></div>
     </div>`;
 
   const focusCard = () => {
@@ -908,6 +931,7 @@ MAP_DATA.locations.forEach((loc, i) => {
 
   locationList.appendChild(card);
   cardMap[i] = card;
+  renderCardMeta(i);
 });
 
 map.addLayer(cluster);
@@ -1060,7 +1084,7 @@ function applySortOrder() {
       const ra = parseFloat(cardMap[a].dataset.rating);
       const rb = parseFloat(cardMap[b].dataset.rating);
       if (rb !== ra) return rb - ra;               // higher rating first
-      return locData[b].posts.length - locData[a].posts.length; // tiebreak: more posts
+      return (locData[b].post_count ?? (locData[b].posts || []).length) - (locData[a].post_count ?? (locData[a].posts || []).length); // tiebreak: more posts
     });
   } else if (currentSort === 'reactions') {
     sorted.sort((a, b) => {
@@ -1072,7 +1096,9 @@ function applySortOrder() {
   } else {
     // 'posts' (default)
     sorted.sort((a, b) => {
-      const d = locData[b].posts.length - locData[a].posts.length;
+      const pa = locData[a].post_count ?? (locData[a].posts || []).length;
+      const pb = locData[b].post_count ?? (locData[b].posts || []).length;
+      const d = pb - pa;
       return d !== 0 ? d : locData[a].address.localeCompare(locData[b].address);
     });
   }

@@ -95,6 +95,7 @@ def apply_location_overrides(location, overrides):
 INPUT_FILE = "output/group_posts.json"
 OUTPUT_MAP = "docs/index.html"
 OUTPUT_CSS = "docs/map.css"
+OUTPUT_DATA = "docs/data.json"
 GEOCODE_CACHE = "output/geocode_cache.json"
 TEMPLATE_FILE = os.path.join(os.path.dirname(__file__), "map_template.html")
 CSS_FILE = os.path.join(os.path.dirname(__file__), "map.css")
@@ -1011,25 +1012,54 @@ def build_site(geocoded_posts, total_posts):
         avg = sum(l["sentiment"]["score"] for l in rated) / len(rated)
         print(f"  Average rating: {avg:.1f}/5.0")
 
-    # Build the data payload for the template
-    map_data = {
-        "meta": {
-            "total_posts": total_posts,
-            "geocoded_count": len(geocoded_posts),
-            "generated_at": datetime.now(timezone.utc).isoformat(),
-        },
+    meta = {
+        "total_posts": total_posts,
+        "geocoded_count": len(geocoded_posts),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+    # Full data written to data.json (fetched lazily for popup content)
+    full_data = {
+        "meta": meta,
         "locations": locations,
+    }
+
+    # Slim bootstrap inlined into the HTML — enough to build markers and sidebar cards
+    def _slim_loc(loc):
+        posts = loc.get("posts", [])
+        # Include only the first image per location (for card thumbnail)
+        first_img = None
+        for p in posts:
+            imgs = p.get("images", [])
+            if imgs:
+                first_img = imgs[0]
+                break
+        reactions = sum(int(p.get("reactions") or 0) for p in posts if str(p.get("reactions", "")).isdigit())
+        return {
+            "id": loc["id"],
+            "lat": loc["lat"],
+            "lng": loc["lng"],
+            "address": loc["address"],
+            "sentiment": loc.get("sentiment"),
+            "post_count": len(posts),
+            "reactions": reactions,
+            "thumb": first_img,
+        }
+
+    bootstrap_data = {
+        "meta": meta,
+        "locations": [_slim_loc(loc) for loc in locations],
     }
 
     # Read template
     with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
         html = f.read()
 
-    # Inject data
-    html = html.replace("__MAP_DATA__", json.dumps(map_data, ensure_ascii=False))
+    # Inject slim bootstrap
+    html = html.replace("__MAP_DATA__", json.dumps(bootstrap_data, ensure_ascii=False))
     html = html.replace("__GROUP_URL__", GROUP_URL)
 
-    return html
+    return html, full_data
 
 
 # ---------------------------------------------------------------------------
@@ -1094,11 +1124,13 @@ def main():
 
     # Build and save site
     print("\nBuilding map...")
-    html = build_site(geocoded, len(posts))
+    html, full_data = build_site(geocoded, len(posts))
 
     os.makedirs(os.path.dirname(OUTPUT_MAP), exist_ok=True)
     with open(OUTPUT_MAP, "w", encoding="utf-8") as f:
         f.write(html)
+    with open(OUTPUT_DATA, "w", encoding="utf-8") as f:
+        json.dump(full_data, f, ensure_ascii=False)
     shutil.copy2(CSS_FILE, OUTPUT_CSS)
 
     print(f"Map saved to {OUTPUT_MAP}")
