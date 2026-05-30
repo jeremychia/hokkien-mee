@@ -235,6 +235,7 @@ let userMarker = null;
 const markerMap = {};
 const cardMap = {};
 const locData = {};
+const locationDistances = {};   // idx → km, populated when user locates themselves
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // ── Hokkien Mee marker SVG (inline for each marker) ────────────
@@ -776,6 +777,24 @@ function submitReport(type) {
   closeReportModal();
 }
 
+function renderCardMeta(idx) {
+  const loc = locData[idx];
+  if (!loc) return;
+  const postCount = loc.posts.length;
+  const reactions = totalReactions(loc);
+  const sent = loc.sentiment || {};
+  const parts = [postCountLabel(postCount)];
+  if (reactions > 0) parts.push('\u{1F44D} ' + reactions);
+  if (sent.score !== undefined && sent.score !== null) {
+    parts.push(`<span class="loc-stars">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}`);
+  }
+  const distKm = locationDistances[idx];
+  const metaHtml = distKm != null
+    ? `<span class="loc-distance">${formatDist(distKm)}</span><span class="loc-dist-sep">·</span><span>${parts.join(' · ')}</span>`
+    : `<span>${parts.join(' · ')}</span>`;
+  cardMap[idx].querySelector('.loc-meta').innerHTML = metaHtml;
+}
+
 // ── Build markers & sidebar cards ───────────────────────────────
 const locationList = document.getElementById('locationList');
 
@@ -1091,13 +1110,10 @@ function clearUserLocation() {
   locateBtn.setAttribute('aria-pressed', 'false');
   locateBtn.querySelector('.btn-label').textContent = 'Near me';
 
-  // Restore current sort, removing distance labels
+  // Clear distances from state and re-render card meta without distance labels
   for (const idx of MAP_DATA.locations.map((_, i) => i)) {
-    const meta = cardMap[idx].querySelector('.loc-meta');
-    const distEl = meta.querySelector('.loc-distance');
-    const sepEl = meta.querySelector('.loc-dist-sep');
-    if (distEl) distEl.remove();
-    if (sepEl) sepEl.remove();
+    delete locationDistances[idx];
+    renderCardMeta(idx);
   }
 
   applySortOrder();
@@ -1109,26 +1125,14 @@ function sortByDistance() {
   if (!userLatLng) return;
 
   const indices = MAP_DATA.locations.map((_, i) => i);
-  const dists = {};
   for (const i of indices) {
-    dists[i] = distanceKm(userLatLng.lat, userLatLng.lng, locData[i].lat, locData[i].lng);
+    locationDistances[i] = distanceKm(userLatLng.lat, userLatLng.lng, locData[i].lat, locData[i].lng);
   }
-  indices.sort((a, b) => dists[a] - dists[b]);
+  indices.sort((a, b) => locationDistances[a] - locationDistances[b]);
 
   for (const idx of indices) {
     locationList.appendChild(cardMap[idx]);
-    const meta = cardMap[idx].querySelector('.loc-meta');
-    let distEl = meta.querySelector('.loc-distance');
-    if (!distEl) {
-      distEl = document.createElement('span');
-      distEl.className = 'loc-distance';
-      meta.prepend(distEl);
-      const sep = document.createElement('span');
-      sep.textContent = '·';
-      sep.className = 'loc-dist-sep';
-      meta.insertBefore(sep, meta.children[1]);
-    }
-    distEl.textContent = formatDist(dists[idx]);
+    renderCardMeta(idx);
   }
 
   searchHint.textContent = 'Sorted by distance from you';
