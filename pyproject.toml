@@ -10,4 +10,10 @@ dependencies = [
     "torchvision",
     "pillow",
     "transformers",
+    "anthropic",
+    "pyyaml",
+    "ultralytics",
+    "pandas",
+    "scikit-learn",
+    "label-studio",
 ]
