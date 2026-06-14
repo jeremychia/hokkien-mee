@@ -6,3 +6,11 @@ secrets/
 .venv/
 __pycache__/
 *.pyc
+image_analysis/exports/
+image_analysis/data/images/
+image_analysis/data/labels/
+image_analysis/data/style/
+image_analysis/runs/
+runs/
+*.pt
+*.egg-info/
