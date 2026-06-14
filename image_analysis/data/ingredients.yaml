@@ -1,0 +1,22 @@
+# YOLO dataset config — ingredient detection
+# Classes matching Label Studio RectangleLabels order (index = position in this list)
+#
+# path resolves relative to this yaml file → image_analysis/data/
+# Populated by split_dataset.py after Label Studio export.
+#
+# Excluded (too few examples to train): bean_sprouts, fish_cake
+
+path: /Users/jeremychia/Documents/Github/hokkien-mee/image_analysis/data
+train: images/train
+val: images/val
+
+nc: 8
+names:
+  - prawns
+  - squid
+  - pork_belly
+  - pork_lard
+  - egg
+  - sambal
+  - calamansi
+  - chives
