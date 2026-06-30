@@ -1,6 +1,6 @@
 # Image Classification Report
 
-## noodles (count=1400, manual=115, auto=1285)
+## noodles (count=1407, manual=115, auto=1292)
 
 ### Highest Confidence (Auto)
 - 25841397518862088_2 (0.9994) output/images/25841397518862088_2.jpg [resnet_finetuned]
@@ -26,7 +26,7 @@
 - 25922209460780893_0 (0.5013) output/images/25922209460780893_0.jpg [resnet_finetuned]
 - 26617872951214537_2 (0.5004) output/images/26617872951214537_2.jpg [resnet_finetuned]
 
-## storefront (count=518, manual=48, auto=470)
+## storefront (count=521, manual=48, auto=473)
 
 ### Highest Confidence (Auto)
 - 26792421793759651_0 (1.0000) output/images/26792421793759651_0.jpg [resnet_finetuned]
@@ -78,7 +78,7 @@
 - 26240760585592444_1 (0.4184) output/images/26240760585592444_1.jpg [low confidence (0.42), resnet_finetuned]
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg [low confidence (0.42), resnet_finetuned]
 
-## Needs Manual Review (confidence < 0.65, count=275)
+## Needs Manual Review (confidence < 0.65, count=277)
 
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg → `other`
 - 26240760585592444_1 (0.4184) output/images/26240760585592444_1.jpg → `other`

@@ -2684,5 +2684,14 @@
     "lat": 1.374107570201603,
     "lng": 103.8388639211216,
     "address": "162 ANG MO KIO AVENUE 4 MAYFLOWER MARKET AND FOOD CENTRE SINGAPORE 560162"
-  }
+  },
+  "onemap:bedok hawker centre": null,
+  "onemap:bedok hawker centre singapore": null,
+  "nominatim:bedok hawker centre": {
+    "lat": 1.3273809,
+    "lng": 103.9332496,
+    "address": "Bedok 216 Hawker Centre, 216, Bedok North Street 1"
+  },
+  "onemap:singapore's hokkien mee": null,
+  "nominatim:singapore's hokkien mee": null
 }
