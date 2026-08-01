@@ -1,0 +1,15 @@
+noodle
+broth
+pork
+chicken
+egg
+spring onion
+chilli
+tofu
+fishcake
+bean sprouts
+soy sauce
+lard
+veggie
+noodle_skin
+noodle_strands

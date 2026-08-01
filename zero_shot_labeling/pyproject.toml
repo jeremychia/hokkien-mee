@@ -1,0 +1,9 @@
+[project]
+name = "zero_shot_labeling"
+version = "0.1.0"
+description = "Local zero-shot image labeling utilities"
+readme = "README.md"
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = ["black", "pytest"]

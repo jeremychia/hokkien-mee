@@ -1,6 +1,6 @@
 # Image Classification Report
 
-## noodles (count=1565, manual=115, auto=1450)
+## noodles (count=1573, manual=115, auto=1458)
 
 ### Highest Confidence (Auto)
 - 25841397518862088_2 (0.9994) output/images/25841397518862088_2.jpg [resnet_finetuned]
@@ -26,7 +26,7 @@
 - 26617872951214537_2 (0.5004) output/images/26617872951214537_2.jpg [resnet_finetuned]
 - 27287617374240088_3 (0.5001) output/images/27287617374240088_3.jpg [resnet_finetuned]
 
-## storefront (count=598, manual=48, auto=550)
+## storefront (count=602, manual=48, auto=554)
 
 ### Highest Confidence (Auto)
 - 26792421793759651_0 (1.0000) output/images/26792421793759651_0.jpg [resnet_finetuned]
@@ -52,7 +52,7 @@
 - 25950841391251033_3 (0.5139) output/images/25950841391251033_3.jpg [resnet_finetuned]
 - 26278789105122925_4 (0.5133) output/images/26278789105122925_4.jpg [resnet_finetuned]
 
-## other (count=429, manual=45, auto=384)
+## other (count=431, manual=45, auto=386)
 
 ### Highest Confidence (Auto)
 - 27384685921199899_1 (0.9688) output/images/27384685921199899_1.jpg [resnet_finetuned]
@@ -78,7 +78,7 @@
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg [low confidence (0.42), resnet_finetuned]
 - 27370475469287611_0 (0.3735) output/images/27370475469287611_0.jpg [low confidence (0.37), resnet_finetuned]
 
-## Needs Manual Review (confidence < 0.65, count=314)
+## Needs Manual Review (confidence < 0.65, count=317)
 
 - 27370475469287611_0 (0.3735) output/images/27370475469287611_0.jpg → `other`
 - 25874886852179821_0 (0.4183) output/images/25874886852179821_0.jpg → `other`
@@ -101,6 +101,7 @@
 - 26330380199963815_0 (0.4549) output/images/26330380199963815_0.jpg → `other`
 - 25991824163819422_0 (0.4564) output/images/25991824163819422_0.jpg → `other`
 - 25571449945856848_1 (0.4573) output/images/25571449945856848_1.jpg → `other`
+- 27431475346520956_1 (0.4598) output/images/27431475346520956_1.jpg → `other`
 - 26604502842551548_0 (0.4605) output/images/26604502842551548_0.jpg → `other`
 - 25475069822161528_0 (0.4614) output/images/25475069822161528_0.jpg → `other`
 - 26088190804182757_1 (0.4621) output/images/26088190804182757_1.jpg → `other`
@@ -109,5 +110,4 @@
 - 25526544213680755_2 (0.4630) output/images/25526544213680755_2.jpg → `other`
 - 26792421793759651_1 (0.4640) output/images/26792421793759651_1.jpg → `other`
 - 26670701839264981_0 (0.4650) output/images/26670701839264981_0.jpg → `other`
-- 27147212434947250_2 (0.4657) output/images/27147212434947250_2.jpg → `other`
 
