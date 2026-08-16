@@ -3303,5 +3303,15 @@
     "lat": 1.33583983703733,
     "lng": 103.786493273519,
     "address": "1 BINJAI PARK BINJAI PARK SINGAPORE 589818"
+  },
+  "onemap:ah hock fried hokkien noodles": null,
+  "onemap:ah hock fried hokkien noodles singapore": null,
+  "nominatim:ah hock fried hokkien noodles": null,
+  "nominatim:ah hock fried hokkien noodles singapore": null,
+  "onemap:broadway coffeeshop": null,
+  "onemap:broadway": {
+    "lat": 1.33189434532343,
+    "lng": 103.867853678364,
+    "address": "147 POTONG PASIR AVENUE 1 BROADWAY FOOD CENTRE SINGAPORE 350147"
   }
 }
