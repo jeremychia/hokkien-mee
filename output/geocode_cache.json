@@ -3886,5 +3886,53 @@
     "lat": 1.315028415147315,
     "lng": 103.87162041674,
     "address": "17 UPPER BOON KENG ROAD UPPER BOON KENG MARKET AND FOOD CENTRE SINGAPORE 380017"
-  }
+  },
+  "onemap:plaza singapura kopitiam": null,
+  "onemap:plaza singapura kopitiam singapore": null,
+  "nominatim:plaza singapura kopitiam": null,
+  "nominatim:plaza singapura kopitiam singapore": null,
+  "onemap:263 serangoon ave": null,
+  "onemap:263 serangoon ave singapore": null,
+  "nominatim:263 serangoon ave": {
+    "lat": 1.3483833,
+    "lng": 103.8723312,
+    "address": "Serangoon Avenue 2, Serangoon Central, Serangoon"
+  },
+  "onemap:hong lim complex food centre": null,
+  "onemap:hong lim complex food centre singapore": null,
+  "nominatim:hong lim complex food centre": null,
+  "nominatim:hong lim complex food centre singapore": null,
+  "onemap:e stall as the one at buangkok hawker centre": null,
+  "onemap:700000": null,
+  "onemap:700000 singapore": null,
+  "onemap:address: 67 đ. nguyễn trường tộ, xóm chiếu, hồ chí minh 700000, vietnam": null,
+  "onemap:address: 67 . nguy n tr ng t , x m chi u, h ch minh 700000, vietnam": null,
+  "onemap:address: 67 đ. nguyễn trường tộ, xóm chiếu, hồ chí minh 700000, vietnam singapore": null,
+  "onemap:4d gopalsamy rajkumar st": null,
+  "onemap:4d gopalsamy rajkumar st singapore": null,
+  "nominatim:700000": null,
+  "nominatim:700000 singapore": {
+    "lat": 1.2899175,
+    "lng": 103.8519072,
+    "address": "Singapore"
+  },
+  "onemap:bukit batok west hawker centre": {
+    "lat": 1.355450618356299,
+    "lng": 103.7421029132333,
+    "address": "469A BUKIT BATOK WEST AVENUE 9 BUKIT BATOK WEST HAWKER CENTRE"
+  },
+  "onemap:o set up his own stall at a jb hawker centre": null,
+  "onemap:a jb hawker centre": null,
+  "onemap:o set up his own stall at a jb hawker centre singapore": null,
+  "onemap:ater shifted twice to kakilang coffee shop": null,
+  "onemap:ater shifted twice to kakilang": null,
+  "onemap:ater shifted twice to kakilang coffee shop singapore": null,
+  "onemap:singapore t1 ah kim hokkien mee": null,
+  "nominatim:o set up his own stall at a jb hawker centre": null,
+  "nominatim:a jb hawker centre": null,
+  "nominatim:o set up his own stall at a jb hawker centre singapore": null,
+  "nominatim:ater shifted twice to kakilang coffee shop": null,
+  "nominatim:ater shifted twice to kakilang": null,
+  "nominatim:ater shifted twice to kakilang coffee shop singapore": null,
+  "nominatim:singapore t1 ah kim hokkien mee": null
 }
