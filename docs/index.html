@@ -637,9 +637,9 @@ function buildPopupHtml(loc) {
   if (allImgs.length > 0) {
     let filterHtml = '';
     if (activeTabs.length > 1) {
-      filterHtml = `<div class="tp-filter" role="tablist" aria-label="Photo type">
+      filterHtml = `<div class="tp-filter" role="group" aria-label="Photo type">
         ${activeTabs.map(k =>
-          `<button role="tab" aria-selected="${k === defaultTab}" class="tp-filter-pill${k === defaultTab ? ' on' : ''}" data-tab="${k}" onclick="switchTpTab(this)">
+          `<button aria-pressed="${k === defaultTab}" class="tp-filter-pill${k === defaultTab ? ' on' : ''}" data-tab="${k}" onclick="switchTpTab(this)">
             ${IMG_TAB_LABELS[k]}
             <span class="tp-filter-n" aria-hidden="true">${buckets[k].length}</span>
           </button>`
@@ -737,7 +737,7 @@ function switchTpTab(btn) {
   const section = btn.closest('.tp-photos');
   section.querySelectorAll('.tp-filter-pill').forEach(b => {
     b.classList.toggle('on', b.dataset.tab === tabKey);
-    b.setAttribute('aria-selected', b.dataset.tab === tabKey ? 'true' : 'false');
+    b.setAttribute('aria-pressed', b.dataset.tab === tabKey ? 'true' : 'false');
   });
   section.querySelectorAll('.tp-grid-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === tabKey));
 }
