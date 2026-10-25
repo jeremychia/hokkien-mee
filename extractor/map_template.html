@@ -1364,11 +1364,12 @@ function renderLightboxItem() {
   lightboxImg.alt = `Photo ${lightboxIndex + 1} of ${lightboxItems.length}`;
   document.getElementById('lightboxStatus').textContent = lightboxImg.alt;
   if (lightboxMeta) {
+    // Author and link come from scraped data: escape them, and only link real post permalinks
     let meta = '';
-    if (item.author) meta += `<span class='img-meta-author'>By: ${item.author}</span>`;
-    if (item.post_id) meta += ` · <span class='img-meta-id'>ID: ${item.post_id}</span>`;
-    if (item.post_link && isPostPermalink(item.post_link)) meta += ` · <a class='img-meta-link' href='${item.post_link}' target='_blank' rel='noopener' onclick='event.stopPropagation(); return true;'>View post ↗</a>`;
-    if (!meta) meta = `ID: ${item.id}`;
+    if (item.author) meta += `<span class="img-meta-author">Photo by ${escapeHtml(item.author)}</span>`;
+    if (item.post_link && isPostPermalink(item.post_link)) {
+      meta += `<a class="img-meta-link" href="${escapeHtml(item.post_link)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">View the post on Facebook</a>`;
+    }
     lightboxMeta.innerHTML = meta;
   }
 }
