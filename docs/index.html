@@ -172,11 +172,13 @@
 </main>
 
 <!-- Image lightbox -->
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">×</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous photo">‹</button>
   <img id="lightboxImg" src="" alt="Enlarged photo">
   <button class="lightbox-nav next" id="lightboxNext" aria-label="Next photo">›</button>
   <div class="lightbox-meta" id="lightboxMeta"></div>
+  <div class="sr-only" id="lightboxStatus" role="status"></div>
 </div>
 
 <!-- Report modal -->
@@ -1186,6 +1188,12 @@ let lightboxIndex = 0;
 let lightboxTouchStartX = null;
 let lightboxTouchStartY = null;
 let suppressLightboxClick = false;
+let lightboxReturnFocus = null;
+
+/** Make everything behind a modal dialog inert (dialogs live at the body root). */
+function setBackgroundInert(on) {
+  document.querySelectorAll('.header, .main, .map-attr').forEach(el => { el.inert = on; });
+}
 
 function setMapInteractionLocked(locked) {
   const method = locked ? 'disable' : 'enable';
@@ -1201,6 +1209,8 @@ function renderLightboxItem() {
   if (!lightboxItems.length) return;
   const item = lightboxItems[lightboxIndex];
   lightboxImg.src = item.src;
+  lightboxImg.alt = `Photo ${lightboxIndex + 1} of ${lightboxItems.length}`;
+  document.getElementById('lightboxStatus').textContent = lightboxImg.alt;
   if (lightboxMeta) {
     let meta = '';
     if (item.author) meta += `<span class='img-meta-author'>By: ${item.author}</span>`;
@@ -1215,8 +1225,24 @@ function openLightbox(url, photoId = 'unknown', items = null, index = 0) {
   lightboxItems = Array.isArray(items) && items.length ? items : [{ src: url, id: photoId }];
   lightboxIndex = Math.max(0, Math.min(index, lightboxItems.length - 1));
   renderLightboxItem();
+  lightboxReturnFocus = document.activeElement;
   lightbox.classList.add('open');
+  setBackgroundInert(true);
   setMapInteractionLocked(true);
+  document.getElementById('lightboxClose').focus();
+}
+
+function closeLightbox() {
+  if (!lightbox.classList.contains('open')) return;
+  lightbox.classList.remove('open');
+  lightboxImg.src = '';
+  if (lightboxMeta) lightboxMeta.textContent = '';
+  lightboxItems = [];
+  lightboxIndex = 0;
+  setMapInteractionLocked(false);
+  setBackgroundInert(false);
+  if (lightboxReturnFocus && document.contains(lightboxReturnFocus)) lightboxReturnFocus.focus();
+  lightboxReturnFocus = null;
 }
 
 function navigateLightbox(step) {
@@ -1240,12 +1266,7 @@ lightbox.addEventListener('click', () => {
     suppressLightboxClick = false;
     return;
   }
-  lightbox.classList.remove('open');
-  lightboxImg.src = '';
-  if (lightboxMeta) lightboxMeta.textContent = '';
-  lightboxItems = [];
-  lightboxIndex = 0;
-  setMapInteractionLocked(false);
+  closeLightbox();
 });
 
 lightbox.addEventListener('touchstart', (e) => {
@@ -1283,14 +1304,7 @@ document.addEventListener('keydown', (e) => {
     navigateLightbox(1);
     return;
   }
-  if (e.key === 'Escape') {
-    lightbox.classList.remove('open');
-    lightboxImg.src = '';
-    if (lightboxMeta) lightboxMeta.textContent = '';
-    lightboxItems = [];
-    lightboxIndex = 0;
-    setMapInteractionLocked(false);
-  }
+  if (e.key === 'Escape') closeLightbox();
 });
 
 // ── Fit map to markers ──────────────────────────────────────────

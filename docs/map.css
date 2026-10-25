@@ -1233,3 +1233,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .report-cancel:hover { border-color: var(--text-secondary); color: var(--text); }
 </style>
+
+/* Visually hidden, still announced */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
