@@ -1140,8 +1140,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-posts-toggle {
   display: flex; align-items: center; justify-content: space-between; width: 100%;
   background: none; border: none; padding: 0; cursor: pointer; text-align: left;
+  font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit;
 }
-.tp-posts-toggle:hover .tp-section-title { color: var(--primary); }
+.tp-posts-toggle:hover { color: var(--primary); }
 .tp-posts-chevron {
   font-size: 10px; color: var(--kopi-o); transition: transform .2s; display: inline-block;
 }

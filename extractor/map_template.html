@@ -714,10 +714,12 @@ function buildPopupHtml(loc) {
         </article>`;
       }).join('');
       return `<section class="tp-posts" aria-label="Posts">
-        <button class="tp-posts-toggle" aria-expanded="false" onclick="toggleTpPosts(this)">
-          <h4 class="tp-section-title">Posts <span class="tp-section-meta">${postsWithText.length}</span></h4>
-          <span class="tp-posts-chevron" aria-hidden="true">▼</span>
-        </button>
+        <h4 class="tp-section-title">
+          <button class="tp-posts-toggle" aria-expanded="false" onclick="toggleTpPosts(this)">
+            <span>Posts <span class="tp-section-meta">${postsWithText.length}</span></span>
+            <span class="tp-posts-chevron" aria-hidden="true">▼</span>
+          </button>
+        </h4>
         <div class="tp-post-list">${items}</div>
       </section>`;
     })()}
@@ -753,7 +755,7 @@ function expandTpGrid(btn, event) {
 function toggleTpPosts(btn) {
   const expanded = btn.getAttribute('aria-expanded') === 'true';
   btn.setAttribute('aria-expanded', !expanded);
-  btn.nextElementSibling.classList.toggle('open', !expanded);
+  btn.closest('.tp-posts').querySelector('.tp-post-list').classList.toggle('open', !expanded);
 }
 
 function openTpTile(btn) {
