@@ -1265,7 +1265,6 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   transition: border-color 0.15s, color 0.15s;
 }
 .report-cancel:hover { border-color: var(--text-secondary); color: var(--text); }
-</style>
 
 /* Visually hidden, still announced */
 .sr-only {
