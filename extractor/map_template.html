@@ -1078,6 +1078,10 @@ function findNextVisibleCard(fromIdx, direction) {
 // ── Search by location name ─────────────────────────────────────
 const searchInput = document.getElementById('searchInput');
 const searchHint = document.getElementById('searchHint');
+function showSearchHint(text, state = '') {
+  searchHint.textContent = text;
+  searchHint.className = 'search-hint' + (state ? ' ' + state : '');
+}
 let searchTimeout;
 
 searchInput.addEventListener('input', () => {
@@ -1125,7 +1129,7 @@ locateBtn.addEventListener('click', () => {
   if (userLatLng) { clearUserLocation(); return; }
 
   if (!navigator.geolocation) {
-    alert('Geolocation is not supported by your browser.');
+    showSearchHint('Your browser does not support finding your location.', 'error');
     return;
   }
 
@@ -1164,7 +1168,7 @@ locateBtn.addEventListener('click', () => {
       locateBtn.removeAttribute('aria-busy');
       locateBtn.setAttribute('aria-pressed', 'false');
       locateBtn.querySelector('.btn-label').textContent = 'Near me';
-      alert('Could not get your location. Please ensure location access is allowed.');
+      showSearchHint('Could not get your location. Allow location access for this site and try again.', 'error');
     },
     { enableHighAccuracy: true, timeout: 10000 }
   );

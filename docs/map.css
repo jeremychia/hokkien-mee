@@ -246,6 +246,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   padding-left: 2px;
 }
 .search-hint.located { color: var(--primary); }
+.search-hint.error { color: var(--sambal); font-weight: 600; }
 
 .privacy-wrap {
   position: relative;
