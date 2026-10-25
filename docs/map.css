@@ -1,15 +1,15 @@
 /* ── Reset & Variables ───────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --primary:        #C8761C;
+  --primary:        #9E520C;
   --primary-light:  #FCE8C8;
-  --primary-hover:  #9A5A12;
+  --primary-hover:  #7A3E08;
   --bg:             #FBF7EE;
   --card:           #FFFFFF;
-  --text:           #2B231C;
-  --text-secondary: #5B4A3D;
-  --text-tertiary:  #8B7B6D;
-  --border:         #D4C5B1;
+  --text:           #1A140E;
+  --text-secondary: #3A2E24;
+  --text-tertiary:  #5B4A3D;
+  --border:         #BCA99A;
   --star:           var(--primary);
   --bg-noodle:      #FBF3E0;
   --shadow:         0 1px 3px rgba(60,40,20,0.10);
@@ -34,16 +34,6 @@
   --kopi-o: var(--text-tertiary);
   --paper:  var(--card);
   --tan:    var(--border);
-  --border-control: #857463;
-}
-
-:root.high-contrast {
-  --primary:        #9E520C;
-  --primary-hover:  #7A3E08;
-  --text:           #1A140E;
-  --text-secondary: #3A2E24;
-  --text-tertiary:  #5B4A3D;
-  --border:         #BCA99A;
   --border-control: #857463;
 }
 
