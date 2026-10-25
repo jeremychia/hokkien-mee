@@ -555,7 +555,7 @@ function buildPopupHtml(loc) {
       map.eachLayer(layer => {
         if (layer.getPopup && layer.isPopupOpen && layer.isPopupOpen()) {
           const p = layer.getPopup();
-          if (p) p.setContent(buildPopupHtml(loc));
+          if (p) { const hadFocus = p.getElement().contains(document.activeElement); p.setContent(buildPopupHtml(loc)); if (hadFocus) focusOpenPopup(); }
         }
       });
     });
@@ -684,7 +684,7 @@ function buildPopupHtml(loc) {
   return `<article class="tp" aria-labelledby="tp-name-${reportAddr}">
     <div class="tp-hero">${heroImgHtml}${ratingChipHtml}</div>
     <header class="tp-head">
-      <h3 class="tp-name" id="tp-name-${reportAddr}">${escapeHtml(loc.address)}</h3>
+      <h3 class="tp-name" id="tp-name-${reportAddr}" tabindex="-1">${escapeHtml(loc.address)}</h3>
       <p class="tp-meta">${count} post${count !== 1 ? 's' : ''}</p>
     </header>
     <a class="tp-cta" href="${gmapsUrl}" target="_blank" rel="noopener">
@@ -1349,8 +1349,22 @@ map.whenReady(() => {
   }
 });
 
+/** Move keyboard focus into the open popup (Leaflet leaves it on the trigger). */
+function focusOpenPopup() {
+  const target = document.querySelector('.leaflet-popup .tp-name');
+  if (target) target.focus({ preventScroll: true });
+}
 map.on('popupopen', () => {
   requestAnimationFrame(constrainOpenPopupHeight);
+  focusOpenPopup();
+});
+map.on('popupclose', () => {
+  // Return focus to the stall's card when it was inside the closing popup
+  const active = document.activeElement;
+  const card = cardMap[activeLocationIdx];
+  if (card && (!active || active === document.body || active.closest('.leaflet-popup'))) {
+    card.focus({ preventScroll: true });
+  }
 });
 
 window.addEventListener('resize', () => {
