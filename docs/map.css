@@ -343,9 +343,24 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   border-color: var(--primary);
   background: var(--primary-light);
 }
-.loc-card:focus-visible {
+.loc-card-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.loc-card-btn:focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: 2px;
+  outline-offset: 5px;
+  border-radius: 4px;
 }
 .loc-card-icon { flex-shrink: 0; width: 34px; height: 34px; }
 .loc-thumb {
@@ -355,8 +370,9 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   flex-shrink: 0;
   background: var(--bg);
 }
-.loc-card-body { flex: 1; min-width: 0; }
+.loc-card-body { display: block; flex: 1; min-width: 0; }
 .loc-name {
+  display: block;
   font-size: 13px;
   font-weight: 600;
   color: var(--text);

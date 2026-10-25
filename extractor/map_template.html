@@ -824,7 +824,7 @@ function renderCardMeta(idx) {
   const parts = [postCountLabel(postCount)];
   if (reactions > 0) parts.push('\u{1F44D} ' + reactions);
   if (sent.score !== undefined && sent.score !== null) {
-    parts.push(`<span class="loc-stars">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}`);
+    parts.push(`<span class="loc-stars" aria-hidden="true">${starsHtml(sent.score)}</span> ${sent.score.toFixed(1)}<span class="sr-only"> rating</span>`);
   }
   const distKm = locationDistances[idx];
   const metaHtml = distKm != null
@@ -834,6 +834,21 @@ function renderCardMeta(idx) {
 }
 
 // ── Build markers & sidebar cards ───────────────────────────────
+// ── Card focus helpers (roving tabindex) ────────────────────────
+function cardButton(card) { return card.querySelector('.loc-card-btn'); }
+let rovingBtn = null;
+function setRovingCard(btn) {
+  if (rovingBtn && rovingBtn !== btn) rovingBtn.tabIndex = -1;
+  btn.tabIndex = 0;
+  rovingBtn = btn;
+}
+/** Keep exactly one visible card in the tab order. */
+function ensureRovingCard() {
+  if (rovingBtn && rovingBtn.closest('.loc-card').style.display !== 'none') return;
+  const first = Array.from(locationList.querySelectorAll('.loc-card')).find(c => c.style.display !== 'none');
+  if (first) setRovingCard(cardButton(first));
+}
+
 const locationList = document.getElementById('locationList');
 
 MAP_DATA.locations.forEach((loc, i) => {
@@ -878,9 +893,6 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.dataset.idx = i;
   card.dataset.search = loc.address.toLowerCase();
   card.setAttribute('role', 'listitem');
-  card.setAttribute('tabindex', '0');
-  card.setAttribute('aria-label', `${loc.address}. ${postCountLabel(postCount)}.`);
-  card.setAttribute('aria-selected', 'false');
 
   // Get thumbnail from bootstrap (pre-selected first image) or fall back to scanning posts
   const firstImg = loc.thumb
@@ -903,12 +915,17 @@ MAP_DATA.locations.forEach((loc, i) => {
     ? `<img class="loc-thumb" src="${escapeHtml(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
     : `<svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>`;
 
+  // One real button per card: its content (name, distance, rating) is the accessible name.
+  // Only one button is in the tab order at a time (roving tabindex); arrow keys move between cards.
   card.innerHTML = `
-    ${thumbHtml}
-    <div class="loc-card-body">
-      <div class="loc-name">${escapeHtml(loc.address)}</div>
-      <div class="loc-meta"></div>
-    </div>`;
+    <button type="button" class="loc-card-btn" tabindex="-1">
+      ${thumbHtml}
+      <span class="loc-card-body">
+        <span class="loc-name">${escapeHtml(loc.address)}</span>
+        <span class="loc-meta"></span>
+      </span>
+    </button>`;
+  card.querySelector('.loc-card-btn').addEventListener('focus', (event) => setRovingCard(event.currentTarget));
 
   const focusCard = () => {
     map.setView([loc.lat, loc.lng], 17, { animate: !prefersReducedMotion.matches });
@@ -925,16 +942,11 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.addEventListener('click', focusCard);
   card.addEventListener('keydown', (event) => {
     const currentIdx = Number(card.dataset.idx);
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      focusCard();
-      return;
-    }
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
       const direction = event.key === 'ArrowDown' ? 1 : -1;
       const next = findNextVisibleCard(currentIdx, direction);
-      if (next) next.focus();
+      if (next) cardButton(next).focus();
     }
   });
 
@@ -942,6 +954,7 @@ MAP_DATA.locations.forEach((loc, i) => {
   cardMap[i] = card;
   renderCardMeta(i);
 });
+ensureRovingCard();
 
 map.addLayer(cluster);
 
@@ -964,12 +977,12 @@ if (statTooltip && MAP_DATA.meta) {
 function setActiveLocation(idx) {
   if (activeLocationIdx !== null && cardMap[activeLocationIdx]) {
     cardMap[activeLocationIdx].classList.remove('active');
-    cardMap[activeLocationIdx].setAttribute('aria-selected', 'false');
+    cardButton(cardMap[activeLocationIdx]).removeAttribute('aria-current');
   }
   activeLocationIdx = idx;
   if (cardMap[idx]) {
     cardMap[idx].classList.add('active');
-    cardMap[idx].setAttribute('aria-selected', 'true');
+    cardButton(cardMap[idx]).setAttribute('aria-current', 'true');
   }
 }
 
@@ -1026,6 +1039,7 @@ function filterLocations() {
     searchHint.className = 'search-hint';
   }
 
+  ensureRovingCard();
   if (visible === 0 && q) {
     const msg = document.createElement('div');
     msg.className = 'no-results';
@@ -1379,7 +1393,7 @@ map.on('popupclose', () => {
   const active = document.activeElement;
   const card = cardMap[activeLocationIdx];
   if (card && (!active || active === document.body || active.closest('.leaflet-popup'))) {
-    card.focus({ preventScroll: true });
+    cardButton(card).focus({ preventScroll: true });
   }
 });
 
