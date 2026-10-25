@@ -1093,7 +1093,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .tp-filter-pill:hover { border-color: var(--primary); color: var(--primary); }
 .tp-filter-pill.on { border-color: var(--primary); background: var(--primary-light); color: var(--primary-hover); font-weight: 600; }
-.tp-filter-n { font-weight: 600; opacity: 0.7; margin-left: 2px; }
+.tp-filter-n { font-weight: 600; margin-left: 2px; }
 .tp-grid-panel { display: none; }
 .tp-grid-panel.active {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
