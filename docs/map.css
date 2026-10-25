@@ -1083,7 +1083,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-rating-score { font-size: 12px; font-weight: 700; }
 .tp-rating-basis { font-weight: 500; color: var(--coffee); font-size: 12px; }
 .tp-head { padding: 10px 14px 0; }
-.tp-name { font: 700 13px/1.25 var(--font); letter-spacing: -0.2px; color: var(--ink); margin: 0; }
+.tp-name { font: 700 17px/1.25 var(--font); letter-spacing: -0.2px; color: var(--ink); margin: 0; }
 .tp-meta { margin: 3px 0 0; font: 500 12px/1.35 var(--font); color: var(--coffee); }
 .tp-meta-sep { color: var(--tan); margin: 0 5px; font-weight: 400; }
 .tp-cta {
