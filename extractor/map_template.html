@@ -1201,6 +1201,7 @@ function syncSidebarState() {
 sidebarToggle.setAttribute('aria-controls', 'sidebar');
 sidebarToggle.addEventListener('click', () => {
   sidebarEl.classList.toggle('open');
+  syncSidebarState();  // un-inert before focusing (the observer runs a tick later)
   if (sidebarEl.classList.contains('open') && mobileQuery.matches) {
     document.getElementById('searchInput').focus();
   }
