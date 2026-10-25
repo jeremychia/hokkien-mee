@@ -167,7 +167,7 @@
 
     <!-- Footer -->
     <div class="sidebar-footer">
-      Data from <a href="__GROUP_URL__" target="_blank" rel="noopener">Hokkien Mee Hunting</a> on Facebook
+      Data from <a href="__GROUP_URL__" target="_blank" rel="noopener">Hokkien Mee Hunting</a> on Facebook<span id="footerUpdated"></span>
     </div>
   </aside>
 
@@ -347,6 +347,9 @@ function renderDataBadge() {
   const updated = MAP_DATA?.meta?.generated_at ? formatDate(MAP_DATA.meta.generated_at) : '—';
   badge.innerHTML = `Data: <strong>Hokkien Mee Hunting</strong> · Updated ${updated}`;
   badge.setAttribute('title', 'Data source and last updated date');
+  // The header badge is hidden on narrow screens, so repeat the date in the sidebar footer
+  const footerUpdated = document.getElementById('footerUpdated');
+  if (footerUpdated) footerUpdated.textContent = `, updated ${updated}`;
 }
 
 function truncate(str, len) {
