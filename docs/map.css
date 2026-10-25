@@ -864,6 +864,10 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   margin-left: auto; color: var(--primary); text-decoration: none; font-size: 12px; padding: 8px 6px;
 }
 .tp-post-link:hover { text-decoration: underline; }
+/* Leaflet's ".leaflet-container a" (specificity 0,1,1) otherwise paints popup links in its default blue */
+.leaflet-container .tp-fb { color: var(--coffee); }
+.leaflet-container .tp-fb:hover { color: var(--primary); }
+.leaflet-container .tp-post-link { color: var(--primary); }
 .tp-fb {
   display: block; margin: 10px 14px 0; padding: 8px 10px;
   text-align: center; color: var(--coffee); font: 500 12px var(--font);
