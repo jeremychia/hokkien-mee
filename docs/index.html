@@ -285,7 +285,8 @@ const map = L.map('map', {
   attributionControl: false,
 });
 
-L.control.zoom({ position: 'topright' }).addTo(map);
+// On phones the popup fills the top-right corner and covers its close button, so put zoom bottom-left
+L.control.zoom({ position: window.matchMedia('(max-width: 768px)').matches ? 'bottomleft' : 'topright' }).addTo(map);
 
 L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Original/{z}/{x}/{y}.png', {
   maxZoom: 19,
