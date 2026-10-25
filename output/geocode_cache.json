@@ -3934,5 +3934,41 @@
   "nominatim:ater shifted twice to kakilang coffee shop": null,
   "nominatim:ater shifted twice to kakilang": null,
   "nominatim:ater shifted twice to kakilang coffee shop singapore": null,
-  "nominatim:singapore t1 ah kim hokkien mee": null
+  "nominatim:singapore t1 ah kim hokkien mee": null,
+  "onemap:republic food court": null,
+  "onemap:republic food court singapore": null,
+  "nominatim:republic food court": {
+    "lat": 1.3444945,
+    "lng": 103.7352568,
+    "address": "Food Court, 303, Jurong East Avenue 1"
+  },
+  "onemap:468960": {
+    "lat": 1.307261065911731,
+    "lng": 103.9347997370979,
+    "address": "1220 EAST COAST PARKWAY EAST COAST LAGOON FOOD VILLAGE SINGAPORE 468960"
+  },
+  "onemap:char hokkien mee": null,
+  "onemap:char hokkien mee singapore": null,
+  "nominatim:char hokkien mee": null,
+  "nominatim:char hokkien mee singapore": null,
+  "onemap:29 gold st": null,
+  "onemap:29 gold st singapore": null,
+  "onemap:d i've never tried hkm in a food court": null,
+  "onemap:d i've never tried hkm in a food court singapore": null,
+  "onemap:food court sia": {
+    "lat": 1.3924729746732,
+    "lng": 103.7435191053027,
+    "address": "532 CHOA CHU KANG STREET 51 YI JIA FOOD COURT LIMBANG SHOPPING CENTRE"
+  },
+  "onemap:e at parkway parade basement 1 food court": null,
+  "onemap:parkway parade basement 1 food court": null,
+  "onemap:e at parkway parade basement 1 food court singapore": null,
+  "nominatim:e at parkway parade basement 1 food court": null,
+  "nominatim:parkway parade basement 1 food court": null,
+  "nominatim:e at parkway parade basement 1 food court singapore": null,
+  "onemap:805 hougang central": {
+    "lat": 1.370683335773279,
+    "lng": 103.8943566099631,
+    "address": "805 HOUGANG CENTRAL MULTI STOREY CAR PARK SINGAPORE 530805"
+  }
 }
