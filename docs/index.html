@@ -428,9 +428,10 @@ function resolveImageSources(img) {
   if (!img || typeof img !== 'object') {
     return { primary: '', fallback: '' };
   }
+  // Prefer the bundled copy: the Facebook CDN links are signed and expire
   return {
-    primary: img.url || img.local || '',
-    fallback: img.local || '',
+    primary: img.local || img.url || '',
+    fallback: img.local ? (img.url || '') : '',
   };
 }
 
