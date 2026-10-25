@@ -34,6 +34,7 @@
   --kopi-o: var(--text-tertiary);
   --paper:  var(--card);
   --tan:    var(--border);
+  --border-control: #857463;
 }
 
 :root.high-contrast {
@@ -43,6 +44,7 @@
   --text-secondary: #3A2E24;
   --text-tertiary:  #5B4A3D;
   --border:         #BCA99A;
+  --border-control: #857463;
 }
 
 html, body { height: 100%; overflow: hidden; }
@@ -184,7 +186,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .search-input {
   width: 100%;
   padding: 9px 10px 9px 32px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   border-radius: 8px;
   font-size: 13px;
   font-family: var(--font);
@@ -205,7 +207,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   justify-content: center;
   gap: 5px;
   padding: 0 12px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   border-radius: 8px;
   background: var(--card);
   color: var(--text-secondary);
@@ -246,7 +248,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   padding-left: 2px;
 }
 .privacy-trigger {
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   background: var(--card);
   color: var(--text-secondary);
   font-size: 11px;
@@ -287,7 +289,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .sort-pill {
   padding: 4px 10px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-control);
   border-radius: 20px;
   background: var(--card);
   color: var(--text-secondary);
@@ -1088,7 +1090,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-filter-pill {
   display: inline-flex; align-items: center; gap: 3px;
   height: 22px; padding: 0 7px;
-  border: 1px solid var(--border); background: var(--paper); color: var(--coffee);
+  border: 1px solid var(--border-control); background: var(--paper); color: var(--coffee);
   border-radius: var(--r-pill); font: 500 10px var(--font); cursor: pointer; transition: all .15s;
 }
 .tp-filter-pill:hover { border-color: var(--primary); color: var(--primary); }
