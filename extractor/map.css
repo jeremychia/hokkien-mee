@@ -443,7 +443,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   font-family: var(--font) !important;
   font-size: 13px !important;
   line-height: 1.45 !important;
-  width: 320px !important;
+  width: min(320px, calc(100vw - 56px)) !important;
 }
 .leaflet-popup-tip { box-shadow: none !important; background: var(--paper) !important; }
 .leaflet-popup-close-button {
