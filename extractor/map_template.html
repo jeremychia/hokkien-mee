@@ -151,7 +151,7 @@
       <button class="sort-pill active" data-sort="posts">Most discussed</button>
       <button class="sort-pill" data-sort="rating">Highest rated</button>
       <button class="sort-pill" data-sort="reactions">Most liked</button>
-      <button class="rating-info-btn" id="ratingInfoBtn" title="How are ratings calculated?">ⓘ</button>
+      <button class="rating-info-btn" id="ratingInfoBtn" title="How are ratings calculated?" aria-expanded="false" aria-controls="ratingTooltip">ⓘ</button>
       <div class="rating-tooltip" id="ratingTooltip">
         <strong>How ratings work</strong><br>
         Ratings are derived from the language used in posts and comments. Positive signals
@@ -1151,11 +1151,21 @@ document.querySelectorAll('#sortRow .sort-pill').forEach(pill => {
 // Rating info tooltip toggle
 const ratingInfoBtn = document.getElementById('ratingInfoBtn');
 const ratingTooltip = document.getElementById('ratingTooltip');
+function setRatingTip(show) {
+  ratingTooltip.classList.toggle('show', show);
+  ratingInfoBtn.setAttribute('aria-expanded', String(show));
+}
 ratingInfoBtn.addEventListener('click', (e) => {
   e.stopPropagation();
-  ratingTooltip.classList.toggle('show');
+  setRatingTip(!ratingTooltip.classList.contains('show'));
 });
-document.addEventListener('click', () => ratingTooltip.classList.remove('show'));
+document.addEventListener('click', () => setRatingTip(false));
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && ratingTooltip.classList.contains('show')) {
+    setRatingTip(false);
+    ratingInfoBtn.focus();
+  }
+});
 
 function clearUserLocation() {
   userLatLng = null;
