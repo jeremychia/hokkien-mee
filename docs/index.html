@@ -681,6 +681,7 @@ function buildPopupHtml(loc) {
 
   const reportAddr = escapeHtml(loc.id);
   const reportName = escapeHtml(loc.address).replace(/'/g, '\\x27');
+  const reportDisplay = escapeHtml(stallName(loc)).replace(/'/g, '\\x27');
 
   return `<article class="tp" aria-labelledby="tp-name-${reportAddr}">
     <div class="tp-hero">${heroImgHtml}${ratingChipHtml}</div>
@@ -727,7 +728,7 @@ function buildPopupHtml(loc) {
       <span aria-hidden="true">↗</span>
     </a>
     <footer class="tp-foot">
-      <button class="tp-report" onclick="openReportModal('${reportAddr}', '${reportName}')">
+      <button class="tp-report" onclick="openReportModal('${reportAddr}', '${reportName}', '${reportDisplay}')">
         Something wrong? Report this stall
       </button>
     </footer>
@@ -779,10 +780,10 @@ let reportReturnFocus = null;
 const reportModal = document.getElementById('reportModal');
 const reportModalAddress = document.getElementById('reportModalAddress');
 
-function openReportModal(locId, address) {
+function openReportModal(locId, address, displayName) {
   reportLocId = locId;
   reportLocAddress = address;
-  reportModalAddress.textContent = address;
+  reportModalAddress.textContent = displayName || address;  // the form still receives the raw address
   reportReturnFocus = document.activeElement;
   reportModal.classList.add('open');
   setBackgroundInert(true);
