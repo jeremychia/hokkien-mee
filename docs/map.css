@@ -10,7 +10,7 @@
   --text-secondary: #5B4A3D;
   --text-tertiary:  #8B7B6D;
   --border:         #D4C5B1;
-  --star:           #A86A0C;
+  --star:           var(--primary);
   --bg-noodle:      #FBF3E0;
   --shadow:         0 1px 3px rgba(60,40,20,0.10);
   --shadow-lg:      0 4px 16px rgba(60,40,20,0.14);
@@ -21,7 +21,7 @@
   --popup-wrap-max: min(72vh, 560px);
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   /* popup redesign tokens */
-  --sambal:         #C03A1F;
+  --sambal:         var(--cta-bg);
   --primary-soft:   #FBF3E0;
   --r-pill:         999px;
   --tp-radius:      12px;
