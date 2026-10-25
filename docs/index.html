@@ -691,8 +691,6 @@ function buildPopupHtml(loc) {
       <blockquote class="tp-quote-body">${escapeHtml(truncate(feature.text, 160))}</blockquote>
       <cite class="tp-quote-cite">
         <span class="tp-quote-author">${escapeHtml(feature.author)}</span>
-        <span class="tp-quote-sep" aria-hidden="true">·</span>
-        <time>${escapeHtml(feature.timestamp || '')}</time>
       </cite>
     </section>`;
   }
