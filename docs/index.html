@@ -184,7 +184,7 @@
 <!-- Report modal -->
 <div class="report-modal-backdrop" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
   <div class="report-modal">
-    <div class="report-modal-title" id="reportModalTitle">Report a problem</div>
+    <div class="report-modal-title" id="reportModalTitle" tabindex="-1">Report a problem</div>
     <div class="report-modal-address" id="reportModalAddress"></div>
     <button class="report-option" onclick="submitReport('wrong_location')">
       <span>
@@ -778,6 +778,7 @@ function copyDeepLink(url) {
 // ── Report modal ─────────────────────────────────────────────────
 let reportLocId = null;
 let reportLocAddress = null;
+let reportReturnFocus = null;
 const reportModal = document.getElementById('reportModal');
 const reportModalAddress = document.getElementById('reportModalAddress');
 
@@ -785,12 +786,18 @@ function openReportModal(locId, address) {
   reportLocId = locId;
   reportLocAddress = address;
   reportModalAddress.textContent = address;
+  reportReturnFocus = document.activeElement;
   reportModal.classList.add('open');
+  setBackgroundInert(true);
+  document.getElementById('reportModalTitle').focus();
 }
 function closeReportModal() {
   reportModal.classList.remove('open');
   reportLocId = null;
   reportLocAddress = null;
+  setBackgroundInert(false);
+  if (reportReturnFocus && document.contains(reportReturnFocus)) reportReturnFocus.focus();
+  reportReturnFocus = null;
 }
 reportModal.addEventListener('click', (e) => {
   if (e.target === reportModal) closeReportModal();
