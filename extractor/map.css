@@ -1067,6 +1067,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 
 /* ── Popup redesign (.tp) ────────────────────────────────────── */
 .tp { background: var(--paper); color: var(--ink); font-family: var(--font); overscroll-behavior: contain; }
+.tp-error { padding: 28px 18px; text-align: center; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
 .tp-hero { position: relative; width: 100%; aspect-ratio: var(--tp-hero-aspect, 16/9); background: var(--bg-noodle); overflow: hidden; }
 .tp-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; transition: transform .3s ease; }
 .tp-hero-img:hover { transform: scale(1.02); }

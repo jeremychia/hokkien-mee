@@ -245,6 +245,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 // ── Full data (fetched async; popup content waits for this) ──────
 const idToFullLoc = {};   // loc.id → full location with posts array
+let fullDataFailed = false;
 const fullDataReady = fetch('data.json')
   .then(r => r.json())
   .then(data => {
@@ -255,7 +256,7 @@ const fullDataReady = fetch('data.json')
       if (idx !== -1) locData[idx].posts = loc.posts;
     }
   })
-  .catch(() => null);  // silently degrade if fetch fails (e.g. file:// protocol)
+  .catch(() => { fullDataFailed = true; return null; });  // popups show an error if this fails (e.g. file:// protocol)
 
 // ── Hokkien Mee marker SVG (inline for each marker) ────────────
 const HKM_MARKER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="28" height="28">
@@ -605,6 +606,9 @@ function switchImgTab(btn) {
 const IMG_TAB_LABELS = { noodles: '🍜 Noodles', storefront: '🏪 Storefront', other: '📷 Other' };
 
 function buildPopupHtml(loc) {
+  if (!loc.posts && fullDataFailed) {
+    return `<div class="tp tp-error" role="alert">Couldn't load this stall's photos and posts. Check your connection and reload the page.</div>`;
+  }
   if (!loc.posts) {
     // Full data not yet loaded — show loading state; popup will refresh when data arrives
     fullDataReady.then(() => {
