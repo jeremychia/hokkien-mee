@@ -921,6 +921,8 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .header-stat { display: none; }
+  .header-badge { display: none; }  /* date is repeated in the sidebar footer */
+  .header-link { padding: 5px 6px; }
   .sidebar-toggle { display: block; }
 
   .sidebar {
