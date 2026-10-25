@@ -421,6 +421,11 @@ function openLightboxFromImg(el) {
   }
 }
 
+/** True for a link that really opens one Facebook post (the scraper stored a few as bare story.php / permalink.php). */
+function isPostPermalink(url) {
+  return /^https:\/\/(www|m)\.facebook\.com\/(groups\/\d+\/(posts|permalink)\/[\w-]+|[\w.]+\/posts\/[\w-]+|(story|permalink)\.php\?\S+)/.test(url || '');
+}
+
 /** Haversine distance in km. */
 function distanceKm(lat1, lng1, lat2, lng2) {
   const R = 6371;
@@ -592,8 +597,14 @@ function buildPopupHtml(loc) {
   // Google Maps link
   const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}`;
 
-  // Facebook link (first post, or group)
-  const fbUrl = escapeHtml((loc.posts[0] && loc.posts[0].post_link) || 'https://www.facebook.com/groups/227074250721100/');
+  // Facebook link: the most-liked post that has a real permalink (the same post the quote comes from), else the group
+  const linkedPost = [...loc.posts]
+    .sort((a, b) => (parseInt(b.reactions) || 0) - (parseInt(a.reactions) || 0))
+    .find(p => isPostPermalink(p.post_link));
+  const fbUrl = escapeHtml(linkedPost ? linkedPost.post_link : 'https://www.facebook.com/groups/227074250721100/');
+  const fbLabel = !linkedPost ? 'Open the Hokkien Mee Hunting group on Facebook'
+    : count > 1 ? 'View the most-liked post on Facebook'
+    : 'View this post on Facebook';
 
   // ── 1. WHO: Hero ────────────────────────────────────────────
   let heroImgHtml;
@@ -708,7 +719,7 @@ function buildPopupHtml(loc) {
       const postsWithText = loc.posts.filter(p => p.text && p.text.trim());
       if (!postsWithText.length) return '';
       const items = postsWithText.map(p => {
-        const linkHtml = p.post_link
+        const linkHtml = isPostPermalink(p.post_link)
           ? `<a class="tp-post-link" href="${escapeHtml(p.post_link)}" target="_blank" rel="noopener">View post ↗</a>`
           : '';
         return `<article class="tp-post-item">
@@ -730,7 +741,7 @@ function buildPopupHtml(loc) {
       </section>`;
     })()}
     <a class="tp-fb" href="${fbUrl}" target="_blank" rel="noopener">
-      See all ${count} ${count === 1 ? 'post' : 'posts'} on Facebook
+      ${fbLabel}
       <span aria-hidden="true">↗</span>
     </a>
     <footer class="tp-foot">
@@ -1290,7 +1301,7 @@ function renderLightboxItem() {
     let meta = '';
     if (item.author) meta += `<span class='img-meta-author'>By: ${item.author}</span>`;
     if (item.post_id) meta += ` · <span class='img-meta-id'>ID: ${item.post_id}</span>`;
-    if (item.post_link) meta += ` · <a class='img-meta-link' href='${item.post_link}' target='_blank' rel='noopener' onclick='event.stopPropagation(); return true;'>View post ↗</a>`;
+    if (item.post_link && isPostPermalink(item.post_link)) meta += ` · <a class='img-meta-link' href='${item.post_link}' target='_blank' rel='noopener' onclick='event.stopPropagation(); return true;'>View post ↗</a>`;
     if (!meta) meta = `ID: ${item.id}`;
     lightboxMeta.innerHTML = meta;
   }
