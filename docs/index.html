@@ -306,6 +306,53 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
+// ── Stall display names ─────────────────────────────────────────
+// Addresses come from the geocoder as "80 CIRCUIT ROAD CIRCUIT ROAD MARKET AND FOOD CENTRE SINGAPORE 370080".
+// Show a readable version; the raw address stays in the data (ids, report form).
+const NAME_SMALL_WORDS = new Set(['and', 'of', 'at', 'in', 'on', 'for', 'to']);
+const NAME_ACRONYMS = new Set(['HDB', 'MRT', 'BLK', 'NTUC', 'CBD', 'ECP', 'PIE', 'NUS', 'NTU', 'II', 'III', 'JB']);
+
+function titleCaseWord(word, isFirst) {
+  const upper = word.toUpperCase();
+  if (NAME_ACRONYMS.has(upper)) return upper;
+  if (/\d/.test(word)) return upper;                 // 221B, 4A
+  if (!isFirst && NAME_SMALL_WORDS.has(word.toLowerCase())) return word.toLowerCase();
+  return word.toLowerCase().replace(/(^|[-'’(])([a-z])/g, (m, pre, ch) => pre + ch.toUpperCase());
+}
+
+/** Collapse a phrase the geocoder repeated ("CLEMENTI AVENUE 2 CLEMENTI AVENUE 2 SHOPPING CENTRE"). */
+function collapseRepeats(words) {
+  for (let n = Math.floor(words.length / 2); n >= 2; n--) {
+    for (let i = 0; i + 2 * n <= words.length; i++) {
+      if (words.slice(i, i + n).join(' ') === words.slice(i + n, i + 2 * n).join(' ')) {
+        return collapseRepeats(words.slice(0, i + n).concat(words.slice(i + 2 * n)));
+      }
+    }
+  }
+  return words;
+}
+
+function stallName(loc) {
+  if (loc._name) return loc._name;
+  let s = (loc.address || '').trim();
+  if (/[a-z]/.test(s)) {
+    // Already mixed case ("Food Court, 303, Jurong East Avenue 1"): join a bare number onto the next part
+    const parts = s.split(',').map(p => p.trim()).filter(p => p && !/^\d{6}$/.test(p) && p.toLowerCase() !== 'singapore');
+    const out = [];
+    for (let i = 0; i < parts.length; i++) {
+      if (/^\d+[A-Za-z]?$/.test(parts[i]) && parts[i + 1]) { out.push(parts[i] + ' ' + parts[i + 1]); i++; }
+      else out.push(parts[i]);
+    }
+    s = out.join(', ');
+  } else {
+    s = s.replace(/\([^)]*\)/g, ' ').replace(/\s+SINGAPORE(\s+\d{6})?\s*$/, '').replace(/\s+/g, ' ').trim();
+    const words = collapseRepeats(s.split(' '));
+    s = words.map((w, i) => titleCaseWord(w, i === 0)).join(' ');
+  }
+  loc._name = s || loc.address;
+  return loc._name;
+}
+
 function setAria(el, attrs) {
   if (!el) return;
   Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
@@ -613,7 +660,7 @@ function buildPopupHtml(loc) {
     heroImgHtml = `<img class="tp-hero-img popup-photo" tabindex="0" role="button"
       onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLightboxFromImg(this); }"
       src="${escapeHtml(srcs.primary)}"
-      alt="Featured photo of ${escapeHtml(loc.address)}. Open larger view"
+      alt="Featured photo of ${escapeHtml(stallName(loc))}. Open larger view"
       data-fallback="${escapeHtml(srcs.fallback || '')}"
       data-photo-id="${escapeHtml(photoDebugId(hero))}"
       data-author="${escapeHtml(hero._author || hero.author || '')}"
@@ -702,7 +749,7 @@ function buildPopupHtml(loc) {
   return `<article class="tp" aria-labelledby="tp-name-${reportAddr}">
     <div class="tp-hero">${heroImgHtml}${ratingChipHtml}</div>
     <header class="tp-head">
-      <h3 class="tp-name" id="tp-name-${reportAddr}" tabindex="-1">${escapeHtml(loc.address)}</h3>
+      <h3 class="tp-name" id="tp-name-${reportAddr}" tabindex="-1">${escapeHtml(stallName(loc))}</h3>
       <p class="tp-meta">${count} post${count !== 1 ? 's' : ''}</p>
     </header>
     <a class="tp-cta" href="${gmapsUrl}" target="_blank" rel="noopener">
@@ -895,7 +942,7 @@ MAP_DATA.locations.forEach((loc, i) => {
 
   // Tooltip shows address + post count
   marker.bindTooltip(
-    `<b>${escapeHtml(loc.address)}</b><br>${postCountLabel(postCount)}`,
+    `<b>${escapeHtml(stallName(loc))}</b><br>${postCountLabel(postCount)}`,
     { direction: 'top', offset: [0, -12] }
   );
 
@@ -907,7 +954,7 @@ MAP_DATA.locations.forEach((loc, i) => {
   // Markers are focusable buttons; give them the stall name (re-applied each time the cluster re-adds them)
   marker.on('add', () => {
     const el = marker.getElement();
-    if (el) el.setAttribute('aria-label', `${loc.address}, ${postCountLabel(postCount)}`);
+    if (el) el.setAttribute('aria-label', `${stallName(loc)}, ${postCountLabel(postCount)}`);
   });
   cluster.addLayer(marker);
   markerMap[i] = marker;
@@ -916,7 +963,7 @@ MAP_DATA.locations.forEach((loc, i) => {
   const card = document.createElement('div');
   card.className = 'loc-card';
   card.dataset.idx = i;
-  card.dataset.search = loc.address.toLowerCase();
+  card.dataset.search = (loc.address + ' ' + stallName(loc)).toLowerCase();
   card.setAttribute('role', 'listitem');
 
   // Get thumbnail from bootstrap (pre-selected first image) or fall back to scanning posts
@@ -946,7 +993,7 @@ MAP_DATA.locations.forEach((loc, i) => {
     <button type="button" class="loc-card-btn" tabindex="-1">
       ${thumbHtml}
       <span class="loc-card-body">
-        <span class="loc-name">${escapeHtml(loc.address)}</span>
+        <span class="loc-name">${escapeHtml(stallName(loc))}</span>
         <span class="loc-meta"></span>
       </span>
     </button>`;
