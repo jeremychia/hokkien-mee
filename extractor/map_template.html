@@ -889,6 +889,11 @@ MAP_DATA.locations.forEach((loc, i) => {
     scrollCardIntoView(i);
   });
 
+  // Markers are focusable buttons; give them the stall name (re-applied each time the cluster re-adds them)
+  marker.on('add', () => {
+    const el = marker.getElement();
+    if (el) el.setAttribute('aria-label', `${loc.address}, ${postCountLabel(postCount)}`);
+  });
   cluster.addLayer(marker);
   markerMap[i] = marker;
 
