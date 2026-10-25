@@ -596,9 +596,10 @@ function buildPopupHtml(loc) {
   let heroImgHtml;
   if (hero) {
     const srcs = resolveImageSources(hero);
-    heroImgHtml = `<img class="tp-hero-img popup-photo"
+    heroImgHtml = `<img class="tp-hero-img popup-photo" tabindex="0" role="button"
+      onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLightboxFromImg(this); }"
       src="${escapeHtml(srcs.primary)}"
-      alt="${escapeHtml(loc.address)} — featured photo"
+      alt="Featured photo of ${escapeHtml(loc.address)}. Open larger view"
       data-fallback="${escapeHtml(srcs.fallback || '')}"
       data-photo-id="${escapeHtml(photoDebugId(hero))}"
       data-author="${escapeHtml(hero._author || hero.author || '')}"
