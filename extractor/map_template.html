@@ -512,69 +512,7 @@ function totalReactions(loc) {
 // Current sort mode
 let currentSort = 'posts';
 
-// ── Image tabs ──────────────────────────────────────────────────
-const IMG_TABS = [
-  { key: 'noodles',   label: '🍜 Noodles'    },
-  { key: 'storefront', label: '🏪 Storefront' },
-  { key: 'other',     label: '📷 Other'       },
-];
 
-function buildImageTabsHtml(images) {
-  if (!images || images.length === 0) return '';
-
-  // Group images by type
-  const buckets = { noodles: [], storefront: [], other: [] };
-  for (const img of images) {
-    const type = img.type || 'other';
-    (buckets[type] || buckets.other).push(img);
-  }
-
-  // Determine which tabs have images; pick default (prefer noodles → storefront → other)
-  const activeTabs = IMG_TABS.filter(t => buckets[t.key].length > 0);
-  if (activeTabs.length === 0) return '';
-
-  // If only one tab has images, skip the tab bar entirely
-  if (activeTabs.length === 1) {
-    const imgs = activeTabs[0].key;
-    const imgsHtml = buckets[imgs].map(img => imgTag(img)).join('');
-    const singleClass = buckets[imgs].length === 1 ? ' single-image' : '';
-    return `<div class="popup-images${singleClass}">${imgsHtml}</div>`;
-  }
-
-  const defaultTab = activeTabs[0].key;
-
-  const tabBar = activeTabs.map(t =>
-    `<button class="img-tab-btn${t.key === defaultTab ? ' active' : ''}"
-             onclick="switchImgTab(this)"
-             data-tab="${t.key}">${t.label} <span style="opacity:.65">${buckets[t.key].length}</span></button>`
-  ).join('');
-
-  const panels = activeTabs.map(t => {
-    const imgsHtml = buckets[t.key].map(img => imgTag(img)).join('');
-    const singleClass = buckets[t.key].length === 1 ? ' single-image' : '';
-    return `<div class="img-tab-panel${t.key === defaultTab ? ' active' : ''}${singleClass}" data-tab="${t.key}">${imgsHtml}</div>`;
-  }).join('');
-
-  return `<div class="img-tabs"><div class="img-tab-bar">${tabBar}</div>${panels}</div>`;
-}
-
-function imgTag(img) {
-  const srcs = resolveImageSources(img);
-  if (!srcs.primary) return '';
-  const primary = escapeHtml(srcs.primary);
-  const fallback = escapeHtml(srcs.fallback || '');
-  const debugId = escapeHtml(photoDebugId(img));
-    return `<img src="${primary}" alt="Photo" loading="lazy"
-      class="popup-photo"
-      data-fallback="${fallback}"
-      data-photo-id="${debugId}"
-      data-author="${escapeHtml(img.author || '')}"
-      data-post-link="${escapeHtml(img.post_link || '')}"
-      data-post-id="${escapeHtml(img.post_id || '')}"
-      title="ID: ${debugId}"
-      onerror="handleImgError(this)"
-      onclick="openLightboxFromImg(this)">`;
-}
 
 function collectLocationImages(loc) {
   const seen = new Set();
@@ -596,12 +534,6 @@ function collectLocationImages(loc) {
   return { images, postCount: postsWithImages.size };
 }
 
-function switchImgTab(btn) {
-  const tabKey = btn.dataset.tab;
-  const tabs = btn.closest('.img-tabs');
-  tabs.querySelectorAll('.img-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabKey));
-  tabs.querySelectorAll('.img-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.tab === tabKey));
-}
 
 // ── Popup HTML ──────────────────────────────────────────────────
 const IMG_TAB_LABELS = { noodles: '🍜 Noodles', storefront: '🏪 Storefront', other: '📷 Other' };
@@ -839,11 +771,6 @@ function constrainOpenPopupHeight() {
   wrap.style.setProperty('--popup-wrap-max', `${Math.max(320, maxWrap)}px`);
 }
 
-function copyDeepLink(url) {
-  navigator.clipboard.writeText(url).then(() => {
-    alert('Link copied to clipboard!');
-  });
-}
 
 // ── Report modal ─────────────────────────────────────────────────
 let reportLocId = null;
