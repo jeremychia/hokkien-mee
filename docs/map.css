@@ -923,7 +923,11 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   .lightbox-nav.prev { left: 10px; }
   .lightbox-nav.next { right: 10px; }
   .map-attr { font-size: 9px; }
-  .locate-btn span.btn-label { display: none; }
+  /* visually hidden on mobile but still the button's accessible name */
+  .locate-btn span.btn-label {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
   .locate-btn { padding: 0 10px; }
 }
 
