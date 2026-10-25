@@ -113,9 +113,9 @@
     <h1 class="header-title">Hokkien Mee Map</h1>
   </a>
   <span class="header-spacer"></span>
-  <span class="header-stat">
+  <span class="header-stat" tabindex="0" aria-describedby="statTooltip">
     <strong id="statStalls">—</strong> stalls across Singapore
-    <div class="stat-tooltip" id="statTooltip"></div>
+    <div class="stat-tooltip" id="statTooltip" role="tooltip"></div>
   </span>
   <span class="header-badge" id="dataBadge" aria-live="polite">Data: —</span>
   <a class="header-link" href="https://www.facebook.com/groups/227074250721100/" target="_blank" rel="noopener">FB Group ↗</a>
@@ -1145,6 +1145,19 @@ document.querySelectorAll('#sortRow .sort-pill').forEach(pill => {
     } else {
       applySortOrder();
     }
+  });
+});
+
+// Hover/focus tooltips: Esc dismisses them without moving focus (WCAG 1.4.13)
+document.querySelectorAll('.header-stat, .privacy-wrap').forEach(wrap => {
+  const reset = () => wrap.classList.remove('tip-dismissed');
+  wrap.addEventListener('mouseleave', reset);
+  wrap.addEventListener('focusout', reset);
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  document.querySelectorAll('.header-stat, .privacy-wrap').forEach(wrap => {
+    if (wrap.matches(':hover, :focus-within')) wrap.classList.add('tip-dismissed');
   });
 });
 

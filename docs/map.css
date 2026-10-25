@@ -109,7 +109,15 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   border-top: 1px solid var(--border);
   transform: rotate(45deg);
 }
-.header-stat:hover .stat-tooltip { display: block; }
+.header-stat:hover .stat-tooltip,
+.header-stat:focus-within .stat-tooltip { display: block; }
+.tip-dismissed .stat-tooltip,
+.tip-dismissed .privacy-tooltip { display: none !important; }
+.header-stat:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 .header-link {
   display: inline-flex;
   align-items: center;
