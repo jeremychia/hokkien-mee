@@ -1253,8 +1253,18 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+/** Distance order overrides the sort pills, so disable them (with the reason) while "Near me" is on. */
+function setSortPillsDisabled(disabled) {
+  document.querySelectorAll('#sortRow .sort-pill').forEach(p => {
+    p.disabled = disabled;
+    if (disabled) p.title = 'Turn off "Near me" to change the sort order';
+    else p.removeAttribute('title');
+  });
+}
+
 function clearUserLocation() {
   userLatLng = null;
+  setSortPillsDisabled(false);
   if (userMarker) { map.removeLayer(userMarker); userMarker = null; }
   locateBtn.classList.remove('active');
   locateBtn.setAttribute('aria-pressed', 'false');
@@ -1287,6 +1297,7 @@ function sortByDistance() {
 
   searchHint.textContent = 'Sorted by distance from you';
   searchHint.className = 'search-hint located';
+  setSortPillsDisabled(true);
 }
 
 // ── Sidebar toggle (mobile) ────────────────────────────────────

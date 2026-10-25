@@ -312,6 +312,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   border-color: var(--primary);
   color: var(--primary);
 }
+.sort-pill:disabled { opacity: 0.55; cursor: not-allowed; }
 .sort-pill.active {
   background: var(--primary);
   border-color: var(--primary);
