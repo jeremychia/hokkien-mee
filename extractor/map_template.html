@@ -986,8 +986,9 @@ MAP_DATA.locations.forEach((loc, i) => {
   card.dataset.reactions = reactions;
 
   const thumbSrc = firstImg ? resolveImageSources(firstImg).primary : '';
+  const thumbFallback = firstImg ? resolveImageSources(firstImg).fallback : '';
   const thumbHtml = thumbSrc
-    ? `<img class="loc-thumb" src="${escapeHtml(thumbSrc)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">`
+    ? `<img class="loc-thumb" src="${escapeHtml(thumbSrc)}" data-fallback="${escapeHtml(thumbFallback)}" alt="" loading="lazy" decoding="async" onerror="handleImgError(this)">`
     : `<svg class="loc-card-icon"><use href="#hkm-bowl"/></svg>`;
 
   // One real button per card: its content (name, distance, rating) is the accessible name.
