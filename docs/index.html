@@ -1175,9 +1175,25 @@ function sortByDistance() {
 }
 
 // ── Sidebar toggle (mobile) ────────────────────────────────────
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
+const sidebarEl = document.getElementById('sidebar');
+const sidebarToggle = document.getElementById('sidebarToggle');
+const mobileQuery = window.matchMedia('(max-width: 768px)');
+/** On mobile the closed drawer is off-screen: keep it out of the tab order and a11y tree. */
+function syncSidebarState() {
+  const open = sidebarEl.classList.contains('open');
+  sidebarEl.inert = mobileQuery.matches && !open;
+  sidebarToggle.setAttribute('aria-expanded', String(open));
+}
+sidebarToggle.setAttribute('aria-controls', 'sidebar');
+sidebarToggle.addEventListener('click', () => {
+  sidebarEl.classList.toggle('open');
+  if (sidebarEl.classList.contains('open') && mobileQuery.matches) {
+    document.getElementById('searchInput').focus();
+  }
 });
+new MutationObserver(syncSidebarState).observe(sidebarEl, { attributes: true, attributeFilter: ['class'] });
+mobileQuery.addEventListener('change', syncSidebarState);
+syncSidebarState();
 
 map.on('click', () => {
   if (window.innerWidth <= 768)
