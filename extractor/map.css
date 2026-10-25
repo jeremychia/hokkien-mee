@@ -789,8 +789,6 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 }
 .tp-cta:hover  { background: var(--cta-bg-hover, #2B231C); }
 .tp-cta:active { transform: scale(0.985); }
-.tp-cta-tail   { font-weight: 400; opacity: 0.85; transition: transform .15s; }
-.tp-cta:hover .tp-cta-tail { transform: translateX(2px); }
 .tp-quote {
   margin: 10px 14px 0; padding: 9px 12px 11px;
   background: var(--primary-soft); border-radius: 8px;
