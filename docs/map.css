@@ -1117,7 +1117,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-quote-sep { color: var(--tan); }
 .tp-photos { padding: 0 14px; margin-top: 12px; }
 .tp-section-head { display: flex; flex-direction: column; gap: 5px; margin-bottom: 6px; }
-.tp-section-title { font: 600 12px var(--font); color: var(--ink); text-transform: uppercase; letter-spacing: 0.6px; margin: 0; }
+.tp-section-title { font: 700 13px var(--font); color: var(--ink); letter-spacing: 0; margin: 0; }
 .tp-section-meta { font-weight: 500; color: var(--kopi-o); text-transform: none; letter-spacing: 0; margin-left: 3px; }
 .tp-filter { display: flex; gap: 4px; }
 .tp-filter-pill {
