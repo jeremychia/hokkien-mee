@@ -126,7 +126,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   font-weight: 500;
   color: var(--primary);
   text-decoration: none;
-  padding: 5px 10px;
+  padding: 10px 10px;
   border-radius: 6px;
   transition: background 0.2s;
   white-space: nowrap;
@@ -261,7 +261,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   color: var(--text-secondary);
   font-size: 12px;
   border-radius: 999px;
-  padding: 2px 6px;
+  padding: 6px 10px;
   cursor: pointer;
   line-height: 1.2;
 }
@@ -295,7 +295,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   flex-wrap: wrap;
 }
 .sort-pill {
-  padding: 4px 10px;
+  padding: 7px 9px;
   border: 1px solid var(--border-control);
   border-radius: 20px;
   background: var(--card);
@@ -601,7 +601,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .popup-directions:hover { text-decoration: underline; }
 .rating-info-btn {
   background: none; border: none; cursor: pointer;
-  color: var(--text-tertiary); font-size: 12px; padding: 0 2px;
+  color: var(--text-tertiary); font-size: 14px; padding: 8px 5px;
   line-height: 1;
 }
 .rating-info-btn:hover { color: var(--text-secondary); }
@@ -1119,7 +1119,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-filter { display: flex; gap: 4px; }
 .tp-filter-pill {
   display: inline-flex; align-items: center; gap: 3px;
-  height: 22px; padding: 0 7px;
+  min-height: 32px; padding: 0 12px;
   border: 1px solid var(--border-control); background: var(--paper); color: var(--coffee);
   border-radius: var(--r-pill); font: 500 12px var(--font); cursor: pointer; transition: all .15s;
 }
@@ -1149,7 +1149,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-posts { padding: 0 14px; margin-top: 12px; }
 .tp-posts-toggle {
   display: flex; align-items: center; justify-content: space-between; width: 100%;
-  background: none; border: none; padding: 0; cursor: pointer; text-align: left;
+  background: none; border: none; padding: 8px 0; cursor: pointer; text-align: left;
   font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit;
 }
 .tp-posts-toggle:hover { color: var(--primary); }
@@ -1169,7 +1169,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   font: 500 12px var(--font); color: var(--coffee);
 }
 .tp-post-link {
-  margin-left: auto; color: var(--primary); text-decoration: none; font-size: 12px;
+  margin-left: auto; color: var(--primary); text-decoration: none; font-size: 12px; padding: 8px 6px;
 }
 .tp-post-link:hover { text-decoration: underline; }
 .tp-fb {
@@ -1182,7 +1182,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
 .tp-foot { padding: 6px 14px 10px; text-align: center; }
 .tp-report {
   background: transparent; border: none; color: var(--kopi-o);
-  font: 500 12px var(--font); cursor: pointer; padding: 3px 6px;
+  font: 500 12px var(--font); cursor: pointer; padding: 10px 12px;
   text-decoration: underline; text-underline-offset: 2px;
   text-decoration-color: var(--tan); transition: color .15s;
 }
