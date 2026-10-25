@@ -278,8 +278,7 @@ body { font-family: var(--font); color: var(--text); background: var(--bg); }
   box-shadow: var(--shadow-lg);
   font-size: 11px;
   color: var(--text);
-  width: 360px;
-  max-width: 600px;
+  width: min(320px, calc(100vw - 40px));
   line-height: 1.4;
   z-index: 1200;
 }
